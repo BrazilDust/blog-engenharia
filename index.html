@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Engenharia em Linha | Blog</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+
+      <nav aria-label="Navegação principal">
+        <a href="#artigos">Artigos</a>
+        <a href="#calendario">Calendário</a>
+        <a href="#destaques">Destaques</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <img src="assets/engineering-blog-hero.png" alt="" />
+        <div class="hero-content">
+          <p class="eyebrow">Publicações 3x por semana</p>
+          <h1>Artigos técnicos para acompanhar engenharia na prática.</h1>
+          <p>
+            Projetos, manutenção, automação, energia, processos e decisões de
+            campo organizados por linha do tempo.
+          </p>
+        </div>
+      </section>
+
+      <section class="ad-slot ad-slot-wide" aria-label="Espaço para anúncio">
+        <span>Google AdSense - topo</span>
+      </section>
+
+      <section class="layout" id="artigos">
+        <aside class="left-panel" id="calendario" aria-label="Calendário editorial">
+          <div class="panel-heading">
+            <p class="eyebrow">Calendário editorial</p>
+            <h2>Filtrar por mês / ano</h2>
+          </div>
+          <div class="month-list" id="monthList"></div>
+        </aside>
+
+        <section class="feed" aria-live="polite">
+          <div class="feed-heading">
+            <div>
+              <p class="eyebrow">Linha do tempo</p>
+              <h2 id="feedTitle">Últimos artigos</h2>
+            </div>
+            <button class="ghost-button" id="clearFilter" type="button">
+              Ver todos
+            </button>
+          </div>
+
+          <div class="article-list" id="articleList"></div>
+        </section>
+
+        <aside class="right-panel" id="destaques" aria-label="Artigos relevantes">
+          <div class="panel-heading">
+            <p class="eyebrow">Mais relevantes</p>
+            <h2>Leituras em alta</h2>
+          </div>
+          <div class="featured-list" id="featuredList"></div>
+
+          <section class="ad-slot ad-slot-sidebar" aria-label="Espaço para anúncio">
+            <span>Google AdSense - lateral</span>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
