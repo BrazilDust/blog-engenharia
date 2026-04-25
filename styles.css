@@ -380,6 +380,33 @@ nav a:hover {
   text-align: center;
 }
 
+.editorial-tags {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.editorial-tags h2 {
+  margin-top: 0;
+  font-size: 1.15rem;
+}
+
+.editorial-tags div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.editorial-tags span {
+  padding: 8px 11px;
+  color: var(--steel);
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
 .ad-slot {
   display: grid;
   place-items: center;
