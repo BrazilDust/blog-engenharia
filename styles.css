@@ -76,7 +76,7 @@ nav a:hover {
   position: relative;
   display: grid;
   align-items: end;
-  min-height: min(620px, 78vh);
+  min-height: clamp(280px, 42vh, 360px);
   overflow: hidden;
   background: #1f2c32;
 }
@@ -101,16 +101,16 @@ nav a:hover {
   z-index: 1;
   width: min(720px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 96px 0 112px;
+  padding: 46px 0 52px;
   color: #fff;
-  transform: translateX(-18vw);
+  transform: translateX(-14vw);
 }
 
 .hero h1 {
   max-width: 720px;
   margin: 10px 0 18px;
-  font-size: clamp(2.25rem, 5vw, 5.4rem);
-  line-height: 0.98;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 1;
   letter-spacing: 0;
 }
 
@@ -118,8 +118,8 @@ nav a:hover {
   max-width: 620px;
   margin: 0;
   color: rgba(255, 255, 255, 0.88);
-  font-size: 1.12rem;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 .eyebrow {
@@ -136,7 +136,7 @@ nav a:hover {
   grid-template-columns: minmax(180px, 230px) minmax(0, 1fr) minmax(240px, 320px);
   gap: 28px;
   width: min(1320px, calc(100% - 40px));
-  margin: 36px auto 72px;
+  margin: 24px auto 72px;
   align-items: start;
 }
 
@@ -465,8 +465,8 @@ nav a:hover {
 
 .ad-slot-wide {
   width: min(1320px, calc(100% - 40px));
-  min-height: 92px;
-  margin: 28px auto 0;
+  min-height: 68px;
+  margin: 18px auto 0;
 }
 
 .ad-slot-sidebar {
@@ -527,7 +527,7 @@ nav a:hover {
   }
 
   .hero {
-    min-height: 560px;
+    min-height: 440px;
   }
 
   .hero::after {
@@ -536,7 +536,7 @@ nav a:hover {
 
   .hero-content {
     width: calc(100% - 40px);
-    padding: 80px 0 88px;
+    padding: 68px 0 74px;
     transform: none;
   }
 
