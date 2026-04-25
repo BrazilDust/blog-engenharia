@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Estrutura interna e funcionamento de um inversor de frequência (VFD)",
+    excerpt:
+      "Veja como HMI, placa de controle, barramento DC, capacitores, IGBTs e sistema de refrigeração trabalham juntos para controlar motores elétricos.",
+    date: "2026-04-25",
+    url: "artigos/inversor-de-frequencia-vfd.html",
+    views: 1320,
+    appeal: 92,
+  },
+  {
     title: "FMEA de Processo (PFMEA): análise de modos de falha e efeitos para gestão de riscos",
     excerpt:
       "Entenda como identificar falhas potenciais, avaliar severidade, ocorrência e detecção, calcular o RPN e priorizar ações preventivas.",

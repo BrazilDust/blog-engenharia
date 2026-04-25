@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Estrutura Interna e Funcionamento de um Inversor de Frequência (VFD) |
+      Engenharia em Linha
+    </title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+
+      <nav aria-label="Navegação principal">
+        <a href="../index.html#artigos">Artigos</a>
+        <a href="../index.html#calendario">Calendário</a>
+        <a href="../index.html#destaques">Destaques</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="article-page">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Automação industrial</p>
+          <h1>
+            Estrutura interna e funcionamento de um inversor de frequência
+            (VFD)
+          </h1>
+          <p>
+            Um inversor de frequência controla velocidade e torque de motores
+            elétricos convertendo energia AC em DC e depois em AC controlada por
+            chaveamento eletrônico.
+          </p>
+          <time datetime="2026-04-25">25 de abril de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <figure>
+            <img
+              src="../assets/artigos/inversor-de-frequencia-vfd/imagem-01.png"
+              alt="Inversor de frequência com tampa frontal aberta"
+            />
+            <figcaption>
+              Vista externa de um inversor de frequência com acesso à região da
+              interface e conexões.
+            </figcaption>
+          </figure>
+
+          <h2>O que é um VFD?</h2>
+          <p>
+            O inversor de frequência, também chamado de VFD, sigla para
+            Variable Frequency Drive, é um equipamento eletrônico utilizado para
+            controlar motores elétricos, especialmente motores de indução
+            trifásicos.
+          </p>
+          <p>
+            Sua função principal é variar a velocidade e o torque do motor por
+            meio do controle da frequência e da tensão fornecidas na saída. Na
+            prática, isso permite adaptar o motor à necessidade real do processo
+            em vez de fazê-lo operar sempre em velocidade fixa.
+          </p>
+
+          <h2>Visão geral do funcionamento</h2>
+          <p>
+            Embora externamente o VFD pareça apenas uma caixa com bornes de
+            conexão, internamente ele reúne módulos eletrônicos que trabalham de
+            forma integrada. O processo básico pode ser resumido em três etapas:
+          </p>
+          <ul>
+            <li>entrada de energia em corrente alternada;</li>
+            <li>conversão dessa energia para corrente contínua;</li>
+            <li>reconversão para corrente alternada controlada.</li>
+          </ul>
+          <p>
+            Essa sequência AC para DC e depois DC para AC é o que permite ao
+            inversor entregar uma frequência ajustável ao motor.
+          </p>
+
+          <h2>Interface Homem-Máquina (HMI)</h2>
+          <p>
+            A camada mais externa de muitos VFDs é a Interface Homem-Máquina,
+            conhecida como HMI. Ela pode ter botões, display simples ou tela em
+            modelos mais modernos.
+          </p>
+          <p>
+            Pela HMI é possível monitorar parâmetros como velocidade, corrente e
+            falhas, além de configurar rampas, limites, modos de operação e
+            variáveis do processo. Em aplicações industriais, é comum proteger
+            essa interface para evitar alterações não autorizadas.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/inversor-de-frequencia-vfd/imagem-02.png"
+              alt="Placa eletrônica de controle de um inversor de frequência"
+            />
+            <figcaption>
+              Placa de controle responsável por sinais, comunicação e lógica de
+              operação.
+            </figcaption>
+          </figure>
+
+          <h2>Entradas, saídas e comunicação</h2>
+          <p>
+            Abaixo da interface normalmente está a placa responsável pelas
+            conexões de controle. Ela recebe sinais de sensores, comandos
+            externos e interfaces de comunicação.
+          </p>
+          <p>
+            Entre os recursos mais comuns estão entradas digitais, saídas
+            digitais, sinalização de falhas e interfaces de rede. Isso permite
+            integrar o VFD a CLPs, sistemas supervisórios, redes industriais e
+            painéis de automação.
+          </p>
+
+          <h2>Conexões de potência</h2>
+          <p>
+            O VFD possui terminais dedicados para entrada de energia, saída para
+            o motor e, em algumas aplicações, conexão para resistor de frenagem.
+            A alimentação pode ser monofásica ou trifásica, dependendo do modelo,
+            mas a saída para o motor é tipicamente trifásica controlada.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/inversor-de-frequencia-vfd/imagem-03.png"
+              alt="Interior de um inversor de frequência aberto"
+            />
+            <figcaption>
+              Estrutura interna com placas, fiação, conexões de potência e
+              módulos eletrônicos.
+            </figcaption>
+          </figure>
+
+          <h2>Conversão de energia</h2>
+          <p>
+            O funcionamento interno começa com a retificação. Nessa etapa, a
+            corrente alternada de entrada é convertida em corrente contínua. Em
+            seguida, a tensão DC passa por filtragem para reduzir ondulações e
+            estabilizar o barramento.
+          </p>
+          <p>
+            Na etapa final, a corrente contínua é reconvertida em corrente
+            alternada com frequência controlada. Essa reconversão é feita por
+            semicondutores de potência que chaveiam rapidamente para construir a
+            forma de onda entregue ao motor.
+          </p>
+
+          <h2>Módulo IGBT</h2>
+          <p>
+            O componente principal da etapa de saída é o módulo IGBT, sigla para
+            Insulated Gate Bipolar Transistor. Ele combina alta velocidade de
+            chaveamento com capacidade de trabalhar com potências elevadas.
+          </p>
+          <p>
+            Em um VFD trifásico, seis IGBTs são organizados para gerar as três
+            fases de saída. Eles operam em liga e desliga em alta velocidade,
+            criando uma forma de onda que simula uma senoide e permite controlar
+            a velocidade do motor.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/inversor-de-frequencia-vfd/imagem-04.png"
+              alt="Módulo de potência IGBT fixado em dissipador"
+            />
+            <figcaption>
+              Módulo de potência acoplado ao dissipador para condução térmica.
+            </figcaption>
+          </figure>
+
+          <h2>Sistema de refrigeração</h2>
+          <p>
+            Durante a operação, os componentes de potência geram calor. Por
+            isso, o inversor utiliza dissipador de calor e, em muitos modelos,
+            ventilador.
+          </p>
+          <p>
+            Falta de ventilação no painel, acúmulo de poeira e falha do
+            ventilador podem elevar a temperatura interna e reduzir a vida útil
+            do equipamento.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/inversor-de-frequencia-vfd/imagem-05.png"
+              alt="Dissipador de calor e ventilador de um inversor"
+            />
+            <figcaption>
+              Dissipador e ventilador ajudam a remover calor dos componentes de
+              potência.
+            </figcaption>
+          </figure>
+
+          <h2>Capacitores do barramento DC</h2>
+          <p>
+            Os capacitores do barramento DC têm papel essencial na filtragem e
+            estabilização da tensão contínua. Eles reduzem ondulações e ajudam a
+            manter o sistema estável durante a operação.
+          </p>
+          <p>
+            Com o tempo, capacitores eletrolíticos podem degradar, especialmente
+            quando o equipamento fica longos períodos sem uso. Uma boa prática é
+            energizar periodicamente o VFD para preservar os capacitores.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/inversor-de-frequencia-vfd/imagem-06.png"
+              alt="Conjunto de capacitores eletrolíticos do barramento DC"
+            />
+            <figcaption>
+              Banco de capacitores responsável por estabilizar o barramento DC.
+            </figcaption>
+          </figure>
+
+          <h2>Exemplo prático: bomba industrial</h2>
+          <p>
+            Em uma bomba industrial ligada diretamente à rede elétrica, o motor
+            trabalha em velocidade fixa. Muitas vezes, o controle de vazão é
+            feito por válvula, o que desperdiça energia e aumenta o desgaste
+            mecânico.
+          </p>
+          <p>
+            Ao instalar um VFD entre a rede e o motor, a frequência pode ser
+            ajustada conforme a necessidade do processo. A configuração pode
+            definir faixas como 30 Hz a 60 Hz, além de rampas de aceleração e
+            desaceleração.
+          </p>
+          <p>
+            O resultado é controle mais preciso da vazão, menor consumo de
+            energia e redução do desgaste mecânico. Dependendo da aplicação, a
+            economia pode chegar a uma faixa significativa, especialmente em
+            cargas como bombas e ventiladores.
+          </p>
+
+          <h2>Resumo</h2>
+          <p>
+            O VFD combina eletrônica de potência, controle digital, comunicação
+            industrial e gerenciamento térmico. Seu funcionamento depende da
+            integração entre HMI, placa de controle, retificador, barramento DC,
+            capacitores, IGBTs e sistema de refrigeração.
+          </p>
+          <p>
+            Entender essa estrutura ajuda na especificação, operação,
+            manutenção e diagnóstico de falhas em aplicações industriais.
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+  </body>
+</html>
