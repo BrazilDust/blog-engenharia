@@ -1,75 +1,12 @@
 const articles = [
   {
-    title: "Como reduzir paradas não planejadas com análise de vibração",
+    title: "FMEA de Processo (PFMEA): análise de modos de falha e efeitos para gestão de riscos",
     excerpt:
-      "Um guia direto para interpretar sinais, priorizar inspeções e transformar medições em decisões de manutenção.",
-    date: "2026-04-22",
+      "Entenda como identificar falhas potenciais, avaliar severidade, ocorrência e detecção, calcular o RPN e priorizar ações preventivas.",
+    date: "2026-04-25",
+    url: "artigos/fmea-de-processo-pfmea.html",
     views: 1840,
     appeal: 95,
-  },
-  {
-    title: "Checklist para especificar motores elétricos em ambientes severos",
-    excerpt:
-      "Fatores de serviço, grau de proteção, partida, temperatura e carga sem deixar lacunas caras no projeto.",
-    date: "2026-04-20",
-    views: 1620,
-    appeal: 89,
-  },
-  {
-    title: "Gêmeo digital: onde ele realmente ajuda no chão de fábrica",
-    excerpt:
-      "Casos práticos para separar simulação útil de painel bonito que não muda a operação.",
-    date: "2026-04-17",
-    views: 2140,
-    appeal: 98,
-  },
-  {
-    title: "Dimensionamento de bombas: erros comuns em curvas de sistema",
-    excerpt:
-      "Perdas, NPSH, ponto de operação e margem de segurança explicados sem rodeio.",
-    date: "2026-04-15",
-    views: 1210,
-    appeal: 82,
-  },
-  {
-    title: "CLP ou edge controller: critérios para escolher a arquitetura",
-    excerpt:
-      "Latência, robustez, manutenção, dados e segurança na escolha do controle industrial.",
-    date: "2026-04-13",
-    views: 1765,
-    appeal: 91,
-  },
-  {
-    title: "Ensaios não destrutivos: quando ultrassom vence líquido penetrante",
-    excerpt:
-      "Comparação por aplicação, material, custo, preparação de superfície e profundidade de falha.",
-    date: "2026-03-27",
-    views: 980,
-    appeal: 77,
-  },
-  {
-    title: "Como escrever um memorial de cálculo que sobrevive à obra",
-    excerpt:
-      "Estrutura, premissas, rastreabilidade e decisões que reduzem retrabalho na execução.",
-    date: "2026-03-25",
-    views: 1330,
-    appeal: 84,
-  },
-  {
-    title: "Eficiência energética: medições mínimas antes de trocar equipamentos",
-    excerpt:
-      "O que levantar em campo antes de prometer economia em compressores, motores e iluminação.",
-    date: "2026-03-23",
-    views: 1515,
-    appeal: 88,
-  },
-  {
-    title: "FMEA de processo para equipes pequenas",
-    excerpt:
-      "Um modelo enxuto para priorizar risco sem transformar a análise em burocracia.",
-    date: "2026-02-20",
-    views: 1105,
-    appeal: 80,
   },
 ];
 
@@ -152,7 +89,7 @@ function renderArticles() {
             <span>${date.month} ${date.year}</span>
           </time>
           <div>
-            <h3>${article.title}</h3>
+            <h3><a href="${article.url}">${article.title}</a></h3>
             <p>${article.excerpt}</p>
           </div>
         </article>
@@ -170,7 +107,7 @@ function renderFeatured() {
     .map(
       (article) => `
         <article class="featured-card">
-          <h3>${article.title}</h3>
+          <h3><a href="${article.url}">${article.title}</a></h3>
           <p>${article.excerpt}</p>
         </article>
       `

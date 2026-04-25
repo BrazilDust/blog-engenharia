@@ -251,6 +251,12 @@ nav a:hover {
   line-height: 1.22;
 }
 
+.article-card h3 a:hover,
+.featured-card h3 a:hover,
+.back-link:hover {
+  color: var(--teal);
+}
+
 .article-card p {
   margin: 0 0 16px;
   color: var(--muted);
@@ -277,6 +283,103 @@ nav a:hover {
   line-height: 1.55;
 }
 
+.article-page {
+  width: min(980px, calc(100% - 40px));
+  margin: 42px auto 80px;
+}
+
+.article-hero {
+  padding: 28px 0 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.back-link {
+  display: inline-flex;
+  margin-bottom: 28px;
+  color: var(--steel);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.article-hero h1 {
+  max-width: 900px;
+  margin: 10px 0 18px;
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.article-hero p {
+  max-width: 760px;
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 1.14rem;
+  line-height: 1.75;
+}
+
+.article-hero time {
+  color: var(--steel);
+  font-weight: 800;
+}
+
+.article-body {
+  width: min(760px, 100%);
+  margin: 42px auto 0;
+}
+
+.article-body h2 {
+  margin: 42px 0 14px;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+  line-height: 1.2;
+}
+
+.article-body p,
+.article-body li {
+  color: #3f4b54;
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.article-body p {
+  margin: 0 0 18px;
+}
+
+.article-body ul {
+  margin: 0 0 24px;
+  padding-left: 22px;
+}
+
+.article-body figure {
+  margin: 36px 0;
+}
+
+.article-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.article-body figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.formula-box {
+  margin: 26px 0;
+  padding: 22px;
+  color: #fff;
+  background: var(--steel);
+  border-radius: 8px;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 800;
+  text-align: center;
+}
+
 .ad-slot {
   display: grid;
   place-items: center;
@@ -299,6 +402,11 @@ nav a:hover {
 .ad-slot-sidebar {
   min-height: 280px;
   margin-top: 22px;
+}
+
+.ad-slot-article {
+  min-height: 92px;
+  margin: 28px 0;
 }
 
 .site-footer {
