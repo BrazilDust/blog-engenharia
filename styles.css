@@ -369,6 +369,12 @@ nav a:hover {
   line-height: 1.5;
 }
 
+.compact-article-images .article-body figure {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .formula-box {
   margin: 26px 0;
   padding: 22px;
@@ -378,6 +384,43 @@ nav a:hover {
   font-size: clamp(1.25rem, 3vw, 2rem);
   font-weight: 800;
   text-align: center;
+}
+
+.comparison-table {
+  display: grid;
+  margin: 30px 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.comparison-table div {
+  display: grid;
+  grid-template-columns: 1.2fr repeat(3, 1fr);
+}
+
+.comparison-table div:first-child {
+  color: #fff;
+  background: var(--steel);
+  font-weight: 800;
+}
+
+.comparison-table span,
+.comparison-table strong {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.comparison-table div:last-child span {
+  border-bottom: 0;
+}
+
+.comparison-table span:last-child,
+.comparison-table strong:last-child {
+  border-right: 0;
 }
 
 .editorial-tags {
@@ -516,6 +559,18 @@ nav a:hover {
   .article-date {
     flex-direction: row;
     align-items: baseline;
+  }
+
+  .compact-article-images .article-body figure {
+    width: 100%;
+  }
+
+  .comparison-table {
+    overflow-x: auto;
+  }
+
+  .comparison-table div {
+    min-width: 680px;
   }
 
   .featured-list {

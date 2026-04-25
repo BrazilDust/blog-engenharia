@@ -1,9 +1,19 @@
 const articles = [
   {
+    title:
+      "Motores hidráulicos e pneumáticos: princípios, aplicações e comparação com motores elétricos",
+    excerpt:
+      "Entenda como motores hidráulicos e pneumáticos convertem energia de fluidos em movimento e quando eles são mais indicados que motores elétricos.",
+    date: "2026-04-25",
+    url: "artigos/motores-hidraulicos-pneumaticos.html",
+    views: 1180,
+    appeal: 88,
+  },
+  {
     title: "Estrutura interna e funcionamento de um inversor de frequência (VFD)",
     excerpt:
       "Veja como HMI, placa de controle, barramento DC, capacitores, IGBTs e sistema de refrigeração trabalham juntos para controlar motores elétricos.",
-    date: "2026-04-25",
+    date: "2026-04-23",
     url: "artigos/inversor-de-frequencia-vfd.html",
     views: 1320,
     appeal: 92,
@@ -12,7 +22,7 @@ const articles = [
     title: "FMEA de Processo (PFMEA): análise de modos de falha e efeitos para gestão de riscos",
     excerpt:
       "Entenda como identificar falhas potenciais, avaliar severidade, ocorrência e detecção, calcular o RPN e priorizar ações preventivas.",
-    date: "2026-04-25",
+    date: "2026-04-24",
     url: "artigos/fmea-de-processo-pfmea.html",
     views: 1840,
     appeal: 95,
