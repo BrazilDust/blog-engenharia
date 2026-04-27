@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Arquitetura de PLCs e módulos do sistema",
+    excerpt:
+      "Módulos de um CLP: rack, fonte de alimentação, CPU, entradas, saídas, módulos de função, comunicação e racks de expansão.",
+    date: "2026-04-27",
+    url: "artigos/modulos-de-um-plc.html",
+    views: 980,
+    appeal: 87,
+  },
+  {
     title:
       "Sensores de proximidade na automação industrial: indutivos, capacitivos e PIR",
     excerpt:

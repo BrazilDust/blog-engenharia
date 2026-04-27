@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arquitetura de PLCs e Módulos do Sistema | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Módulos de um CLP: rack, fonte de alimentação, CPU, entradas, saídas, módulos de função, comunicação, racks de expansão e exemplo prático aplicado."
+    />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Automação industrial</p>
+          <h1>Arquitetura de PLCs e Módulos do Sistema</h1>
+          <p>
+            Módulos de um CLP (Controlador Lógico Programável)
+          </p>
+          <time datetime="2026-04-27">27 de abril de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>Texto Explicativo da Aula</h2>
+
+          <h2>Introdução ao CLP e sua Estrutura Física</h2>
+          <p>
+            O Controlador Lógico Programável, conhecido pela sigla CLP (ou PLC,
+            do inglês Programmable Logic Controller), é um equipamento
+            eletrônico industrial projetado para automatizar processos por meio
+            da execução de programas lógicos. Para compreender seu
+            funcionamento, é fundamental conhecer a estrutura física que o
+            compõe, pois cada componente desempenha uma função específica e
+            indispensável dentro do sistema de controle.
+          </p>
+          <p>
+            A base física que sustenta todos os componentes do CLP é chamada de
+            rack (ou bastidor). O rack é uma estrutura metálica que abriga os
+            módulos em posições chamadas slots (ou slots de encaixe). Essa
+            organização modular é uma das grandes vantagens dos CLPs modernos,
+            pois permite que o sistema seja configurado, ampliado ou modificado
+            conforme as necessidades do processo industrial, sem a necessidade de
+            substituição completa do equipamento.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/modulos-de-um-plc/imagem-01.png"
+              alt="Arquitetura modular de um PLC com fonte, CPU, entradas, saídas, FM e CP"
+            />
+            <figcaption>Arquitetura de PLCs e módulos do sistema.</figcaption>
+          </figure>
+
+          <h2>Módulo de Alimentação (Power Supply)</h2>
+          <p>
+            O primeiro slot do rack é tipicamente ocupado pelo módulo de
+            alimentação, responsável por fornecer energia elétrica estável e
+            adequada a todos os demais módulos instalados no rack.
+          </p>
+          <p>
+            A tensão de saída mais utilizada nesse tipo de módulo é de 24 Volts
+            CC (corrente contínua), valor padrão amplamente adotado na indústria
+            por oferecer segurança operacional e compatibilidade com a maioria
+            dos dispositivos de campo. No entanto, a corrente de saída varia
+            conforme a quantidade e o tipo de módulos instalados no rack. Valores
+            típicos de corrente incluem 2 A, 5 A ou 10 A, sendo necessário
+            calcular o consumo total de todos os módulos para selecionar
+            corretamente a fonte de alimentação.
+          </p>
+          <p>
+            Importante: Uma fonte subdimensionada pode causar instabilidade no
+            sistema, reinicializações inesperadas do CLP ou até danos aos
+            módulos. Por isso, durante o projeto do sistema, é essencial somar a
+            corrente consumida por cada módulo e selecionar uma fonte com margem
+            de segurança adequada (geralmente 20% acima do consumo calculado).
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/modulos-de-um-plc/imagem-02.png"
+              alt="Módulo de alimentação de PLC com indicação de 24 VDC e corrente de saída"
+            />
+            <figcaption>Módulo de alimentação e parâmetros de saída.</figcaption>
+          </figure>
+
+          <h2>Módulo da CPU (Central Processing Unit)</h2>
+          <p>
+            O segundo slot é reservado para a CPU, o núcleo central do CLP. A CPU
+            é responsável por três funções fundamentais:
+          </p>
+          <ul>
+            <li>
+              Leitura das entradas: A CPU lê continuamente o estado dos sinais
+              provenientes dos módulos de entrada, verificando, por exemplo, se
+              um sensor foi acionado ou se um botão foi pressionado.
+            </li>
+            <li>
+              Processamento da lógica: Com base nas entradas lidas, a CPU
+              executa o programa de controle fornecido pelo engenheiro ou
+              técnico responsável. Esse programa é geralmente escrito em
+              linguagens padronizadas pela norma IEC 61131-3, como Ladder
+              Diagram (LD), Function Block Diagram (FBD), Structured Text (ST),
+              entre outras.
+            </li>
+            <li>
+              Acionamento das saídas: Após processar a lógica, a CPU envia
+              comandos para os módulos de saída, que por sua vez acionam os
+              dispositivos de campo (motores, válvulas, alarmes, etc.).
+            </li>
+          </ul>
+          <p>
+            A CPU executa esse ciclo continuamente em um processo denominado
+            ciclo de varredura (scan cycle), que ocorre em milissegundos,
+            garantindo o controle em tempo real do processo industrial.
+          </p>
+
+          <h2>Módulos de Entrada e Saída (I/O)</h2>
+          <p>
+            Após a CPU, o rack pode receber diversos módulos de entrada e saída
+            (I/O — Input/Output), que são responsáveis pela interface entre o CLP
+            e os dispositivos de campo. A seleção desses módulos depende
+            diretamente das características dos sinais presentes no processo.
+          </p>
+
+          <h2>Entradas Digitais (Digital Input Module)</h2>
+          <p>
+            Os módulos de entrada digital recebem sinais do tipo ligado/desligado
+            (0 ou 1), provenientes de dispositivos como:
+          </p>
+          <ul>
+            <li>Botoeiras e chaves de fim de curso</li>
+            <li>Sensores indutivos, capacitivos e ópticos</li>
+            <li>Chaves de pressão e temperatura com saída discreta</li>
+          </ul>
+          <p>
+            Cada módulo de entrada digital pode comportar entre 8 e 32 canais de
+            entrada, dependendo do modelo selecionado.
+          </p>
+
+          <h2>Entradas Analógicas (Analog Input Module)</h2>
+          <p>
+            Os módulos de entrada analógica recebem sinais contínuos, geralmente
+            nas faixas de 4-20 mA (corrente) ou 0-10 V (tensão), provenientes de
+            instrumentos como:
+          </p>
+          <ul>
+            <li>Transmissores de temperatura (PT100, termopar com transmissor)</li>
+            <li>Transmissores de pressão e vazão</li>
+            <li>Sensores de nível</li>
+          </ul>
+          <p>
+            Esses sinais são convertidos internamente em valores numéricos que a
+            CPU utiliza para monitorar grandezas físicas com precisão.
+          </p>
+
+          <h2>Saídas Digitais (Digital Output Module)</h2>
+          <p>
+            Os módulos de saída digital enviam sinais do tipo liga/desliga para
+            dispositivos como:
+          </p>
+          <ul>
+            <li>Contatores e relés (para acionamento de motores)</li>
+            <li>Solenoides e válvulas on/off</li>
+            <li>Sinalizadores e alarmes luminosos</li>
+          </ul>
+
+          <h2>Saídas Analógicas (Analog Output Module)</h2>
+          <p>
+            Os módulos de saída analógica geram sinais contínuos (geralmente
+            4-20 mA ou 0-10 V) para controlar dispositivos que exigem ajuste
+            proporcional, como:
+          </p>
+          <ul>
+            <li>Válvulas proporcionais e posicionadores</li>
+            <li>Inversores de frequência com referência analógica</li>
+            <li>Atuadores com controle de posição ou velocidade</li>
+          </ul>
+
+          <h2>Módulos de Função (Function Modules — FM)</h2>
+          <p>
+            Algumas aplicações industriais exigem o processamento de sinais com
+            alta precisão e velocidade, superior à capacidade dos módulos de I/O
+            convencionais. Para essas situações, existem os Módulos de Função
+            (FM — Function Modules).
+          </p>
+          <p>
+            A principal característica dos FMs é que eles possuem processamento
+            independente da CPU principal, ou seja, executam suas tarefas com seu
+            próprio microprocessador interno. Isso garante maior precisão e
+            velocidade de resposta, sem sobrecarregar a CPU principal.
+          </p>
+          <p>Exemplos de aplicações que utilizam FMs:</p>
+          <ul>
+            <li>Contagem de alta velocidade: leitura de encoders em eixos de alta rotação</li>
+            <li>Controle de posicionamento: servo-acionamentos com controle preciso de posição</li>
+            <li>Controle PID avançado: malhas de controle com alta exigência de tempo de resposta</li>
+            <li>Leitura de termopares diretamente: sem necessidade de transmissor externo</li>
+          </ul>
+
+          <h2>Módulo de Comunicação (Communication Processor — CP)</h2>
+          <p>
+            Os CLPs modernos precisam se comunicar com outros equipamentos e
+            sistemas, como supervisórios (SCADA), outros CLPs, painéis de
+            operação (IHMs) e redes corporativas. Para isso, as CPUs já vêm
+            equipadas com portas de comunicação integradas, compatíveis com
+            redes industriais como:
+          </p>
+          <ul>
+            <li>
+              MPI (Multipoint Interface): protocolo proprietário Siemens para
+              comunicação entre CLPs e ferramentas de programação
+            </li>
+            <li>
+              Profibus: rede de campo amplamente utilizada para comunicação com
+              dispositivos de campo e periféricos distribuídos
+            </li>
+            <li>
+              Profinet: versão baseada em Ethernet industrial, com alta
+              velocidade e compatibilidade com redes TCP/IP
+            </li>
+          </ul>
+          <p>
+            Quando a aplicação exige portas de comunicação adicionais ou
+            protocolos não disponíveis na CPU, utiliza-se o Módulo de Comunicação
+            (CP — Communication Processor). O CP é instalado no rack como
+            qualquer outro módulo e expande as capacidades de comunicação do
+            sistema sem necessidade de substituição da CPU.
+          </p>
+
+          <h2>Racks de Expansão</h2>
+          <p>
+            Em processos industriais de maior porte, onde o número de sinais a
+            serem monitorados e controlados é elevado, pode ser necessário
+            instalar racks de expansão. Esses racks adicionais são conectados ao
+            rack principal por meio de módulos de interface e permitem ampliar
+            significativamente a capacidade de I/O do sistema, mantendo a mesma
+            CPU de controle.
+          </p>
+
+          <h2>Critérios de Seleção dos Módulos</h2>
+          <p>
+            A seleção correta dos módulos é uma etapa crítica no projeto de um
+            sistema CLP. Os principais fatores a considerar são:
+          </p>
+
+          <div class="comparison-table two-column-table" role="table" aria-label="Critérios de seleção dos módulos">
+            <div role="row">
+              <strong role="columnheader">Fator</strong>
+              <strong role="columnheader">Descrição</strong>
+            </div>
+            <div role="row">
+              <span>Tipo de sinal</span>
+              <span>Digital ou analógico, entrada ou saída</span>
+            </div>
+            <div role="row">
+              <span>Tensão e corrente dos sinais</span>
+              <span>24 VDC, 110/220 VAC, 4-20 mA, 0-10 V</span>
+            </div>
+            <div role="row">
+              <span>Número de canais necessários</span>
+              <span>Quantidade de dispositivos de campo</span>
+            </div>
+            <div role="row">
+              <span>Velocidade de processamento</span>
+              <span>Necessidade de FMs para alta precisão</span>
+            </div>
+            <div role="row">
+              <span>Necessidade de comunicação</span>
+              <span>Protocolos exigidos pela planta</span>
+            </div>
+            <div role="row">
+              <span>Possibilidade de expansão</span>
+              <span>Previsão de crescimento do sistema</span>
+            </div>
+          </div>
+
+          <h2>Exemplo Prático Aplicado</h2>
+          <h2>Cenário: Automação de uma Estação de Mistura de Produtos Químicos</h2>
+          <p>
+            Uma indústria química deseja automatizar uma estação de mistura que
+            possui os seguintes componentes e sinais:
+          </p>
+          <p>Dispositivos de campo:</p>
+          <ul>
+            <li>3 sensores de nível (analógicos, 4-20 mA)</li>
+            <li>2 sensores de temperatura (PT100 com transmissor 4-20 mA)</li>
+            <li>4 botoeiras de comando (digitais)</li>
+            <li>3 fim de curso em válvulas (digitais)</li>
+            <li>2 válvulas proporcionais de dosagem (saída analógica 4-20 mA)</li>
+            <li>3 contatores para acionamento de agitadores (saída digital)</li>
+            <li>1 encoder em agitador principal (contagem de alta velocidade)</li>
+            <li>Comunicação com supervisório via Profinet</li>
+          </ul>
+
+          <p>Configuração do rack do CLP:</p>
+          <div class="comparison-table plc-rack-table" role="table" aria-label="Configuração do rack do CLP">
+            <div role="row">
+              <strong role="columnheader">Slot</strong>
+              <strong role="columnheader">Módulo</strong>
+              <strong role="columnheader">Justificativa</strong>
+            </div>
+            <div role="row">
+              <span>1</span>
+              <span>Fonte de alimentação 5 A</span>
+              <span>Alimenta todos os módulos com margem de segurança</span>
+            </div>
+            <div role="row">
+              <span>2</span>
+              <span>CPU com porta Profinet integrada</span>
+              <span>Processamento central e comunicação com supervisório</span>
+            </div>
+            <div role="row">
+              <span>3</span>
+              <span>Módulo de Entrada Digital (16 canais)</span>
+              <span>Botoeiras (4) + fim de curso (3) + reserva</span>
+            </div>
+            <div role="row">
+              <span>4</span>
+              <span>Módulo de Entrada Analógica (8 canais)</span>
+              <span>Nível (3) + temperatura (2) + reserva</span>
+            </div>
+            <div role="row">
+              <span>5</span>
+              <span>Módulo de Saída Digital (8 canais)</span>
+              <span>Contatores (3) + reserva</span>
+            </div>
+            <div role="row">
+              <span>6</span>
+              <span>Módulo de Saída Analógica (4 canais)</span>
+              <span>Válvulas proporcionais (2) + reserva</span>
+            </div>
+            <div role="row">
+              <span>7</span>
+              <span>FM de Contagem de Alta Velocidade</span>
+              <span>Leitura precisa do encoder do agitador</span>
+            </div>
+          </div>
+
+          <p>
+            Resultado: Com essa configuração, o CLP monitora todos os sinais de
+            processo, controla os atuadores com precisão e fornece dados em tempo
+            real ao sistema supervisório, garantindo segurança, rastreabilidade e
+            eficiência no processo de mistura.
+          </p>
+
+          <h2>Questões de Múltipla Escolha</h2>
+          <ol class="question-list">
+            <li>
+              <p>Qual é a função principal do rack em um sistema CLP?</p>
+              <p>A) Processar o programa de controle e gerenciar as comunicações</p>
+              <p>B) Fornecer energia elétrica a todos os módulos do sistema</p>
+              <p>C) Abrigar e organizar fisicamente os módulos do CLP em slots</p>
+              <p>D) Realizar a interface entre sinais analógicos e digitais</p>
+            </li>
+            <li>
+              <p>Em relação ao módulo de alimentação de um CLP, é correto afirmar que:</p>
+              <p>A) A tensão de saída varia conforme o número de módulos instalados</p>
+              <p>B) A corrente de saída é sempre fixada em 10 A, independentemente da configuração</p>
+              <p>C) A tensão de saída mais comum é 24 VCC, e a corrente varia conforme os módulos utilizados</p>
+              <p>D) O módulo de alimentação pode ser instalado em qualquer slot do rack</p>
+            </li>
+            <li>
+              <p>A CPU de um CLP executa suas tarefas em um ciclo contínuo chamado ciclo de varredura. Qual é a sequência correta desse ciclo?</p>
+              <p>A) Processar lógica → Ler entradas → Acionar saídas</p>
+              <p>B) Ler entradas → Processar lógica → Acionar saídas</p>
+              <p>C) Acionar saídas → Ler entradas → Processar lógica</p>
+              <p>D) Ler entradas → Acionar saídas → Processar lógica</p>
+            </li>
+            <li>
+              <p>Um transmissor de pressão com saída em 4-20 mA deve ser conectado a qual tipo de módulo de I/O?</p>
+              <p>A) Módulo de entrada digital</p>
+              <p>B) Módulo de saída digital</p>
+              <p>C) Módulo de saída analógica</p>
+              <p>D) Módulo de entrada analógica</p>
+            </li>
+            <li>
+              <p>Uma válvula proporcional de controle de vazão, que recebe um sinal de 4-20 mA para ajuste de abertura, deve ser conectada a:</p>
+              <p>A) Módulo de entrada analógica</p>
+              <p>B) Módulo de saída analógica</p>
+              <p>C) Módulo de entrada digital</p>
+              <p>D) Módulo de função (FM)</p>
+            </li>
+            <li>
+              <p>Qual é a principal vantagem dos Módulos de Função (FM) em relação aos módulos de I/O convencionais?</p>
+              <p>A) Possuem maior número de canais de entrada e saída</p>
+              <p>B) São mais baratos e fáceis de instalar no rack</p>
+              <p>C) Processam sinais de forma independente da CPU, garantindo maior precisão e velocidade</p>
+              <p>D) Permitem comunicação direta com redes Profinet sem necessidade de CP</p>
+            </li>
+            <li>
+              <p>Em qual situação o uso de um Módulo de Comunicação (CP) é necessário?</p>
+              <p>A) Quando o processo possui mais de 16 entradas digitais</p>
+              <p>B) Quando a CPU não possui portas de comunicação suficientes ou não suporta o protocolo exigido</p>
+              <p>C) Quando se utilizam módulos de função (FM) no rack</p>
+              <p>D) Quando a fonte de alimentação não suporta a corrente demandada pelos módulos</p>
+            </li>
+            <li>
+              <p>Uma planta industrial possui 120 sinais digitais de entrada para monitoramento. Considerando módulos com 16 canais cada, qual é o número mínimo de módulos de entrada digital necessários?</p>
+              <p>A) 6 módulos</p>
+              <p>B) 7 módulos</p>
+              <p>C) 8 módulos</p>
+              <p>D) 10 módulos</p>
+            </li>
+            <li>
+              <p>Quando uma aplicação exige mais módulos do que o rack principal comporta, qual é a solução mais adequada?</p>
+              <p>A) Substituir a CPU por um modelo com maior capacidade de processamento</p>
+              <p>B) Instalar racks de expansão conectados ao rack principal</p>
+              <p>C) Reduzir o número de sinais monitorados para caber no rack existente</p>
+              <p>D) Utilizar exclusivamente módulos de função (FM) para economizar slots</p>
+            </li>
+            <li>
+              <p>Em um projeto de automação, o engenheiro deve considerar qual fator ao selecionar a fonte de alimentação do CLP?</p>
+              <p>A) Apenas o número de módulos de saída instalados no rack</p>
+              <p>B) Somente a tensão de alimentação da rede elétrica disponível na planta</p>
+              <p>C) A soma do consumo de corrente de todos os módulos, com margem de segurança adequada</p>
+              <p>D) O protocolo de comunicação utilizado pela CPU</p>
+            </li>
+          </ol>
+
+          <h2>Gabarito</h2>
+          <p>
+            1 - C | 2 - C | 3 - B | 4 - D | 5 - B | 6 - C | 7 - B | 8 - C | 9 - B | 10 - C
+          </p>
+
+          <section class="editorial-tags" aria-label="Tags editoriais">
+            <h2>Tags editoriais</h2>
+            <div>
+              <span>CLP</span>
+              <span>PLC</span>
+              <span>Automação Industrial</span>
+              <span>Módulos de I/O</span>
+              <span>CPU</span>
+              <span>Profinet</span>
+              <span>SCADA</span>
+              <span>Arquitetura de Controle</span>
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+  </body>
+</html>

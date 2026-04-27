@@ -394,6 +394,14 @@ a {
   grid-template-columns: 1.2fr repeat(3, 1fr);
 }
 
+.two-column-table div {
+  grid-template-columns: 1fr 1.5fr;
+}
+
+.plc-rack-table div {
+  grid-template-columns: 0.45fr 1.25fr 1.7fr;
+}
+
 .comparison-table div:first-child {
   color: #fff;
   background: var(--steel);
@@ -416,6 +424,18 @@ a {
 .comparison-table span:last-child,
 .comparison-table strong:last-child {
   border-right: 0;
+}
+
+.question-list {
+  padding-left: 24px;
+}
+
+.question-list li {
+  margin-bottom: 24px;
+}
+
+.question-list p {
+  margin-bottom: 7px;
 }
 
 .editorial-tags {
@@ -565,6 +585,11 @@ a {
 
   .comparison-table div {
     min-width: 680px;
+  }
+
+  .two-column-table div,
+  .plc-rack-table div {
+    min-width: 620px;
   }
 
   .featured-list {
