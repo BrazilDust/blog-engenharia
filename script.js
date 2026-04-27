@@ -1,6 +1,16 @@
 const articles = [
   {
     title:
+      "Sensores de proximidade na automação industrial: indutivos, capacitivos e PIR",
+    excerpt:
+      "Veja como escolher sensores indutivos, capacitivos e PIR conforme material detectado, ambiente de instalação, alcance e integração com CLPs.",
+    date: "2026-04-27",
+    url: "artigos/sensores-proximidade-automacao.html",
+    views: 1040,
+    appeal: 90,
+  },
+  {
+    title:
       "Motores hidráulicos e pneumáticos: princípios, aplicações e comparação com motores elétricos",
     excerpt:
       "Entenda como motores hidráulicos e pneumáticos convertem energia de fluidos em movimento e quando eles são mais indicados que motores elétricos.",
