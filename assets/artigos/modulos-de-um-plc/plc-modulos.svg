@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 768" role="img" aria-labelledby="title desc">
+  <title id="title">Modulos de um PLC</title>
+  <desc id="desc">Rack de PLC com fonte, CPU, modulos DI, AI, DO, AO, FM e CP.</desc>
+  <rect width="1536" height="768" fill="#fff"/>
+  <rect x="0" y="258" width="1536" height="46" fill="#d9d9d6" stroke="#8a8d91" stroke-width="2"/>
+  <rect x="0" y="350" width="1536" height="46" fill="#d9d9d6" stroke="#8a8d91" stroke-width="2"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#20262d">
+    <g transform="translate(74 58)">
+      <rect width="158" height="575" rx="7" fill="#f8f8f7" stroke="#20262d" stroke-width="2"/>
+      <text x="77" y="70" font-size="18" text-anchor="middle">DC5V</text>
+      <rect x="75" y="86" width="12" height="12" fill="#4aaa49" stroke="#2b6a2f"/>
+      <line x1="24" y1="118" x2="134" y2="118" stroke="#52616f" stroke-width="2"/>
+      <rect x="26" y="176" width="54" height="65" fill="#ee3e45" stroke="#20262d" stroke-width="2"/>
+      <text x="53" y="216" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">230V</text>
+      <text x="103" y="204" font-size="15">VOLTAGE</text>
+      <text x="103" y="226" font-size="15">SELECTOR</text>
+      <rect x="39" y="318" width="18" height="74" fill="#15191d" stroke="#20262d"/>
+      <text x="72" y="350" font-size="17">I</text>
+      <text x="72" y="384" font-size="17">0</text>
+      <rect x="32" y="452" width="126" height="123" fill="#334052"/>
+      <rect x="52" y="474" width="32" height="32" fill="#161b21" stroke="#000"/>
+      <rect x="52" y="514" width="32" height="32" fill="#161b21" stroke="#000"/>
+      <rect x="92" y="474" width="24" height="24" rx="10" fill="#161b21" stroke="#000"/>
+      <rect x="92" y="516" width="24" height="24" rx="10" fill="#161b21" stroke="#000"/>
+      <text x="79" y="664" font-size="31" fill="#5c5c5c" text-anchor="middle">Power</text>
+      <text x="79" y="705" font-size="31" fill="#5c5c5c" text-anchor="middle">Supply</text>
+    </g>
+
+    <g transform="translate(240 58)">
+      <rect width="202" height="575" rx="7" fill="#f8f8f7" stroke="#20262d" stroke-width="2"/>
+      <text x="18" y="32" font-size="18">CPU 315-2 DP</text>
+      <rect x="116" y="61" width="86" height="31" fill="#00a98f"/>
+      <text x="159" y="84" fill="#fff" font-size="21" font-weight="700" text-anchor="middle">SIEMENS</text>
+      <g font-size="16">
+        <rect x="18" y="65" width="13" height="13" fill="#909090"/><text x="43" y="77">SF</text>
+        <rect x="18" y="96" width="13" height="13" fill="#909090"/><text x="43" y="108">BF</text>
+        <rect x="18" y="127" width="13" height="13" fill="#71bd39"/><text x="43" y="139">DC5V</text>
+        <rect x="18" y="158" width="13" height="13" fill="#909090"/><text x="43" y="170">FRCE</text>
+        <rect x="18" y="189" width="13" height="13" fill="#71bd39"/><text x="43" y="201">RUN</text>
+        <rect x="18" y="220" width="13" height="13" fill="#909090"/><text x="43" y="232">STOP</text>
+      </g>
+      <rect x="82" y="304" width="20" height="72" fill="#111"/>
+      <text x="125" y="326" font-size="16">RUN</text>
+      <text x="125" y="351" font-size="16">STOP</text>
+      <text x="125" y="376" font-size="16">MRES</text>
+      <text x="47" y="428" font-size="16">X1 MPI</text>
+      <text x="130" y="428" font-size="16">X2 DP</text>
+      <rect x="37" y="442" width="58" height="122" fill="none" stroke="#f2a538" stroke-width="5"/>
+      <rect x="120" y="442" width="58" height="122" fill="none" stroke="#b319b8" stroke-width="5"/>
+      <rect x="62" y="573" width="89" height="61" fill="#334052"/>
+      <text x="101" y="689" font-size="35" fill="#5c5c5c" text-anchor="middle">CPU</text>
+    </g>
+
+    <g transform="translate(452 58)">
+      <rect width="172" height="575" rx="7" fill="#f8f8f7" stroke="#20262d" stroke-width="2"/>
+      <text x="18" y="32" font-size="18">DI 32</text>
+      <text x="18" y="57" font-size="16">DC24V/4mA</text>
+      <g font-size="16">
+        <rect x="20" y="96" width="12" height="12" fill="#71bd39"/><text x="42" y="108">DI 0.0</text>
+        <rect x="20" y="128" width="12" height="12" fill="#71bd39"/><text x="42" y="140">DI 0.1</text>
+        <rect x="20" y="160" width="12" height="12" fill="#71bd39"/><text x="42" y="172">DI 0.2</text>
+        <rect x="20" y="192" width="12" height="12" fill="#71bd39"/><text x="42" y="204">DI 0.3</text>
+        <rect x="20" y="224" width="12" height="12" fill="#71bd39"/><text x="42" y="236">DI 0.4</text>
+        <rect x="20" y="256" width="12" height="12" fill="#71bd39"/><text x="42" y="268">DI 0.5</text>
+        <rect x="20" y="288" width="12" height="12" fill="#71bd39"/><text x="42" y="300">DI 0.6</text>
+        <rect x="20" y="320" width="12" height="12" fill="#71bd39"/><text x="42" y="332">DI 0.7</text>
+        <line x1="12" y1="360" x2="125" y2="360" stroke="#9a9a9a"/>
+        <rect x="20" y="397" width="12" height="12" fill="#71bd39"/><text x="42" y="409">DQ 0.0</text>
+        <rect x="20" y="429" width="12" height="12" fill="#71bd39"/><text x="42" y="441">DQ 0.1</text>
+        <rect x="20" y="461" width="12" height="12" fill="#71bd39"/><text x="42" y="473">DQ 0.2</text>
+        <rect x="20" y="493" width="12" height="12" fill="#71bd39"/><text x="42" y="505">DQ 0.3</text>
+        <rect x="20" y="525" width="12" height="12" fill="#71bd39"/><text x="42" y="537">DQ 0.4</text>
+      </g>
+      <rect x="126" y="92" width="36" height="500" fill="#dfeff3" stroke="#7f8d93"/>
+      <text x="86" y="690" font-size="35" fill="#5c5c5c" text-anchor="middle">DI</text>
+    </g>
+
+    <g transform="translate(634 58)">
+      <rect width="172" height="575" rx="7" fill="#f8f8f7" stroke="#20262d" stroke-width="2"/>
+      <text x="18" y="32" font-size="18">AI 8</text>
+      <text x="18" y="57" font-size="16">DC24V/4mA</text>
+      <g font-size="16">
+        <rect x="20" y="126" width="12" height="12" fill="#71bd39"/><text x="42" y="138">AI 272</text>
+        <rect x="20" y="200" width="12" height="12" fill="#71bd39"/><text x="42" y="212">AI 274</text>
+        <rect x="20" y="276" width="12" height="12" fill="#71bd39"/><text x="42" y="288">AI 276</text>
+        <line x1="12" y1="360" x2="125" y2="360" stroke="#9a9a9a"/>
+        <rect x="20" y="427" width="12" height="12" fill="#71bd39"/><text x="42" y="439">AI 278</text>
+        <rect x="20" y="505" width="12" height="12" fill="#71bd39"/><text x="42" y="517">AQ 272</text>
+      </g>
+      <rect x="126" y="92" width="36" height="500" fill="#dfeff3" stroke="#7f8d93"/>
+      <text x="86" y="690" font-size="35" fill="#5c5c5c" text-anchor="middle">AI</text>
+    </g>
+
+    <g transform="translate(816 58)">
+      <rect width="172" height="575" rx="7" fill="#f8f8f7" stroke="#20262d" stroke-width="2"/>
+      <text x="18" y="32" font-size="18">DO 32</text>
+      <text x="18" y="57" font-size="16">DC24V/0.5A</text>
+      <g font-size="16">
+        <rect x="20" y="96" width="12" height="12" fill="#71bd39"/><text x="42" y="108">DI 0.0</text>
+        <rect x="20" y="128" width="12" height="12" fill="#71bd39"/><text x="42" y="140">DI 0.1</text>
+        <rect x="20" y="160" width="12" height="12" fill="#71bd39"/><text x="42" y="172">DI 0.2</text>
+        <rect x="20" y="192" width="12" height="12" fill="#71bd39"/><text x="42" y="204">DI 0.3</text>
+        <rect x="20" y="224" width="12" height="12" fill="#71bd39"/><text x="42" y="236">DI 0.4</text>
+        <rect x="20" y="256" width="12" height="12" fill="#71bd39"/><text x="42" y="268">DI 0.5</text>
+        <line x1="12" y1="360" x2="125" y2="360" stroke="#9a9a9a"/>
+        <rect x="20" y="397" width="12" height="12" fill="#71bd39"/><text x="42" y="409">DQ 0.0</text>
+        <rect x="20" y="429" width="12" height="12" fill="#71bd39"/><text x="42" y="441">DQ 0.1</text>
+        <rect x="20" y="461" width="12" height="12" fill="#71bd39"/><text x="42" y="473">DQ 0.2</text>
+      </g>
+      <rect x="126" y="92" width="36" height="500" fill="#dfeff3" stroke="#7f8d93"/>
+      <text x="86" y="690" font-size="35" fill="#5c5c5c" text-anchor="middle">DO</text>
+    </g>
+
+    <g transform="translate(998 58)">
+      <rect width="172" height="575" rx="7" fill="#f8f8f7" stroke="#20262d" stroke-width="2"/>
+      <text x="18" y="32" font-size="18">AO 8</text>
+      <text x="18" y="57" font-size="16">DC24V/4mA</text>
+      <g font-size="16">
+        <rect x="20" y="126" width="12" height="12" fill="#71bd39"/><text x="42" y="138">AI 272</text>
+        <rect x="20" y="200" width="12" height="12" fill="#71bd39"/><text x="42" y="212">AI 274</text>
+        <rect x="20" y="276" width="12" height="12" fill="#71bd39"/><text x="42" y="288">AI 276</text>
+        <line x1="12" y1="360" x2="125" y2="360" stroke="#9a9a9a"/>
+        <rect x="20" y="427" width="12" height="12" fill="#71bd39"/><text x="42" y="439">AI 278</text>
+        <rect x="20" y="505" width="12" height="12" fill="#71bd39"/><text x="42" y="517">AQ 272</text>
+      </g>
+      <rect x="126" y="92" width="36" height="500" fill="#dfeff3" stroke="#7f8d93"/>
+      <text x="86" y="690" font-size="35" fill="#5c5c5c" text-anchor="middle">AO</text>
+    </g>
+
+    <g transform="translate(1180 58)">
+      <rect width="212" height="575" rx="7" fill="#f8f8f7" stroke="#20262d" stroke-width="2"/>
+      <text x="82" y="32" font-size="18">FM 352</text>
+      <text x="82" y="55" font-size="14">COUNTER MODULE</text>
+      <g>
+        <rect x="18" y="96" width="13" height="13" fill="#909090"/>
+        <rect x="18" y="142" width="13" height="13" fill="#909090"/>
+        <rect x="18" y="188" width="13" height="13" fill="#909090"/>
+        <rect x="18" y="234" width="13" height="13" fill="#909090"/>
+        <rect x="18" y="280" width="13" height="13" fill="#909090"/>
+        <rect x="83" y="84" width="72" height="502" fill="#fff" stroke="#888"/>
+        <path d="M83 112h72M83 140h72M83 168h72M83 196h72M83 224h72M83 252h72M83 280h72M83 308h72M83 336h72M83 364h72M83 392h72M83 420h72M83 448h72M83 476h72M83 504h72M83 532h72M83 560h72M107 84v502M131 84v502" stroke="#c6c6c6"/>
+        <rect x="155" y="84" width="36" height="502" fill="#dfeff3" stroke="#7f8d93"/>
+      </g>
+      <text x="106" y="690" font-size="35" fill="#5c5c5c" text-anchor="middle">FM</text>
+    </g>
+
+    <g transform="translate(1402 58)">
+      <rect width="120" height="575" rx="7" fill="#f8f8f7" stroke="#20262d" stroke-width="2"/>
+      <text x="60" y="32" font-size="18" text-anchor="middle">CP 343-1</text>
+      <g font-size="15">
+        <rect x="22" y="100" width="13" height="13" fill="#909090"/><text x="49" y="112">SF</text>
+        <rect x="22" y="130" width="13" height="13" fill="#909090"/><text x="49" y="142">BF</text>
+        <rect x="22" y="160" width="13" height="13" fill="#71bd39"/><text x="49" y="172">DC5V</text>
+        <rect x="22" y="190" width="13" height="13" fill="#909090"/><text x="49" y="202">FRCE</text>
+        <rect x="22" y="220" width="13" height="13" fill="#909090"/><text x="49" y="232">RUN</text>
+        <rect x="22" y="250" width="13" height="13" fill="#909090"/><text x="49" y="262">STOP</text>
+      </g>
+      <rect x="0" y="354" width="120" height="221" fill="#334052"/>
+      <rect x="40" y="391" width="47" height="63" fill="#20252b" stroke="#000"/>
+      <rect x="40" y="474" width="47" height="63" fill="#20252b" stroke="#000"/>
+      <text x="60" y="690" font-size="35" fill="#5c5c5c" text-anchor="middle">CP</text>
+    </g>
+  </g>
+</svg>
