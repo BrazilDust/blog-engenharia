@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Engenharia em Linha">
+  <rect width="64" height="64" rx="10" fill="#334a57"/>
+  <path d="M18 18h24v7H26v7h14v7H26v7h17v7H18V18Z" fill="#ffffff"/>
+  <path d="M47 18h7v35H37v-7h10V18Z" fill="#0d9488"/>
+</svg>
