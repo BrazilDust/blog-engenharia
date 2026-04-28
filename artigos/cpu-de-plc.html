@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CPU de PLC: Funções, Categorias e Elementos de Interface | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Entenda a CPU de um PLC ou CLP, suas funções, ciclo de varredura, CPUs antigas e novas, LEDs de status, portas de comunicação e critérios de seleção."
+    />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Automação industrial</p>
+          <h1>CPU de PLC: funções, categorias e elementos de interface</h1>
+          <p>
+            A CPU é o centro de processamento do CLP, responsável por executar o
+            programa de controle, ler entradas, processar a lógica e atualizar as
+            saídas do sistema.
+          </p>
+          <time datetime="2026-04-28">28 de abril de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>Texto Explicativo da Aula</h2>
+
+          <h2>A CPU como Centro de Processamento do CLP</h2>
+          <p>
+            A CPU (Central Processing Unit — Unidade Central de Processamento) é
+            o módulo mais importante de um Controlador Lógico Programável. É ela
+            que confere ao CLP sua capacidade de "pensar" e tomar decisões
+            automatizadas, razão pela qual é frequentemente chamada de cérebro
+            do sistema.
+          </p>
+          <p>
+            A função primária da CPU é executar o programa de controle
+            desenvolvido pelo engenheiro ou técnico responsável pela automação.
+            Esse programa contém toda a lógica necessária para monitorar as
+            entradas do processo e acionar as saídas de forma adequada,
+            garantindo o funcionamento correto e seguro da máquina ou instalação
+            automatizada.
+          </p>
+          <p>
+            A CPU realiza essa tarefa de forma cíclica e contínua por meio do
+            chamado ciclo de varredura (scan cycle), que envolve três etapas
+            principais executadas repetidamente em milissegundos:
+          </p>
+          <ul>
+            <li>
+              Leitura das entradas: a CPU captura o estado atual de todos os
+              sinais de entrada conectados aos módulos de I/O.
+            </li>
+            <li>
+              Execução do programa: a lógica programada é processada com base
+              nos valores lidos nas entradas.
+            </li>
+            <li>
+              Atualização das saídas: os resultados do processamento são
+              enviados aos módulos de saída, que acionam os dispositivos de campo
+              correspondentes.
+            </li>
+          </ul>
+          <p>
+            Dado o papel central da CPU no sistema, qualquer falha em seu
+            funcionamento tem consequências imediatas e graves: se a CPU parar
+            de operar, todo o sistema controlado pelo CLP será interrompido. Por
+            esse motivo, em aplicações críticas, como processos contínuos ou
+            sistemas de segurança, podem ser adotadas arquiteturas redundantes,
+            com duas CPUs operando em paralelo — uma ativa e outra em modo de
+            espera (standby) —, garantindo a continuidade operacional mesmo em
+            caso de falha em uma delas.
+          </p>
+
+          <h2>Categorias de CPU: Modelos Antigos e Novos</h2>
+          <p>
+            Tomando como referência a família de CLPs Siemens S7 — uma das mais
+            amplamente utilizadas na indústria mundial —, as CPUs podem ser
+            classificadas em duas grandes categorias com base em sua concepção e
+            características físicas: CPUs de estilo antigo e CPUs de estilo novo.
+          </p>
+          <p>
+            Embora ambas executem essencialmente as mesmas funções de
+            processamento, existem diferenças visuais e funcionais importantes
+            entre elas, que impactam diretamente a forma como o técnico interage
+            com o equipamento durante a instalação, operação e manutenção.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/cpu-de-plc/imagem-01.png"
+              alt="Comparação entre CPU Siemens S7 antiga e nova"
+            />
+            <figcaption>Comparação visual entre CPUs de estilo antigo e novo.</figcaption>
+          </figure>
+
+          <h2>CPUs de Estilo Antigo</h2>
+          <p>
+            As CPUs de estilo antigo foram desenvolvidas nas primeiras gerações
+            da linha S7 e apresentam características físicas que refletem o
+            estágio tecnológico da época de seu lançamento. Entre seus elementos
+            distintivos, destacam-se:
+          </p>
+          <p>
+            Chave seletora de modo de operação: geralmente uma chave física
+            rotativa com múltiplas posições, que permite ao operador selecionar
+            manualmente entre os modos de operação da CPU. As posições mais
+            comuns são:
+          </p>
+          <ul>
+            <li>RUN: a CPU executa o programa normalmente.</li>
+            <li>STOP: a CPU interrompe a execução do programa; as saídas são desativadas.</li>
+            <li>
+              MRES (Memory Reset): posição utilizada para inicializar (resetar)
+              a memória da CPU, apagando o programa e retornando a CPU ao estado
+              de fábrica.
+            </li>
+          </ul>
+          <p>
+            Slot para cartão de memória (memory card): nas CPUs de estilo
+            antigo, o slot destinado ao cartão de memória ocupa uma posição
+            específica no painel frontal do módulo, geralmente protegida por uma
+            tampa removível. O cartão de memória é utilizado para armazenar o
+            programa de forma não volátil, transferir programas entre CPUs ou
+            expandir a capacidade de memória do módulo.
+          </p>
+
+          <h2>CPUs de Estilo Novo</h2>
+          <p>
+            As CPUs de estilo novo representam a evolução tecnológica da linha
+            S7, incorporando melhorias tanto em desempenho quanto em ergonomia e
+            funcionalidade. Suas principais diferenças em relação às CPUs antigas
+            incluem:
+          </p>
+          <p>
+            Chave seletora de modo redesenhada: nas CPUs mais novas, a chave
+            seletora pode ter um formato diferente — por vezes mais compacta ou
+            com menos posições físicas — e sua localização no painel frontal pode
+            variar em relação aos modelos anteriores. Em algumas CPUs modernas,
+            como as da linha S7-1500, o controle de modo de operação é realizado
+            diretamente pelo software de programação (TIA Portal), reduzindo ou
+            eliminando a necessidade de chave física.
+          </p>
+          <p>
+            Novo posicionamento do slot para cartão de memória: nas CPUs de
+            estilo novo, o slot do cartão de memória foi reposicionado no painel
+            frontal, geralmente em local de acesso mais conveniente. Além disso,
+            o tipo de cartão de memória utilizado pode ser diferente — as CPUs
+            mais modernas utilizam cartões SIMATIC de formato SD, enquanto as
+            antigas utilizavam cartões de memória do tipo MMC (MultiMediaCard) ou
+            formatos proprietários.
+          </p>
+          <p>
+            Conhecer essas diferenças é fundamental para o técnico que trabalha
+            com instalação, manutenção e programação de CLPs, pois o procedimento
+            de troca de cartão de memória, reset de CPU e seleção de modo de
+            operação varia conforme a geração do equipamento.
+          </p>
+
+          <h2>Outros Elementos Presentes no Painel Frontal da CPU</h2>
+          <p>
+            Além da chave seletora e do slot de memória, o painel frontal de uma
+            CPU de CLP tipicamente apresenta outros elementos importantes:
+          </p>
+          <p>
+            LEDs de status: indicadores luminosos que fornecem informações
+            visuais rápidas sobre o estado da CPU. Os mais comuns incluem:
+          </p>
+          <ul>
+            <li>PWR (Power): indica que a CPU está recebendo alimentação elétrica.</li>
+            <li>RUN: aceso quando a CPU está executando o programa.</li>
+            <li>STOP: aceso quando a CPU está parada.</li>
+            <li>ERROR/FAULT: indica a presença de erros ou falhas no sistema.</li>
+            <li>
+              MAINT (Maintenance): presente em CPUs mais modernas, indica
+              necessidade de manutenção ou substituição de cartão.
+            </li>
+          </ul>
+          <p>
+            Portas de comunicação: a CPU geralmente possui uma ou mais
+            interfaces de comunicação integradas, como portas MPI, Profibus DP ou
+            Profinet (Ethernet industrial), utilizadas para conectar a CPU ao
+            software de programação, a outros CLPs ou a dispositivos de campo e
+            supervisórios.
+          </p>
+          <p>
+            Bateria de backup (em alguns modelos): algumas CPUs possuem uma
+            bateria interna que mantém os dados da memória RAM (como o horário
+            do relógio interno e dados de remanência) mesmo em caso de falta de
+            energia elétrica.
+          </p>
+
+          <h2>Importância da Seleção Correta da CPU</h2>
+          <p>
+            A escolha da CPU adequada para uma aplicação é uma das decisões mais
+            importantes no projeto de um sistema CLP. Os principais critérios de
+            seleção incluem:
+          </p>
+
+          <div class="comparison-table two-column-table" role="table" aria-label="Critérios de seleção da CPU">
+            <div role="row">
+              <strong role="columnheader">Critério</strong>
+              <strong role="columnheader">Descrição</strong>
+            </div>
+            <div role="row">
+              <span>Capacidade de memória</span>
+              <span>Quantidade de memória disponível para o programa e dados</span>
+            </div>
+            <div role="row">
+              <span>Velocidade de processamento</span>
+              <span>Tempo de ciclo de varredura; crítico em processos rápidos</span>
+            </div>
+            <div role="row">
+              <span>Número de I/Os suportados</span>
+              <span>Quantidade máxima de sinais e módulos que a CPU pode gerenciar</span>
+            </div>
+            <div role="row">
+              <span>Funções integradas</span>
+              <span>Contadores, temporizadores, PID, blocos de segurança</span>
+            </div>
+            <div role="row">
+              <span>Compatibilidade com expansão</span>
+              <span>Suporte a racks de expansão e módulos especiais</span>
+            </div>
+          </div>
+
+          <h2>Exemplo Prático Aplicado</h2>
+          <h2>Cenário: Identificação e Preparação de uma CPU Siemens S7 para Instalação</h2>
+          <p>
+            Um técnico de automação é designado para substituir a CPU defeituosa
+            de um CLP Siemens S7-300 que controla uma linha de envase em uma
+            indústria de bebidas. O passo a passo a seguir ilustra como o
+            conhecimento sobre os tipos de CPU é aplicado na prática:
+          </p>
+          <p>
+            Passo 1 - Identificação do modelo da CPU defeituosa
+          </p>
+          <p>
+            O técnico verifica a etiqueta de identificação da CPU instalada no
+            rack e identifica o modelo: CPU 315-2 DP. Trata-se de uma CPU de
+            estilo antigo da linha S7-300, com chave seletora rotativa e slot de
+            cartão MMC no painel frontal.
+          </p>
+          <p>
+            Passo 2 - Verificação do modo de operação antes da intervenção
+          </p>
+          <p>
+            Com o sistema ainda energizado (porém em modo seguro), o técnico
+            observa os LEDs de status da CPU: o LED de STOP está aceso,
+            confirmando que a CPU não está executando o programa. Isso foi feito
+            pelo operador ao mover a chave seletora para a posição STOP antes de
+            acionar a equipe de manutenção.
+          </p>
+          <p>Passo 3 - Remoção do cartão de memória</p>
+          <p>
+            O técnico abre a tampa do slot de memória da CPU antiga e remove o
+            cartão MMC, que contém o programa de controle da linha de envase.
+            Esse cartão será inserido na nova CPU de reposição, garantindo que o
+            programa seja preservado.
+          </p>
+          <p>Passo 4 - Análise da CPU de reposição disponível no estoque</p>
+          <p>
+            O estoque possui apenas uma CPU de estilo novo: CPU 315-2 PN/DP, que
+            é compatível com o rack existente, mas possui diferenças físicas em
+            relação à CPU antiga — chave seletora em posição diferente e slot de
+            memória reposicionado no painel frontal.
+          </p>
+          <p>Passo 5 - Instalação da nova CPU e inserção do cartão de memória</p>
+          <p>
+            A nova CPU é instalada no slot correspondente do rack. O técnico
+            localiza o slot do cartão de memória (agora em posição diferente,
+            conforme a nova geração) e insere o cartão MMC com o programa.
+          </p>
+          <p>Passo 6 - Energização e verificação dos LEDs</p>
+          <p>
+            Após a energização, o técnico observa os LEDs: PWR aceso
+            (alimentação OK) e STOP aceso (CPU parada, aguardando comando). O
+            técnico move a chave seletora para a posição RUN e o LED RUN acende,
+            confirmando que a CPU está executando o programa corretamente.
+          </p>
+          <p>Passo 7 - Verificação operacional do processo</p>
+          <p>
+            O técnico comunica ao operador que a CPU foi substituída com
+            sucesso. A linha de envase retoma a operação normal, confirmando que
+            o programa foi carregado e executado corretamente pela nova CPU.
+          </p>
+
+          <h2>Questões de Múltipla Escolha</h2>
+          <ol class="question-list">
+            <li>
+              <p>Qual é a função principal da CPU em um sistema CLP?</p>
+              <p>A) Fornecer tensão de alimentação para os módulos de I/O do rack</p>
+              <p>B) Processar o programa de controle e coordenar as operações do sistema</p>
+              <p>C) Realizar a interface física entre os sensores de campo e o rack do CLP</p>
+              <p>D) Armazenar exclusivamente os dados históricos do processo para análise</p>
+            </li>
+            <li>
+              <p>O que acontece com o sistema controlado por um CLP caso a CPU deixe de funcionar?</p>
+              <p>A) Os módulos de I/O assumem o controle do processo automaticamente</p>
+              <p>B) Apenas as saídas analógicas são desativadas; as digitais continuam operando</p>
+              <p>C) Todo o sistema para de funcionar, pois a CPU é o centro de processamento</p>
+              <p>D) O módulo de alimentação assume as funções da CPU temporariamente</p>
+            </li>
+            <li>
+              <p>Qual das alternativas descreve corretamente o ciclo de varredura (scan cycle) executado pela CPU?</p>
+              <p>A) Atualizar saídas → Executar programa → Ler entradas</p>
+              <p>B) Ler entradas → Executar programa → Atualizar saídas</p>
+              <p>C) Executar programa → Ler entradas → Atualizar saídas</p>
+              <p>D) Ler entradas → Atualizar saídas → Executar programa</p>
+            </li>
+            <li>
+              <p>Na família Siemens S7, qual é o principal critério que diferencia as CPUs de estilo antigo das de estilo novo?</p>
+              <p>A) A tensão de alimentação utilizada pelo módulo</p>
+              <p>B) O protocolo de comunicação industrial suportado</p>
+              <p>C) O design da chave seletora de modo e a localização do slot do cartão de memória</p>
+              <p>D) A capacidade máxima de módulos de I/O que podem ser conectados ao rack</p>
+            </li>
+            <li>
+              <p>A posição MRES (Memory Reset) na chave seletora de uma CPU S7 tem como função:</p>
+              <p>A) Colocar a CPU em modo de operação de alta velocidade para processos críticos</p>
+              <p>B) Inicializar a memória da CPU, apagando o programa e retornando ao estado de fábrica</p>
+              <p>C) Ativar o modo de comunicação com o software de programação via porta MPI</p>
+              <p>D) Transferir automaticamente o programa do cartão de memória para a RAM da CPU</p>
+            </li>
+            <li>
+              <p>Em aplicações industriais críticas, como processos contínuos, qual recurso é utilizado para garantir a continuidade operacional mesmo em caso de falha da CPU?</p>
+              <p>A) Instalação de um módulo de função (FM) dedicado ao controle de emergência</p>
+              <p>B) Uso de um módulo de comunicação (CP) como processador de backup</p>
+              <p>C) Adoção de arquitetura redundante com duas CPUs, uma ativa e outra em standby</p>
+              <p>D) Configuração da chave seletora em posição de segurança automática</p>
+            </li>
+            <li>
+              <p>Um técnico observa que o LED denominado "STOP" está aceso na CPU de um CLP S7. Isso indica que:</p>
+              <p>A) A CPU está operando normalmente e executando o programa de controle</p>
+              <p>B) Há uma falha crítica de hardware que requer substituição imediata do módulo</p>
+              <p>C) A CPU está parada e não está executando o programa; as saídas estão desativadas</p>
+              <p>D) A CPU está realizando a varredura de diagnóstico interno antes de iniciar o programa</p>
+            </li>
+            <li>
+              <p>Para que serve o cartão de memória instalado na CPU de um CLP?</p>
+              <p>A) Fornecer energia de backup para a CPU em caso de falta de alimentação elétrica</p>
+              <p>B) Armazenar o programa de controle de forma não volátil e permitir a transferência entre CPUs</p>
+              <p>C) Ampliar o número de portas de comunicação disponíveis na CPU</p>
+              <p>D) Registrar exclusivamente os alarmes e falhas do sistema para análise posterior</p>
+            </li>
+            <li>
+              <p>Um engenheiro precisa selecionar uma CPU para uma aplicação com alta velocidade de resposta, grande número de sinais de I/O e comunicação via Profinet. Qual critério NÃO é relevante para essa seleção?</p>
+              <p>A) Velocidade de processamento e tempo de ciclo de varredura</p>
+              <p>B) Disponibilidade de porta Profinet integrada na CPU</p>
+              <p>C) Cor do painel frontal e dimensões estéticas do módulo</p>
+              <p>D) Capacidade de memória e número máximo de I/Os suportados</p>
+            </li>
+            <li>
+              <p>Durante a substituição de uma CPU Siemens S7 de estilo antigo por uma de estilo novo, o técnico deve estar atento a qual diferença prática importante?</p>
+              <p>A) A nova CPU opera com tensão de alimentação diferente e requer nova fonte de alimentação</p>
+              <p>B) O slot do cartão de memória e a posição da chave seletora podem estar em locais diferentes no painel frontal</p>
+              <p>C) A nova CPU não é compatível com os módulos de I/O da geração anterior, exigindo substituição completa do rack</p>
+              <p>D) O programa de controle deve ser completamente reescrito, pois as linguagens de programação são incompatíveis</p>
+            </li>
+          </ol>
+
+          <h2>Gabarito</h2>
+          <p>
+            1 - B | 2 - C | 3 - B | 4 - C | 5 - B | 6 - C | 7 - C | 8 - B | 9 - C | 10 - B
+          </p>
+
+          <section class="editorial-tags" aria-label="Tags editoriais">
+            <h2>Tags editoriais</h2>
+            <div>
+              <span>CPU de PLC</span>
+              <span>CLP</span>
+              <span>PLC</span>
+              <span>Siemens S7</span>
+              <span>Scan Cycle</span>
+              <span>Automação Industrial</span>
+              <span>TIA Portal</span>
+              <span>Manutenção Industrial</span>
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+  </body>
+</html>

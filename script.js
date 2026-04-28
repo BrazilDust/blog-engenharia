@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "CPU de PLC: funções, categorias e elementos de interface",
+    excerpt:
+      "Entenda o papel da CPU no CLP, o ciclo de varredura, diferenças entre CPUs antigas e novas, LEDs, comunicação, memória e critérios de seleção.",
+    date: "2026-04-28",
+    url: "artigos/cpu-de-plc.html",
+    views: 960,
+    appeal: 89,
+  },
+  {
     title: "Arquitetura de PLCs e módulos do sistema",
     excerpt:
       "Módulos de um CLP: rack, fonte de alimentação, CPU, entradas, saídas, módulos de função, comunicação e racks de expansão.",
