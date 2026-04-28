@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 930" role="img" aria-labelledby="title desc">
+  <title id="title">Modulo de alimentacao de PLC</title>
+  <desc id="desc">Fonte de alimentacao de PLC no trilho DIN com saida VO igual a 24 VDC e IO.</desc>
+  <defs>
+    <linearGradient id="rail" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8f8f8"/>
+      <stop offset="0.18" stop-color="#d7dadb"/>
+      <stop offset="0.5" stop-color="#f2f3f3"/>
+      <stop offset="0.82" stop-color="#c7cbcc"/>
+      <stop offset="1" stop-color="#f9f9f9"/>
+    </linearGradient>
+    <linearGradient id="module" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#edf0f0"/>
+      <stop offset="1" stop-color="#cfd4d6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1536" height="930" fill="#fff"/>
+  <rect x="34" y="236" width="1468" height="218" rx="4" fill="url(#rail)" stroke="#5e6468" stroke-width="2"/>
+  <rect x="34" y="262" width="1468" height="20" fill="#c3c8ca" opacity="0.8"/>
+  <rect x="34" y="421" width="1468" height="20" fill="#c3c8ca" opacity="0.8"/>
+  <rect x="56" y="322" width="78" height="41" rx="20" fill="#fff" stroke="#3b3f43"/>
+  <rect x="424" y="322" width="96" height="41" rx="20" fill="#fff" stroke="#3b3f43"/>
+  <rect x="1378" y="322" width="94" height="41" rx="20" fill="#fff" stroke="#3b3f43"/>
+
+  <g transform="translate(138 50)" font-family="Arial, Helvetica, sans-serif" fill="#2b3038">
+    <rect x="0" y="0" width="258" height="718" rx="10" fill="url(#module)" stroke="#666b70" stroke-width="2"/>
+    <rect x="0" y="405" width="258" height="313" fill="#d5dadd" opacity="0.9"/>
+    <path d="M0 405h258M64 405v313M183 405v313" stroke="#a7acad" stroke-width="2"/>
+
+    <rect x="54" y="36" width="22" height="22" fill="#dedede" stroke="#777"/>
+    <rect x="54" y="68" width="22" height="22" fill="#dedede" stroke="#777"/>
+    <rect x="54" y="100" width="22" height="22" fill="#dedede" stroke="#777"/>
+    <text x="86" y="119" font-size="17">DC5V</text>
+
+    <rect x="24" y="164" width="70" height="108" fill="#f8f8f8" stroke="#6a6d70" stroke-width="2"/>
+    <rect x="30" y="176" width="58" height="90" fill="#ef3e38" stroke="#111" stroke-width="2"/>
+    <text x="59" y="229" fill="#fff" font-size="23" font-weight="700" text-anchor="middle">230V</text>
+    <text x="112" y="210" font-size="18">VOLTAGE</text>
+    <text x="112" y="237" font-size="18">SELECTOR</text>
+
+    <rect x="51" y="304" width="27" height="77" fill="#0e1114" stroke="#777"/>
+    <rect x="54" y="304" width="21" height="31" fill="#e2e5e7"/>
+    <text x="103" y="334" font-size="20">I</text>
+    <text x="96" y="374" font-size="30">⏻</text>
+
+    <rect x="69" y="439" width="118" height="148" fill="#d8dcde" stroke="#222" stroke-width="2"/>
+    <rect x="84" y="455" width="34" height="32" fill="#20252b" stroke="#000" stroke-width="2"/>
+    <rect x="84" y="501" width="34" height="32" fill="#20252b" stroke="#000" stroke-width="2"/>
+    <rect x="84" y="547" width="34" height="32" fill="#20252b" stroke="#000" stroke-width="2"/>
+    <circle cx="150" cy="471" r="16" fill="#20252b" stroke="#000" stroke-width="2"/>
+    <circle cx="150" cy="517" r="16" fill="#20252b" stroke="#000" stroke-width="2"/>
+    <circle cx="150" cy="563" r="16" fill="#20252b" stroke="#000" stroke-width="2"/>
+
+    <text x="77" y="794" font-size="44" fill="#303640">Power</text>
+    <text x="77" y="846" font-size="44" fill="#303640">Supply</text>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" fill="#2b3038">
+    <path d="M454 555H544" stroke="#3a2372" stroke-width="4" stroke-dasharray="9 7"/>
+    <path d="M545 555H546" stroke="#3a2372" stroke-width="4"/>
+    <path d="M454 604L548 730H545" stroke="#3a2372" stroke-width="4" stroke-dasharray="9 7" fill="none"/>
+
+    <rect x="545" y="512" width="424" height="96" rx="8" fill="#fff" stroke="#3a2372" stroke-width="2"/>
+    <text x="757" y="579" font-size="55" text-anchor="middle">VO = 24 VDC</text>
+
+    <rect x="545" y="681" width="182" height="99" rx="8" fill="#fff" stroke="#3a2372" stroke-width="2"/>
+    <text x="636" y="749" font-size="55" text-anchor="middle">IO</text>
+  </g>
+</svg>
