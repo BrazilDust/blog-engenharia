@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Tipos de memória e sua importância para a CPU do PLC",
+    excerpt:
+      "Fundamentos de RAM, ROM, EEPROM, EEPROM elétrica e Flash EEPROM para compreender a memória usada na CPU de CLPs.",
+    date: "2026-04-29",
+    url: "artigos/memorias-plc.html",
+    views: 920,
+    appeal: 88,
+  },
+  {
     title: "CPU de PLC: funções, categorias e elementos de interface",
     excerpt:
       "Entenda o papel da CPU no CLP, o ciclo de varredura, diferenças entre CPUs antigas e novas, LEDs, comunicação, memória e critérios de seleção.",
