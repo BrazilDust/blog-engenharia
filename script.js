@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Memória do CLP S7: memória de carga e o cartão MMC",
+    excerpt:
+      "Entenda a Load Memory nos PLCs S7, a evolução de RAM interna para MMC externo, retenção sem energia e substituição de CPUs em campo.",
+    date: "2026-04-30",
+    url: "artigos/load-memory-plc.html",
+    views: 890,
+    appeal: 88,
+  },
+  {
     title: "Tipos de memória e sua importância para a CPU do PLC",
     excerpt:
       "Fundamentos de RAM, ROM, EEPROM, EEPROM elétrica e Flash EEPROM para compreender a memória usada na CPU de CLPs.",
