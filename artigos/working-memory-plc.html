@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memória de Trabalho do CLP S7: Funcionamento e Relação com a Memória de Carga | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Entenda a Memória de Trabalho do CLP S7, sua relação com a Memória de Carga, o ciclo de execução, volatilidade da RAM e recarregamento automático pela CPU."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Memória de Trabalho do CLP S7: Funcionamento e Relação com a Memória de Carga" />
+    <meta property="og:description" content="Entenda como a Working Memory executa a parte ativa do programa no CLP S7 e como ela se relaciona com a Load Memory durante o ciclo de varredura." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/artigos/working-memory-plc.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/artigos/working-memory-plc/imagem-01.png" />
+    <meta property="og:image:alt" content="Diagrama da memória da CPU do PLC com Load Memory, Working Memory, System Memory e Retentive Memory." />
+    <meta property="article:published_time" content="2026-05-01" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Memória de Trabalho do CLP S7: Funcionamento e Relação com a Memória de Carga" />
+    <meta name="twitter:description" content="Entenda como a Working Memory executa a parte ativa do programa no CLP S7 e como ela se relaciona com a Load Memory durante o ciclo de varredura." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/artigos/working-memory-plc/imagem-01.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page working-memory-article-images">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Automação industrial</p>
+          <h1>Memória de Trabalho do CLP S7: Funcionamento e Relação com a Memória de Carga</h1>
+          <p>Working Memory</p>
+          <time datetime="2026-05-01">1 de maio de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>Texto Explicativo da Aula</h2>
+
+          <h2>Introdução à Memória de Trabalho</h2>
+          <p>
+            Dando continuidade ao estudo das quatro áreas de memória da CPU S7, este capítulo aborda a Memória de Trabalho (Working Memory), uma das regiões mais importantes para a execução do programa de controle. Compreender seu papel e sua relação com a Memória de Carga é fundamental para entender como a CPU do CLP processa e executa o programa desenvolvido pelo engenheiro.
+          </p>
+
+          <h2>O que é a Memória de Trabalho?</h2>
+          <p>
+            A Memória de Trabalho é a área da CPU responsável por armazenar e processar a parte executável do programa durante o seu funcionamento. Enquanto a Memória de Carga funciona como um repositório permanente — guardando o programa completo transferido do computador —, a Memória de Trabalho é o espaço dinâmico onde o programa efetivamente "ganha vida" e é executado pelo processador da CPU.
+          </p>
+          <p>
+            Em termos técnicos, nem todo o conteúdo armazenado na Memória de Carga é necessário para a execução do programa a cada ciclo de varredura. A Memória de Carga pode conter, além do código executável, comentários, símbolos, dados de configuração e outras informações auxiliares utilizadas durante o desenvolvimento e a documentação do projeto. Apenas a parte executável — os blocos de programa que a CPU precisa processar — é transferida para a Memória de Trabalho no momento em que o sistema entra em operação.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/working-memory-plc/imagem-01.png"
+              alt="Diagrama da memória da CPU do PLC com Load Memory, Working Memory, System Memory e Retentive Memory"
+            />
+            <figcaption>Fluxo entre programação, Load Memory e Working Memory na CPU do PLC.</figcaption>
+          </figure>
+
+          <h2>Analogia com o Funcionamento de um Computador</h2>
+          <p>
+            Para facilitar a compreensão, é útil retomar a analogia com o funcionamento de um computador convencional, já apresentada no estudo dos tipos de memória:
+          </p>
+          <p>
+            Em um computador, os programas instalados ficam armazenados no disco rígido (ou SSD), que funciona como memória de armazenamento permanente. Quando o usuário abre um programa para utilizá-lo, o sistema operacional transfere os dados necessários do disco rígido para a RAM (Random Access Memory), onde o processador pode acessá-los com alta velocidade para executar as operações solicitadas.
+          </p>
+          <p>O funcionamento da memória da CPU do CLP S7 segue exatamente o mesmo princípio:</p>
+
+          <div class="comparison-table two-column-table" role="table" aria-label="Equivalência entre computador e CLP S7">
+            <div role="row">
+              <strong role="columnheader">Componente do Computador</strong>
+              <strong role="columnheader">Equivalente no CLP S7</strong>
+            </div>
+            <div role="row">
+              <span>Disco rígido / SSD</span>
+              <span>Memória de Carga (Load Memory / MMC)</span>
+            </div>
+            <div role="row">
+              <span>RAM</span>
+              <span>Memória de Trabalho (Working Memory)</span>
+            </div>
+            <div role="row">
+              <span>Processador</span>
+              <span>CPU do CLP</span>
+            </div>
+            <div role="row">
+              <span>Programa instalado</span>
+              <span>Programa de controle baixado via software</span>
+            </div>
+            <div role="row">
+              <span>Programa em execução</span>
+              <span>Parte executável na Memória de Trabalho</span>
+            </div>
+          </div>
+
+          <p>
+            Assim como o processador do computador não acessa diretamente o disco rígido para executar um programa — ele trabalha sempre com os dados presentes na RAM —, a CPU do CLP não executa o programa diretamente da Memória de Carga. O processo ocorre em duas etapas bem definidas:
+          </p>
+          <ul>
+            <li>Armazenamento: o programa completo é gravado na Memória de Carga (MMC) durante o download.</li>
+            <li>Transferência e execução: ao iniciar a operação (modo RUN), a CPU transfere automaticamente a parte executável do programa para a Memória de Trabalho, onde ela é processada ciclicamente durante o ciclo de varredura.</li>
+          </ul>
+
+          <h2>Características da Memória de Trabalho</h2>
+          <p>
+            A Memória de Trabalho é implementada internamente na CPU, utilizando tecnologia RAM. Isso significa que ela compartilha da mesma característica fundamental da RAM: é uma memória volátil, ou seja, seu conteúdo é perdido quando a alimentação elétrica é interrompida.
+          </p>
+          <p>
+            No entanto, essa volatilidade não representa um problema prático para a integridade do programa, pois o código executável pode sempre ser recarregado a partir da Memória de Carga (MMC) — que é não volátil — toda vez que a CPU é reiniciada ou energizada. O processo de transferência da Memória de Carga para a Memória de Trabalho ocorre automaticamente durante a inicialização da CPU, sem necessidade de intervenção do operador.
+          </p>
+          <p>
+            É importante distinguir, porém, os dados do programa em si (código lógico) dos dados de processo (valores de variáveis, contadores, temporizadores) que também residem na Memória de Trabalho durante a execução. Esses dados de processo são perdidos a cada reinicialização, a menos que sejam configurados como remanentes — tema que será abordado no estudo da Memória Remanente.
+          </p>
+
+          <h2>O Fluxo Completo: Da Programação à Execução</h2>
+          <p>
+            Para consolidar a compreensão, é útil visualizar o fluxo completo que o programa percorre, desde sua criação até a execução no CLP:
+          </p>
+          <ol>
+            <li>Desenvolvimento: o engenheiro cria o programa de controle no software (ex.: STEP 7 ou TIA Portal) instalado no computador.</li>
+            <li>Download: o programa é transferido do computador para a Memória de Carga (MMC) da CPU via cabo de comunicação.</li>
+            <li>Inicialização: ao ser colocada em modo RUN, a CPU lê a Memória de Carga e transfere a parte executável do programa para a Memória de Trabalho.</li>
+            <li>Execução cíclica: a CPU processa o programa ciclicamente na Memória de Trabalho — lendo entradas, executando a lógica e atualizando saídas — repetindo esse ciclo continuamente enquanto estiver em modo RUN.</li>
+            <li>Reinicialização: em caso de falta de energia ou reset, o programa é recarregado automaticamente da Memória de Carga (não volátil) para a Memória de Trabalho (volátil), restabelecendo a operação sem perda do código de controle.</li>
+          </ol>
+
+          <h2>Por que essa Arquitetura é Eficiente?</h2>
+          <p>
+            A separação entre Memória de Carga e Memória de Trabalho não é uma complicação desnecessária — ela representa uma escolha de projeto que equilibra segurança, velocidade e praticidade:
+          </p>
+          <ul>
+            <li>Segurança: o programa completo fica protegido na Memória de Carga não volátil (MMC), garantindo que não seja perdido em caso de falta de energia.</li>
+            <li>Velocidade: a Memória de Trabalho em RAM oferece altíssima velocidade de acesso, permitindo que a CPU execute o ciclo de varredura em milissegundos — desempenho que seria impossível se o programa fosse executado diretamente da memória Flash do MMC, cujo acesso é mais lento.</li>
+            <li>Flexibilidade: apenas a parte necessária do programa é carregada na Memória de Trabalho, otimizando o uso dos recursos internos da CPU.</li>
+          </ul>
+
+          <h2>Exemplo Prático Aplicado</h2>
+          <h2>Cenário: Análise do Comportamento da Memória durante a Operação de um CLP em uma Estação de Tratamento de Água</h2>
+          <p>
+            Uma estação de tratamento de água utiliza um CLP Siemens S7-300 para controlar bombas, válvulas e sistemas de dosagem de produtos químicos. O exemplo a seguir demonstra como a Memória de Carga e a Memória de Trabalho interagem durante a operação real do sistema.
+          </p>
+          <p>Passo 1 - Desenvolvimento e download do programa</p>
+          <p>
+            O engenheiro responsável desenvolve o programa de controle no STEP 7, contendo a lógica para acionamento de bombas, controle de nível dos reservatórios e alarmes de falha. Após a validação em simulação, realiza o download para a CPU. O programa completo — incluindo comentários, configurações e código executável — é gravado no cartão MMC (Memória de Carga).
+          </p>
+          <p>Passo 2 - Inicialização do sistema</p>
+          <p>
+            O operador move a chave seletora da CPU para a posição RUN. A CPU inicia o processo de carregamento: lê o MMC, identifica os blocos executáveis do programa e os transfere automaticamente para a Memória de Trabalho (RAM interna). Os comentários e dados auxiliares de documentação permanecem apenas no MMC, pois não são necessários para a execução.
+          </p>
+          <p>Passo 3 - Execução cíclica em operação normal</p>
+          <p>
+            Com o programa na Memória de Trabalho, a CPU inicia o ciclo de varredura. A cada ciclo (executado em poucos milissegundos), a CPU lê os sinais dos sensores de nível e vazão, processa a lógica do programa na Memória de Trabalho e atualiza os comandos para as bombas e válvulas. Esse processo ocorre de forma contínua e transparente para o operador.
+          </p>
+          <p>Passo 4 - Simulação de falta de energia</p>
+          <p>
+            Durante a madrugada, ocorre uma interrupção no fornecimento de energia por 15 minutos. Com a CPU sem alimentação, a Memória de Trabalho (RAM) perde seu conteúdo — o programa executável e os valores instantâneos de variáveis são apagados. No entanto, o cartão MMC mantém o programa intacto, pois é uma memória não volátil.
+          </p>
+          <p>Passo 5 - Retorno da energia e reinicialização automática</p>
+          <p>
+            Ao retornar a energia, a CPU reinicia automaticamente. Ela acessa o MMC, recarrega o programa executável para a Memória de Trabalho e retorna ao modo RUN sem qualquer intervenção manual. O sistema de tratamento de água retoma o controle automaticamente, demonstrando a robustez da arquitetura de memória do CLP.
+          </p>
+          <p>
+            Conclusão prática: a separação entre Memória de Carga (não volátil) e Memória de Trabalho (volátil e rápida) garante simultaneamente a integridade do programa e a velocidade de execução necessária para o controle em tempo real do processo industrial.
+          </p>
+
+          <h2>Questões de Múltipla Escolha</h2>
+          <ol class="question-list">
+            <li>
+              <p>Qual é a principal função da Memória de Trabalho (Working Memory) na CPU do CLP S7?</p>
+              <p>A) Armazenar permanentemente o programa completo baixado do computador para a CPU</p>
+              <p>B) Processar e executar a parte executável do programa durante o ciclo de varredura</p>
+              <p>C) Manter os dados de configuração de rede e comunicação da CPU</p>
+              <p>D) Registrar o histórico de alarmes e falhas ocorridas durante a operação do sistema</p>
+            </li>
+            <li>
+              <p>Qual é a relação correta entre a Memória de Carga e a Memória de Trabalho no CLP S7?</p>
+              <p>A) A Memória de Trabalho armazena o programa permanentemente; a Memória de Carga executa o programa</p>
+              <p>B) Ambas armazenam cópias idênticas do programa para garantir redundância em caso de falha</p>
+              <p>C) O programa é gravado na Memória de Carga e, ao entrar em operação, a parte executável é transferida para a Memória de Trabalho</p>
+              <p>D) A Memória de Carga é responsável pela execução; a Memória de Trabalho serve apenas como backup temporário</p>
+            </li>
+            <li>
+              <p>No computador convencional, qual componente corresponde funcionalmente à Memória de Trabalho do CLP S7?</p>
+              <p>A) Disco rígido (HD ou SSD), onde os programas são armazenados permanentemente</p>
+              <p>B) RAM (Random Access Memory), onde os programas são carregados para execução pelo processador</p>
+              <p>C) ROM da BIOS, que armazena as instruções de inicialização do sistema</p>
+              <p>D) Memória cache do processador, utilizada exclusivamente para instruções de sistema operacional</p>
+            </li>
+            <li>
+              <p>Por que a CPU do CLP não executa o programa diretamente da Memória de Carga (MMC)?</p>
+              <p>A) Porque o MMC utiliza tecnologia ROM, que não permite leitura pelo processador da CPU</p>
+              <p>B) Porque a velocidade de acesso da memória Flash do MMC é mais lenta que a da RAM da Memória de Trabalho, o que comprometeria o desempenho do ciclo de varredura</p>
+              <p>C) Porque o MMC armazena apenas dados de configuração de rede, não o código executável do programa</p>
+              <p>D) Porque o protocolo de comunicação entre o MMC e a CPU não suporta execução direta de código</p>
+            </li>
+            <li>
+              <p>A Memória de Trabalho do CLP S7 é baseada em qual tecnologia de memória?</p>
+              <p>A) Flash EEPROM, garantindo retenção de dados mesmo sem alimentação elétrica</p>
+              <p>B) ROM, permitindo leitura rápida mas impedindo qualquer modificação durante a execução</p>
+              <p>C) RAM, oferecendo alta velocidade de acesso com característica volátil</p>
+              <p>D) EEPROM elétrica, combinando velocidade de acesso com retenção não volátil de dados</p>
+            </li>
+            <li>
+              <p>O que acontece com o conteúdo da Memória de Trabalho em caso de interrupção da alimentação elétrica da CPU?</p>
+              <p>A) O conteúdo é automaticamente salvo no MMC antes do desligamento, sem perda de dados</p>
+              <p>B) O conteúdo é perdido, pois a Memória de Trabalho é baseada em RAM, que é volátil</p>
+              <p>C) O conteúdo é transferido para a Memória Remanente, onde fica preservado sem energia</p>
+              <p>D) O conteúdo permanece intacto por até 24 horas graças à bateria de backup integrada à RAM</p>
+            </li>
+            <li>
+              <p>Ao retornar a energia após uma falta, o que a CPU S7 faz automaticamente em relação à Memória de Trabalho?</p>
+              <p>A) Aguarda o operador realizar manualmente o download do programa via software de programação</p>
+              <p>B) Solicita confirmação do operador antes de recarregar o programa para evitar execução indesejada</p>
+              <p>C) Recarrega automaticamente a parte executável do programa da Memória de Carga (MMC) para a Memória de Trabalho</p>
+              <p>D) Entra em modo de diagnóstico e permanece em STOP até que o técnico realize uma inspeção completa</p>
+            </li>
+            <li>
+              <p>Por que a arquitetura que separa a Memória de Carga da Memória de Trabalho é considerada eficiente para sistemas de controle industrial?</p>
+              <p>A) Porque elimina completamente a necessidade de qualquer tipo de memória não volátil no sistema</p>
+              <p>B) Porque garante simultaneamente a integridade do programa (via memória não volátil) e a velocidade de execução (via RAM de alta velocidade)</p>
+              <p>C) Porque permite que dois programas diferentes sejam executados simultaneamente pela mesma CPU</p>
+              <p>D) Porque reduz o tempo de download do programa do computador para a CPU em até 90%</p>
+            </li>
+            <li>
+              <p>Qual das afirmações abaixo descreve corretamente o fluxo do programa desde sua criação até a execução no CLP S7?</p>
+              <p>A) Computador → Memória de Trabalho → Memória de Carga → Execução pela CPU</p>
+              <p>B) Computador → Memória de Carga → Memória de Trabalho → Execução pela CPU</p>
+              <p>C) Memória de Carga → Computador → Memória de Trabalho → Execução pela CPU</p>
+              <p>D) Computador → Memória do Sistema → Memória de Carga → Execução pela CPU</p>
+            </li>
+            <li>
+              <p>Um técnico observa que, após cada falta de energia, o CLP retoma a operação automaticamente sem necessidade de intervenção. No entanto, certos valores de contadores são sempre zerados após o retorno da energia. Qual é a explicação mais provável para esse comportamento?</p>
+              <p>A) O MMC está danificado e não consegue reter o programa completo entre as faltas de energia</p>
+              <p>B) Os valores dos contadores estão armazenados na Memória de Trabalho (RAM volátil) e são perdidos, enquanto o código do programa é recarregado do MMC automaticamente</p>
+              <p>C) A CPU está operando sem o cartão MMC, dependendo apenas da memória RAM interna para armazenar o programa</p>
+              <p>D) O modo de operação da CPU está configurado incorretamente, impedindo a retenção de dados entre ciclos de energia</p>
+            </li>
+          </ol>
+
+          <h2>Gabarito</h2>
+          <p>
+            1 - B | 2 - C | 3 - B | 4 - B | 5 - C | 6 - B | 7 - C | 8 - B | 9 - B | 10 - B
+          </p>
+
+          <section class="editorial-tags" aria-label="Tags editoriais">
+            <h2>Tags editoriais</h2>
+            <div>
+              <span>Working Memory</span>
+              <span>Memória de Trabalho</span>
+              <span>Load Memory</span>
+              <span>CLP S7</span>
+              <span>PLC</span>
+              <span>CPU Siemens</span>
+              <span>Scan Cycle</span>
+              <span>Automação Industrial</span>
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+  </body>
+</html>

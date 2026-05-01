@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Memória de Trabalho do CLP S7: funcionamento e relação com a Memória de Carga",
+    excerpt:
+      "Entenda como a Working Memory executa a parte ativa do programa no CLP S7 e como ela se relaciona com a Load Memory durante o ciclo de varredura.",
+    date: "2026-05-01",
+    url: "artigos/working-memory-plc.html",
+    views: 860,
+    appeal: 88,
+  },
+  {
     title: "Memória do CLP S7: memória de carga e o cartão MMC",
     excerpt:
       "Entenda a Load Memory nos PLCs S7, a evolução de RAM interna para MMC externo, retenção sem energia e substituição de CPUs em campo.",

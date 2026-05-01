@@ -394,6 +394,12 @@ a {
   margin-right: auto;
 }
 
+.working-memory-article-images .article-body figure {
+  width: 86%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .formula-box {
   margin: 26px 0;
   padding: 22px;
@@ -644,6 +650,10 @@ a {
   .load-memory-article-images .article-body figure:nth-of-type(1),
   .load-memory-article-images .article-body figure:nth-of-type(3),
   .load-memory-article-images .article-body figure:nth-of-type(4) {
+    width: 100%;
+  }
+
+  .working-memory-article-images .article-body figure {
     width: 100%;
   }
 
