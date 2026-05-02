@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Memory: Memória do Sistema e Endereçamento no CLP S7 | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Entenda a System Memory no CLP S7, o conceito de endereçamento, tabelas de imagem de processo, merkers, temporizadores e contadores."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="System Memory: Memória do Sistema e Endereçamento no CLP S7" />
+    <meta property="og:description" content="Veja como a Memória do Sistema apoia o endereçamento, as tabelas de imagem de entrada e saída e a execução do programa na CPU S7." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/artigos/system-memory-plc.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/artigos/system-memory-plc/imagem-01.png" />
+    <meta property="og:image:alt" content="Diagrama das áreas de memória da CPU do PLC, incluindo Load Memory, Working Memory, System Memory e Retentive Memory." />
+    <meta property="article:published_time" content="2026-05-02" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="System Memory: Memória do Sistema e Endereçamento no CLP S7" />
+    <meta name="twitter:description" content="Veja como a Memória do Sistema apoia o endereçamento, as tabelas de imagem de entrada e saída e a execução do programa na CPU S7." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/artigos/system-memory-plc/imagem-01.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page system-memory-article-images">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Automação industrial</p>
+          <h1>System Memory: Memória do Sistema e Endereçamento no CLP S7</h1>
+          <p>System Memory</p>
+          <time datetime="2026-05-02">2 de maio de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>Texto Explicativo da Aula</h2>
+
+          <h2>Introdução à Memória do Sistema</h2>
+          <p>
+            Continuando o estudo das áreas de memória da CPU S7, chegamos à Memória do Sistema (System Memory). Diferentemente da Memória de Carga e da Memória de Trabalho, que lidam diretamente com o armazenamento e a execução do programa de controle, a Memória do Sistema desempenha um papel estrutural fundamental: ela é a área onde são reservados os espaços de endereçamento utilizados pela CPU para identificar e gerenciar cada elemento do processo controlado.
+          </p>
+          <p>
+            Para compreender plenamente a função da Memória do Sistema, é necessário primeiro entender o conceito de endereçamento, que é a base sobre a qual toda a programação do CLP é construída.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/system-memory-plc/imagem-01.png"
+              alt="Diagrama das áreas de memória da CPU do PLC com destaque para System Memory"
+            />
+            <figcaption>Fluxo entre Load Memory, Working Memory, System Memory e Retentive Memory na CPU do PLC.</figcaption>
+          </figure>
+
+          <h2>O que é Endereçamento?</h2>
+          <p>
+            Quando um CLP é utilizado para controlar um processo industrial, ele precisa interagir com uma grande variedade de dispositivos de campo: sensores, botoeiras, fim de curso, transmissores, contatores, válvulas, inversores de frequência, entre outros. Para que a CPU possa reconhecer, monitorar e controlar cada um desses elementos de forma inequívoca, é necessário que cada dispositivo seja identificado por um endereço único.
+          </p>
+          <p>
+            O endereçamento é justamente o processo de atribuir um identificador exclusivo a cada elemento do processo que será monitorado ou controlado pelo CLP. Esse endereço é utilizado no programa de controle para referenciar o dispositivo correspondente, informando à CPU exatamente de qual entrada está lendo um sinal ou para qual saída deve enviar um comando.
+          </p>
+          <p>
+            Uma analogia útil é pensar nos endereços como o número de uma casa em uma rua: assim como o carteiro precisa do endereço correto para entregar uma carta à casa certa, a CPU precisa do endereço correto para acessar o sinal do dispositivo certo. Se dois dispositivos tivessem o mesmo endereço, a CPU não saberia qual deles está sendo referenciado, assim como uma carta sem endereço preciso não chegaria ao destino correto.
+          </p>
+
+          <h2>Estrutura de um Endereço no CLP S7</h2>
+          <p>
+            No CLP S7, os endereços seguem uma notação padronizada que identifica o tipo de sinal (entrada ou saída), a localização física no rack (número do módulo e canal). Um exemplo de endereço amplamente utilizado é o formato:
+          </p>
+          <p><strong>I 0.0</strong>, onde:</p>
+          <ul>
+            <li>I (Input) indica que se trata de uma entrada digital.</li>
+            <li>0 representa o byte de endereço (relacionado ao slot do módulo no rack).</li>
+            <li>0 representa o bit específico dentro desse byte (canal do módulo).</li>
+          </ul>
+          <p>
+            Da mesma forma, saídas digitais utilizam o prefixo Q (Output), entradas analógicas utilizam IW (Input Word) e saídas analógicas utilizam QW (Output Word), entre outras notações.
+          </p>
+          <p>
+            Por exemplo, em um sistema onde uma botoeira de partida está conectada ao primeiro canal do módulo de entrada digital, ela pode receber o endereço I 0.0. Ao programar a lógica de controle, sempre que o engenheiro quiser verificar se essa botoeira foi pressionada, utilizará o endereço I 0.0 no código do programa. A CPU, ao encontrar esse endereço durante a execução do ciclo de varredura, saberá exatamente qual sinal de campo deve ser lido.
+          </p>
+
+          <h2>O Papel da Memória do Sistema no Endereçamento</h2>
+          <p>
+            Para que o endereçamento funcione corretamente, a CPU precisa de um espaço de memória dedicado onde os valores atuais de cada endereço possam ser armazenados e atualizados a cada ciclo de varredura. Esse espaço é a Memória do Sistema.
+          </p>
+          <p>
+            Em termos práticos, a Memória do Sistema pode ser compreendida como uma tabela de imagens que a CPU mantém atualizada continuamente:
+          </p>
+          <ul>
+            <li>
+              <strong>Tabela de imagem das entradas (Process Image Input - PII):</strong> a cada ciclo de varredura, a CPU lê o estado de todos os módulos de entrada e copia os valores para esta tabela na Memória do Sistema. Durante a execução do programa, a CPU consulta essa tabela, e não diretamente os módulos físicos, para verificar o estado das entradas, garantindo consistência dos dados ao longo de todo o ciclo.
+            </li>
+            <li>
+              <strong>Tabela de imagem das saídas (Process Image Output - PIQ):</strong> durante a execução do programa, os comandos de ativação ou desativação de saídas são gravados nesta tabela. Ao final do ciclo de varredura, a CPU transfere os valores dessa tabela para os módulos de saída físicos, atualizando o estado dos atuadores de campo.
+            </li>
+          </ul>
+          <p>
+            Além das tabelas de imagem de processo, a Memória do Sistema também reserva espaço para outros elementos internos utilizados no programa, como merkers (marcadores ou flags, bits internos utilizados como variáveis auxiliares na lógica do programa), temporizadores e contadores.
+          </p>
+
+          <h2>Por que o Endereçamento é Essencial na Programação do CLP?</h2>
+          <p>
+            O endereçamento é a linguagem por meio da qual o programa de controle se comunica com o mundo físico do processo industrial. Sem endereços corretamente definidos e atribuídos, a CPU seria incapaz de distinguir um sensor de outro, uma saída de outra, tornando impossível a implementação de qualquer lógica de controle funcional.
+          </p>
+          <p>
+            Durante a fase de projeto e programação do CLP, uma das primeiras tarefas do engenheiro é elaborar uma lista de endereços (também chamada de tabela de variáveis ou tabela de símbolos), que relaciona cada dispositivo de campo ao seu respectivo endereço no CLP. Essa lista serve como referência durante toda a programação e manutenção do sistema.
+          </p>
+          <p>
+            O estudo aprofundado das convenções de endereçamento, da estrutura dos bytes e bits de endereço, e da configuração dos módulos de I/O será desenvolvido em capítulos posteriores. Por ora, o fundamental é compreender que a Memória do Sistema é o espaço físico dentro da CPU que viabiliza esse sistema de endereçamento, reservando áreas específicas para cada tipo de dado endereçável do processo.
+          </p>
+
+          <h2>Visão Geral das Quatro Áreas de Memória da CPU S7</h2>
+          <p>Com a introdução da Memória do Sistema, é possível consolidar a visão geral das quatro áreas de memória estudadas:</p>
+
+          <div class="comparison-table three-column-table" role="table" aria-label="Áreas de memória da CPU S7">
+            <div role="row">
+              <strong role="columnheader">Área de Memória</strong>
+              <strong role="columnheader">Função Principal</strong>
+              <strong role="columnheader">Tipo de Memória</strong>
+            </div>
+            <div role="row">
+              <span>Memória de Carga</span>
+              <span>Armazena o programa completo baixado do computador</span>
+              <span>Flash EEPROM / MMC - não volátil</span>
+            </div>
+            <div role="row">
+              <span>Memória de Trabalho</span>
+              <span>Executa a parte executável do programa durante o ciclo de varredura</span>
+              <span>RAM - volátil</span>
+            </div>
+            <div role="row">
+              <span>Memória do Sistema</span>
+              <span>Armazena os endereços, tabelas de imagem de processo, merkers, temporizadores e contadores</span>
+              <span>RAM - volátil</span>
+            </div>
+            <div role="row">
+              <span>Memória Remanente</span>
+              <span>Retém valores selecionados de variáveis mesmo após falta de energia</span>
+              <span>Área protegida - não volátil</span>
+            </div>
+          </div>
+
+          <h2>Exemplo Prático Aplicado</h2>
+          <h3>Cenário: Definição de Endereços para uma Estação de Embalagem Automática</h3>
+          <p>
+            Uma indústria de alimentos está implantando uma estação de embalagem automática controlada por um CLP S7-300. O sistema possui os seguintes dispositivos de campo:
+          </p>
+          <p><strong>Entradas (sensores e botoeiras):</strong></p>
+          <ul>
+            <li>Botoeira de partida (START)</li>
+            <li>Botoeira de parada (STOP)</li>
+            <li>Sensor óptico de presença de embalagem</li>
+            <li>Sensor fim de curso da seladora</li>
+          </ul>
+          <p><strong>Saídas (atuadores):</strong></p>
+          <ul>
+            <li>Contator da esteira transportadora</li>
+            <li>Solenóide da seladora</li>
+            <li>Luz indicadora de sistema em operação</li>
+            <li>Alarme sonoro de falha</li>
+          </ul>
+
+          <h3>Passo 1 - Levantamento dos dispositivos e seus módulos</h3>
+          <p>
+            O engenheiro verifica a configuração do rack: o módulo de entrada digital ocupa o slot 4 (endereços I 0.0 a I 0.7) e o módulo de saída digital ocupa o slot 5 (endereços Q 4.0 a Q 4.7).
+          </p>
+
+          <h3>Passo 2 - Elaboração da tabela de endereços</h3>
+          <div class="comparison-table three-column-table" role="table" aria-label="Tabela de endereços da estação de embalagem automática">
+            <div role="row">
+              <strong role="columnheader">Dispositivo</strong>
+              <strong role="columnheader">Tipo</strong>
+              <strong role="columnheader">Endereço</strong>
+            </div>
+            <div role="row">
+              <span>Botoeira START</span>
+              <span>Entrada digital</span>
+              <span>I 0.0</span>
+            </div>
+            <div role="row">
+              <span>Botoeira STOP</span>
+              <span>Entrada digital</span>
+              <span>I 0.1</span>
+            </div>
+            <div role="row">
+              <span>Sensor óptico de presença</span>
+              <span>Entrada digital</span>
+              <span>I 0.2</span>
+            </div>
+            <div role="row">
+              <span>Sensor fim de curso seladora</span>
+              <span>Entrada digital</span>
+              <span>I 0.3</span>
+            </div>
+            <div role="row">
+              <span>Contator da esteira</span>
+              <span>Saída digital</span>
+              <span>Q 4.0</span>
+            </div>
+            <div role="row">
+              <span>Solenóide da seladora</span>
+              <span>Saída digital</span>
+              <span>Q 4.1</span>
+            </div>
+            <div role="row">
+              <span>Luz indicadora de operação</span>
+              <span>Saída digital</span>
+              <span>Q 4.2</span>
+            </div>
+            <div role="row">
+              <span>Alarme sonoro de falha</span>
+              <span>Saída digital</span>
+              <span>Q 4.3</span>
+            </div>
+          </div>
+
+          <h3>Passo 3 - Utilização dos endereços na programação</h3>
+          <p>
+            Com a tabela definida, o engenheiro inicia a programação em linguagem Ladder no STEP 7. Para implementar a lógica de partida da esteira (pressionar START sem que STOP esteja pressionado), utiliza os endereços diretamente no programa:
+          </p>
+          <ul>
+            <li>Contato normalmente aberto de I 0.0 (START) em série com</li>
+            <li>Contato normalmente fechado de I 0.1 (STOP),</li>
+            <li>Aciona a bobina de Q 4.0 (contator da esteira) e Q 4.2 (luz indicadora).</li>
+          </ul>
+
+          <h3>Passo 4 - Funcionamento da Memória do Sistema durante a execução</h3>
+          <p>Ao entrar em modo RUN, a cada ciclo de varredura a CPU:</p>
+          <ol>
+            <li>Lê o estado físico de I 0.0 e I 0.1 e atualiza a tabela de imagem de entradas na Memória do Sistema.</li>
+            <li>Processa a lógica do programa consultando os valores na tabela de imagem.</li>
+            <li>Grava o resultado (Q 4.0 ligado ou desligado) na tabela de imagem de saídas.</li>
+            <li>Transfere o valor de Q 4.0 para o módulo de saída físico, que por sua vez energiza ou desenergiza o contator da esteira.</li>
+          </ol>
+
+          <h3>Passo 5 - Benefício prático do endereçamento correto</h3>
+          <p>
+            Durante a manutenção, um técnico identifica que a botoeira START está com falha. Consultando a tabela de endereços, localiza imediatamente que o dispositivo conectado a I 0.0 é a botoeira START, identifica fisicamente o terminal correto no módulo de entrada e realiza a substituição com precisão e agilidade.
+          </p>
+
+          <h2>Questões de Múltipla Escolha</h2>
+          <ol>
+            <li>
+              <p>Qual é a principal função da Memória do Sistema (System Memory) na CPU do CLP S7?</p>
+              <p>A) Armazenar permanentemente o programa de controle transferido do computador</p>
+              <p>B) Reservar espaços de endereçamento utilizados pela CPU para identificar e gerenciar os elementos do processo</p>
+              <p>C) Executar a parte executável do programa durante o ciclo de varredura</p>
+              <p>D) Manter os dados de comunicação de rede entre a CPU e os módulos de I/O</p>
+            </li>
+            <li>
+              <p>O que é endereçamento no contexto da programação de CLPs?</p>
+              <p>A) O processo de configurar o endereço IP da CPU para comunicação via Profinet</p>
+              <p>B) A definição do endereço físico do rack no barramento do sistema de automação</p>
+              <p>C) A atribuição de um identificador único a cada dispositivo de campo, permitindo que a CPU o reconheça e referencie no programa</p>
+              <p>D) A configuração do mapa de memória interno que define o tamanho da Memória de Trabalho</p>
+            </li>
+            <li>
+              <p>No endereço I 0.0 utilizado no CLP S7, o que cada elemento da notação representa?</p>
+              <p>A) I = saída digital; 0 = número do rack; 0 = número do slot</p>
+              <p>B) I = entrada digital; 0 = byte de endereço; 0 = bit específico dentro do byte</p>
+              <p>C) I = memória interna; 0 = tipo de sinal analógico; 0 = canal do módulo</p>
+              <p>D) I = identificador de rede; 0 = endereço do módulo de comunicação; 0 = porta utilizada</p>
+            </li>
+            <li>
+              <p>Por que cada dispositivo de campo conectado ao CLP deve ter um endereço único?</p>
+              <p>A) Para que o módulo de alimentação possa distribuir energia individualmente a cada dispositivo</p>
+              <p>B) Para evitar conflitos no barramento de comunicação Profibus entre os módulos do rack</p>
+              <p>C) Para que a CPU possa identificar e diferenciar cada dispositivo sem ambiguidade durante a execução do programa</p>
+              <p>D) Para que o software de programação possa gerar automaticamente o diagrama elétrico do sistema</p>
+            </li>
+            <li>
+              <p>A tabela de imagem das entradas (Process Image Input), armazenada na Memória do Sistema, é atualizada:</p>
+              <p>A) Apenas quando o operador solicita uma leitura manual pelo software de programação</p>
+              <p>B) Uma única vez durante a inicialização da CPU, permanecendo inalterada durante a operação</p>
+              <p>C) A cada ciclo de varredura, no início do ciclo, com os valores lidos dos módulos de entrada físicos</p>
+              <p>D) Apenas quando ocorre uma mudança de estado nas entradas, por meio de interrupção de hardware</p>
+            </li>
+            <li>
+              <p>Qual é a vantagem de a CPU consultar a tabela de imagem de processo (Memória do Sistema) em vez de acessar diretamente os módulos físicos durante a execução do programa?</p>
+              <p>A) Reduz o consumo de energia dos módulos de I/O ao evitar leituras físicas frequentes</p>
+              <p>B) Garante que os valores de entrada e saída permaneçam consistentes ao longo de todo o ciclo de varredura</p>
+              <p>C) Permite que a CPU execute dois ciclos de varredura simultaneamente para aumentar a velocidade</p>
+              <p>D) Elimina a necessidade de fiação entre os módulos de I/O e os dispositivos de campo</p>
+            </li>
+            <li>
+              <p>Além das tabelas de imagem de processo, quais outros elementos são armazenados na Memória do Sistema?</p>
+              <p>A) O programa de controle completo e os comentários de documentação do projeto</p>
+              <p>B) Os parâmetros de configuração da fonte de alimentação e dos módulos de comunicação</p>
+              <p>C) Merkers (marcadores internos), temporizadores e contadores utilizados no programa</p>
+              <p>D) O histórico de falhas e alarmes gerados durante a operação do processo</p>
+            </li>
+            <li>
+              <p>Um engenheiro está programando um CLP S7 e precisa monitorar o estado de uma válvula de controle on/off conectada ao canal 3 do módulo de entrada digital. Se o byte de endereço desse módulo é 1, qual será o endereço correto para essa válvula?</p>
+              <p>A) Q 1.3</p>
+              <p>B) I 3.1</p>
+              <p>C) I 1.3</p>
+              <p>D) Q 3.1</p>
+            </li>
+            <li>
+              <p>Durante a fase de projeto de um sistema de automação com CLP, qual documento é elaborado para relacionar cada dispositivo de campo ao seu respectivo endereço no CLP?</p>
+              <p>A) Diagrama de blocos funcionais (Function Block Diagram - FBD)</p>
+              <p>B) Lista de endereços ou tabela de variáveis/símbolos</p>
+              <p>C) Diagrama de sequência de operação (Sequence Function Chart - SFC)</p>
+              <p>D) Manual de configuração do hardware do rack (Hardware Configuration)</p>
+            </li>
+            <li>
+              <p>Um técnico de manutenção relata que, após uma falta de energia, os valores dos merkers (marcadores internos) utilizados no programa foram zerados. Com base no conhecimento sobre as áreas de memória do CLP S7, qual é a explicação correta para esse comportamento?</p>
+              <p>A) Os merkers são armazenados na Memória de Carga (MMC), que foi corrompida durante a falta de energia</p>
+              <p>B) Os merkers são armazenados na Memória do Sistema (RAM volátil) e são perdidos quando a alimentação é interrompida, a menos que sejam configurados como remanentes</p>
+              <p>C) Os merkers são armazenados na Memória de Trabalho e foram apagados pelo processo automático de reinicialização do programa</p>
+              <p>D) Os merkers foram zerados porque a CPU realizou um reset de memória (MRES) automaticamente ao detectar a falta de energia</p>
+            </li>
+          </ol>
+
+          <h2>Gabarito</h2>
+          <p>
+            1 - B | 2 - C | 3 - B | 4 - C | 5 - C | 6 - B | 7 - C | 8 - C | 9 - B | 10 - B
+          </p>
+
+          <section class="editorial-tags" aria-label="Tags editoriais">
+            <h2>Tags editoriais</h2>
+            <div>
+              <span>System Memory</span>
+              <span>Memória do Sistema</span>
+              <span>Endereçamento CLP</span>
+              <span>CLP S7</span>
+              <span>PLC</span>
+              <span>Process Image Input</span>
+              <span>Process Image Output</span>
+              <span>Automação Industrial</span>
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+  </body>
+</html>

@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "System Memory: memória do sistema e endereçamento no CLP S7",
+    excerpt:
+      "Entenda como a System Memory apoia o endereçamento, as tabelas de imagem de processo, merkers, temporizadores e contadores na CPU S7.",
+    date: "2026-05-02",
+    url: "artigos/system-memory-plc.html",
+    views: 840,
+    appeal: 88,
+  },
+  {
     title: "Memória de Trabalho do CLP S7: funcionamento e relação com a Memória de Carga",
     excerpt:
       "Entenda como a Working Memory executa a parte ativa do programa no CLP S7 e como ela se relaciona com a Load Memory durante o ciclo de varredura.",
