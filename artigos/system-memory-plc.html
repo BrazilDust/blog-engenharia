@@ -67,6 +67,7 @@
 
           <figure>
             <img
+              class="zoomable-image"
               src="../assets/artigos/system-memory-plc/imagem-01.png"
               alt="Diagrama das áreas de memória da CPU do PLC com destaque para System Memory"
             />
@@ -356,9 +357,37 @@
       </article>
     </main>
 
+    <div class="image-zoom-overlay" aria-hidden="true">
+      <img alt="" />
+    </div>
+
     <footer class="site-footer">
       <p>Engenharia em Linha</p>
       <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
     </footer>
+
+    <script>
+      const zoomOverlay = document.querySelector(".image-zoom-overlay");
+      const zoomOverlayImage = zoomOverlay.querySelector("img");
+
+      document.querySelectorAll(".zoomable-image").forEach((image) => {
+        image.addEventListener("click", (event) => {
+          event.stopPropagation();
+          zoomOverlayImage.src = image.src;
+          zoomOverlayImage.alt = image.alt;
+          zoomOverlay.classList.add("active");
+          zoomOverlay.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      document.addEventListener("click", () => {
+        if (!zoomOverlay.classList.contains("active")) return;
+
+        zoomOverlay.classList.remove("active");
+        zoomOverlay.setAttribute("aria-hidden", "true");
+        zoomOverlayImage.removeAttribute("src");
+        zoomOverlayImage.alt = "";
+      });
+    </script>
   </body>
 </html>
