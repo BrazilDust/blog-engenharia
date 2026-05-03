@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Retentive Memory: memória remanente da CPU S7",
+    excerpt:
+      "Entenda como a Memória Remanente preserva contadores, setpoints, merkers e dados críticos mesmo após falta de energia.",
+    date: "2026-05-03",
+    url: "artigos/retentive-memory-plc.html",
+    views: 820,
+    appeal: 88,
+  },
+  {
     title: "System Memory: memória do sistema e endereçamento no CLP S7",
     excerpt:
       "Entenda como a System Memory apoia o endereçamento, as tabelas de imagem de processo, merkers, temporizadores e contadores na CPU S7.",

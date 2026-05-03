@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retentive Memory: Memória Remanente da CPU S7 | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Entenda a Retentive Memory no CLP S7, sua função na retenção de dados críticos, diferenças entre CPUs S7-300 e S7-400 e revisão das áreas de memória."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Retentive Memory: Memória Remanente da CPU S7" />
+    <meta property="og:description" content="Veja como a Memória Remanente preserva contadores, setpoints, merkers e dados críticos mesmo após falta de energia em sistemas com CLP S7." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/artigos/retentive-memory-plc.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/artigos/retentive-memory-plc/imagem-01.png" />
+    <meta property="og:image:alt" content="Diagrama das áreas de memória da CPU do PLC, incluindo Load Memory, Working Memory, System Memory e Retentive Memory." />
+    <meta property="article:published_time" content="2026-05-03" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Retentive Memory: Memória Remanente da CPU S7" />
+    <meta name="twitter:description" content="Veja como a Memória Remanente preserva contadores, setpoints, merkers e dados críticos mesmo após falta de energia em sistemas com CLP S7." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/artigos/retentive-memory-plc/imagem-01.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page retentive-memory-article-images">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Automação industrial</p>
+          <h1>Retentive Memory: Memória Remanente da CPU S7</h1>
+          <p>Memória Remanente e Revisão das Áreas de Memória da CPU S7</p>
+          <time datetime="2026-05-03">3 de maio de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>Texto Explicativo da Aula</h2>
+
+          <h2>A Memória Remanente (Retentive Memory)</h2>
+          <p>
+            Concluindo o estudo das quatro áreas de memória da CPU S7, chegamos à Memória Remanente (Retentive Memory), também chamada de memória retentiva ou memória persistente. Essa área representa uma solução fundamental para um dos desafios mais relevantes em sistemas de controle industrial: a retenção de dados críticos do processo mesmo diante de interrupções na alimentação elétrica.
+          </p>
+
+          <figure>
+            <img
+              class="zoomable-image"
+              src="../assets/artigos/retentive-memory-plc/imagem-01.png"
+              alt="Diagrama das áreas de memória da CPU do PLC com destaque para Retentive Memory"
+            />
+            <figcaption>Fluxo entre Load Memory, Working Memory, System Memory e Retentive Memory na CPU do PLC.</figcaption>
+          </figure>
+
+          <h2>O que é a Memória Remanente?</h2>
+          <p>
+            A Memória Remanente é a área da CPU destinada ao armazenamento permanente de dados operacionais que precisam ser preservados independentemente de falhas de energia ou desligamentos do sistema. Enquanto as memórias do Sistema e de Trabalho, baseadas em RAM, perdem seu conteúdo imediatamente quando a energia é cortada, a Memória Remanente garante que determinados dados sobrevivam a essas interrupções e estejam disponíveis quando o sistema for religado.
+          </p>
+          <p>
+            Para compreender a importância prática dessa área, considere o seguinte exemplo: um processo industrial utiliza um contador que registra o número de peças produzidas ao longo do turno. Se esse contador estiver armazenado em RAM convencional e ocorrer uma falta de energia, o valor acumulado será perdido e a contagem recomeçará do zero após o retorno da energia, comprometendo o controle de produção. Se o contador estiver configurado para utilizar a Memória Remanente, o valor acumulado será preservado e a contagem continuará do ponto onde parou, sem perda de informação.
+          </p>
+          <p>
+            Esse comportamento é igualmente importante para temporizadores em andamento, valores de setpoints ajustados pelo operador, flags de estado de processo e quaisquer outros dados que precisem persistir entre ciclos de energia.
+          </p>
+
+          <h2>Evolução Tecnológica: CPUs Antigas vs. Modernas</h2>
+          <p>
+            Assim como ocorreu com outras áreas de memória, a implementação da Memória Remanente também evoluiu ao longo das gerações de CPUs S7.
+          </p>
+
+          <h3>CPUs de Gerações Antigas</h3>
+          <p>
+            Nas CPUs mais antigas da família S7, a Memória Remanente era implementada de forma que os dados permaneciam armazenados de maneira estável mesmo na ausência de energia elétrica e independentemente da presença de bateria de backup. Essa característica era uma vantagem significativa, pois garantia a retenção de dados críticos sem depender de componentes externos sujeitos a desgaste.
+          </p>
+
+          <h3>CPUs S7-300</h3>
+          <p>
+            Nas CPUs da série S7-300, todos os dados configurados para a Memória Remanente são armazenados de forma permanente e incondicional nessa área. Não há condições especiais ou configurações adicionais necessárias, basta que o dado seja designado como remanente durante a programação para que sua retenção seja garantida automaticamente, independentemente de falhas de energia.
+          </p>
+
+          <h3>CPUs S7-400</h3>
+          <p>
+            Nas CPUs da série S7-400, voltadas para aplicações de maior porte e complexidade, o comportamento da Memória Remanente é condicionado a circunstâncias específicas definidas durante a configuração e programação do sistema. Isso significa que nem todos os dados marcados como remanentes serão necessariamente retidos em todas as situações: o comportamento depende das configurações realizadas no projeto, oferecendo maior flexibilidade e controle ao engenheiro responsável, ao custo de maior complexidade de configuração.
+          </p>
+
+          <h2>Quais Dados Podem Ser Armazenados na Memória Remanente?</h2>
+          <p>
+            Na programação do CLP S7, o engenheiro pode designar como remanentes diferentes tipos de dados presentes na Memória do Sistema e nos blocos de dados do programa, incluindo:
+          </p>
+          <ul>
+            <li><strong>Merkers (marcadores) remanentes:</strong> bits, bytes, palavras ou palavras duplas de memória interna configurados para retenção.</li>
+            <li><strong>Temporizadores remanentes:</strong> temporizadores cujo valor acumulado deve ser preservado após falta de energia.</li>
+            <li><strong>Contadores remanentes:</strong> contadores cujo valor acumulado deve persistir entre ciclos de energia.</li>
+            <li><strong>Blocos de dados (DB):</strong> blocos de dados do programa podem ser configurados com atributo remanente, preservando os valores de suas variáveis.</li>
+          </ul>
+          <p>
+            A definição de quais dados serão remanentes é realizada no ambiente de programação (STEP 7 ou TIA Portal), durante a configuração do hardware e a criação do programa.
+          </p>
+
+          <h2>Revisão Completa: As Quatro Áreas de Memória da CPU S7</h2>
+          <p>
+            Com o estudo da Memória Remanente concluído, é possível apresentar uma visão consolidada e comparativa das quatro áreas de memória que compõem a CPU S7, integrando todos os conceitos estudados nos capítulos anteriores.
+          </p>
+
+          <h3>1. Memória de Carga (Load Memory)</h3>
+          <p>
+            É a área responsável pelo armazenamento do programa completo transferido do computador para a CPU, incluindo código executável, configurações, comentários e dados auxiliares de projeto. Nas CPUs modernas, é implementada pelo cartão MMC (Flash EEPROM), que é não volátil e dispensa o uso de bateria de backup. O programa permanece íntegro mesmo após longos períodos sem energia.
+          </p>
+
+          <h3>2. Memória de Trabalho (Working Memory)</h3>
+          <p>
+            É a área onde a parte executável do programa é carregada e processada durante a operação do CLP. Funciona de maneira análoga à RAM de um computador: oferece alta velocidade de acesso, mas é volátil, perde seu conteúdo quando a energia é interrompida. A cada inicialização, o programa é recarregado automaticamente da Memória de Carga para a Memória de Trabalho.
+          </p>
+
+          <h3>3. Memória do Sistema (System Memory)</h3>
+          <p>
+            É a área que provê o espaço de endereçamento necessário para que a CPU identifique e gerencie cada elemento do processo. Contém as tabelas de imagem das entradas e saídas (atualizadas a cada ciclo de varredura), além de espaço para merkers, temporizadores e contadores. É baseada em RAM e, portanto, volátil, exceto pelos dados configurados como remanentes.
+          </p>
+
+          <h3>4. Memória Remanente (Retentive Memory)</h3>
+          <p>
+            É a área dedicada à retenção permanente de dados operacionais críticos, garantindo que informações importantes não sejam perdidas em caso de falta de energia. Sua implementação e comportamento variam conforme a série da CPU (S7-300 ou S7-400), mas em todos os casos sua função é assegurar a continuidade operacional do processo após interrupções de energia.
+          </p>
+
+          <h2>Tabela Comparativa Final</h2>
+          <div class="comparison-table retentive-memory-table" role="table" aria-label="Tabela comparativa das áreas de memória da CPU S7">
+            <div role="row">
+              <strong role="columnheader">Área de Memória</strong>
+              <strong role="columnheader">Função</strong>
+              <strong role="columnheader">Tipo</strong>
+              <strong role="columnheader">Volatilidade</strong>
+              <strong role="columnheader">Observação</strong>
+            </div>
+            <div role="row">
+              <span>Memória de Carga</span>
+              <span>Armazena o programa completo</span>
+              <span>Flash EEPROM / MMC</span>
+              <span>Não volátil</span>
+              <span>Requer MMC inserido na CPU</span>
+            </div>
+            <div role="row">
+              <span>Memória de Trabalho</span>
+              <span>Executa a parte executável do programa</span>
+              <span>RAM</span>
+              <span>Volátil</span>
+              <span>Recarregada automaticamente ao ligar</span>
+            </div>
+            <div role="row">
+              <span>Memória do Sistema</span>
+              <span>Endereçamento, tabelas de I/O, merkers, temporizadores, contadores</span>
+              <span>RAM</span>
+              <span>Volátil (exceto dados remanentes)</span>
+              <span>Atualizada a cada ciclo de varredura</span>
+            </div>
+            <div role="row">
+              <span>Memória Remanente</span>
+              <span>Retenção permanente de dados críticos</span>
+              <span>Área protegida</span>
+              <span>Não volátil</span>
+              <span>Comportamento varia entre S7-300 e S7-400</span>
+            </div>
+          </div>
+
+          <h2>Exemplo Prático Aplicado</h2>
+          <h3>Cenário: Aplicação da Memória Remanente em um Sistema de Controle de Produção</h3>
+          <p>
+            Uma fábrica de embalagens plásticas utiliza um CLP S7-300 para controlar uma linha de injeção. O sistema precisa manter, mesmo após faltas de energia, os seguintes dados:
+          </p>
+          <ul>
+            <li>Contador de peças produzidas no turno</li>
+            <li>Valor de setpoint de temperatura do molde (ajustável pelo operador)</li>
+            <li>Flag de indicação de manutenção pendente</li>
+          </ul>
+
+          <h3>Passo 1 - Identificação dos dados críticos</h3>
+          <p>
+            O engenheiro analisa o processo e identifica que a perda dos valores do contador de peças, do setpoint de temperatura e da flag de manutenção após uma falta de energia causaria problemas sérios: retrabalho no controle de produção, necessidade de reconfiguração manual pelo operador e risco de operação sem a devida notificação de manutenção.
+          </p>
+
+          <h3>Passo 2 - Configuração da remanência no STEP 7</h3>
+          <p>
+            No software STEP 7, o engenheiro acessa a configuração de hardware e define os intervalos de memória que serão remanentes:
+          </p>
+          <ul>
+            <li>Os merkers M 10.0 a M 10.7 são configurados como remanentes (aqui será armazenada a flag de manutenção).</li>
+            <li>O contador C 1 (contador de peças) é configurado como remanente.</li>
+            <li>O bloco de dados DB5, que contém o setpoint de temperatura, é criado com o atributo remanente ativado.</li>
+          </ul>
+
+          <h3>Passo 3 - Operação normal e ocorrência de falta de energia</h3>
+          <p>
+            Durante a operação, o contador C 1 acumula 1.847 peças produzidas, o setpoint de temperatura está em 215°C e a flag de manutenção está ativa (M 10.0 = 1). Ocorre uma falta de energia não planejada de 40 minutos.
+          </p>
+
+          <h3>Passo 4 - Retorno da energia e verificação dos dados</h3>
+          <p>
+            Ao retornar a energia, a CPU inicializa automaticamente: recarrega o programa da Memória de Carga (MMC) para a Memória de Trabalho e restaura os dados remanentes. O operador verifica no painel:
+          </p>
+          <ul>
+            <li>Contador C 1: 1.847 peças (valor preservado)</li>
+            <li>Setpoint de temperatura: 215°C (valor preservado)</li>
+            <li>Flag de manutenção: ativa (valor preservado)</li>
+          </ul>
+          <p>
+            A linha retoma a produção exatamente do ponto onde parou, sem necessidade de reconfiguração manual e sem perda de dados de produção.
+          </p>
+
+          <h3>Passo 5 - Comparação com dados não remanentes</h3>
+          <p>
+            O engenheiro observa que o merker M 20.0, que registrava se a esteira estava em movimento no momento da falta, voltou a zero após o retorno, pois não foi configurado como remanente. Esse comportamento é esperado e desejado: ao religar o sistema, é mais seguro que o CLP verifique novamente o estado atual da esteira antes de assumir qualquer condição prévia.
+          </p>
+          <p>
+            Conclusão: a correta utilização da Memória Remanente permite que o sistema de controle retome operações críticas sem perda de dados, enquanto dados que devem ser reiniciados a cada partida permanecem em RAM convencional, garantindo tanto a continuidade operacional quanto a segurança do processo.
+          </p>
+
+          <h2>Questões de Múltipla Escolha</h2>
+          <ol>
+            <li>
+              <p>Qual é a principal característica que diferencia a Memória Remanente das demais áreas de memória RAM do CLP S7?</p>
+              <p>A) É a área de maior velocidade de acesso, utilizada exclusivamente durante o ciclo de varredura</p>
+              <p>B) Armazena permanentemente os dados operacionais críticos, preservando-os mesmo em caso de falta de energia</p>
+              <p>C) É a área responsável por armazenar o programa completo transferido do computador para a CPU</p>
+              <p>D) Contém as tabelas de imagem das entradas e saídas atualizadas a cada ciclo de varredura</p>
+            </li>
+            <li>
+              <p>Em um CLP S7-300, como se comporta a Memória Remanente em relação à retenção de dados?</p>
+              <p>A) Os dados são retidos apenas se houver uma bateria de backup instalada na CPU</p>
+              <p>B) Os dados são retidos condicionalmente, dependendo de configurações específicas realizadas pelo engenheiro</p>
+              <p>C) Todos os dados configurados como remanentes são armazenados permanentemente, sem condições especiais</p>
+              <p>D) Os dados são retidos por no máximo 72 horas após a falta de energia, independentemente da configuração</p>
+            </li>
+            <li>
+              <p>Qual das situações abaixo justifica o uso da Memória Remanente em um sistema de controle industrial?</p>
+              <p>A) Armazenar o código executável do programa para que a CPU não precise recarregá-lo a cada ciclo</p>
+              <p>B) Preservar o valor acumulado de um contador de peças produzidas após uma interrupção de energia</p>
+              <p>C) Aumentar a velocidade de execução do programa ao reduzir o tempo de acesso às variáveis</p>
+              <p>D) Eliminar a necessidade do cartão MMC em CPUs modernas da família S7</p>
+            </li>
+            <li>
+              <p>Qual é a diferença no comportamento da Memória Remanente entre as CPUs S7-300 e S7-400?</p>
+              <p>A) Na S7-300, a remanência é configurada por hardware; na S7-400, é configurada exclusivamente por software</p>
+              <p>B) Na S7-300, todos os dados remanentes são retidos permanentemente; na S7-400, a retenção depende de circunstâncias específicas de configuração</p>
+              <p>C) Na S7-400, a Memória Remanente é maior e mais rápida; na S7-300, é menor e mais lenta</p>
+              <p>D) Na S7-300, a Memória Remanente é volátil; na S7-400, é implementada em Flash EEPROM</p>
+            </li>
+            <li>
+              <p>Quais tipos de dados podem ser configurados como remanentes no CLP S7?</p>
+              <p>A) Apenas o código executável do programa e os parâmetros de configuração de hardware</p>
+              <p>B) Apenas as tabelas de imagem de entradas e saídas da Memória do Sistema</p>
+              <p>C) Merkers, temporizadores, contadores e blocos de dados configurados com atributo remanente</p>
+              <p>D) Apenas os parâmetros de comunicação de rede e os endereços dos módulos do rack</p>
+            </li>
+            <li>
+              <p>Um operador ajusta o setpoint de temperatura de um forno industrial diretamente no painel do CLP. Após uma falta de energia, o valor retorna ao padrão de fábrica, obrigando o operador a reconfigurar manualmente. Qual é a solução mais adequada para evitar esse problema?</p>
+              <p>A) Instalar uma bateria de maior capacidade para manter toda a RAM alimentada indefinidamente</p>
+              <p>B) Configurar a variável de setpoint em um bloco de dados com atributo remanente na Memória Remanente</p>
+              <p>C) Armazenar o setpoint diretamente na Memória de Carga (MMC), realizando um novo download a cada ajuste</p>
+              <p>D) Utilizar um módulo de função (FM) dedicado para gerenciar os setpoints do processo</p>
+            </li>
+            <li>
+              <p>Ao recapitular as quatro áreas de memória da CPU S7, qual sequência descreve corretamente o caminho percorrido pelo programa desde o download até a execução?</p>
+              <p>A) Memória de Trabalho -> Memória de Carga -> Memória do Sistema -> Execução</p>
+              <p>B) Memória do Sistema -> Memória de Carga -> Memória de Trabalho -> Execução</p>
+              <p>C) Memória de Carga -> Memória de Trabalho -> Execução (com suporte da Memória do Sistema e Remanente)</p>
+              <p>D) Memória Remanente -> Memória de Carga -> Memória de Trabalho -> Execução</p>
+            </li>
+            <li>
+              <p>Por que é importante que apenas dados selecionados sejam configurados como remanentes, em vez de toda a Memória do Sistema?</p>
+              <p>A) Porque a Memória Remanente possui capacidade muito limitada e só suporta um único dado por vez</p>
+              <p>B) Porque alguns dados, como o estado instantâneo de dispositivos de campo, devem ser verificados novamente a cada partida por razões de segurança e consistência do processo</p>
+              <p>C) Porque dados remanentes consomem mais tempo de processamento durante o ciclo de varredura</p>
+              <p>D) Porque a configuração de remanência é irreversível e impede futuras modificações no programa</p>
+            </li>
+            <li>
+              <p>Um técnico verifica que, após o retorno de energia em um CLP S7-300, o contador de peças foi zerado, mesmo tendo sido configurado como remanente. Qual é a causa mais provável desse comportamento?</p>
+              <p>A) O cartão MMC foi corrompido durante a falta de energia, apagando as configurações de remanência</p>
+              <p>B) Foi realizado um reset de memória (MRES) durante o retorno de energia, apagando os dados remanentes</p>
+              <p>C) A Memória Remanente das CPUs S7-300 só preserva dados por até 30 minutos sem energia</p>
+              <p>D) O contador não foi corretamente configurado como remanente no software de programação; estava armazenado em RAM convencional</p>
+            </li>
+            <li>
+              <p>Considerando as quatro áreas de memória da CPU S7, qual combinação está corretamente associada às suas características de volatilidade?</p>
+              <p>A) Memória de Carga: volátil; Memória de Trabalho: não volátil; Memória do Sistema: não volátil; Memória Remanente: volátil</p>
+              <p>B) Memória de Carga: não volátil; Memória de Trabalho: volátil; Memória do Sistema: volátil (exceto dados remanentes); Memória Remanente: não volátil</p>
+              <p>C) Todas as quatro áreas são voláteis, diferenciando-se apenas pela velocidade de acesso</p>
+              <p>D) Memória de Carga: não volátil; Memória de Trabalho: não volátil; Memória do Sistema: volátil; Memória Remanente: volátil</p>
+            </li>
+          </ol>
+
+          <h2>Gabarito</h2>
+          <p>
+            1 - B | 2 - C | 3 - B | 4 - B | 5 - C | 6 - B | 7 - C | 8 - B | 9 - B | 10 - B
+          </p>
+
+          <section class="editorial-tags" aria-label="Tags editoriais">
+            <h2>Tags editoriais</h2>
+            <div>
+              <span>Retentive Memory</span>
+              <span>Memória Remanente</span>
+              <span>CLP S7</span>
+              <span>PLC</span>
+              <span>S7-300</span>
+              <span>S7-400</span>
+              <span>Dados Remanentes</span>
+              <span>Automação Industrial</span>
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <div class="image-zoom-overlay" aria-hidden="true">
+      <img alt="" />
+    </div>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+
+    <script>
+      const zoomOverlay = document.querySelector(".image-zoom-overlay");
+      const zoomOverlayImage = zoomOverlay.querySelector("img");
+
+      document.querySelectorAll(".zoomable-image").forEach((image) => {
+        image.addEventListener("click", (event) => {
+          event.stopPropagation();
+          zoomOverlayImage.src = image.src;
+          zoomOverlayImage.alt = image.alt;
+          zoomOverlay.classList.add("active");
+          zoomOverlay.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      document.addEventListener("click", () => {
+        if (!zoomOverlay.classList.contains("active")) return;
+
+        zoomOverlay.classList.remove("active");
+        zoomOverlay.setAttribute("aria-hidden", "true");
+        zoomOverlayImage.removeAttribute("src");
+        zoomOverlayImage.alt = "";
+      });
+    </script>
+  </body>
+</html>

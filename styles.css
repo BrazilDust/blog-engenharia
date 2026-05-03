@@ -406,6 +406,43 @@ a {
   margin-right: auto;
 }
 
+.retentive-memory-article-images .article-body figure {
+  width: 86%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.zoomable-image {
+  cursor: zoom-in;
+}
+
+.image-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(9, 16, 27, 0.86);
+  cursor: zoom-out;
+}
+
+.image-zoom-overlay.active {
+  display: flex;
+}
+
+.image-zoom-overlay img {
+  max-width: min(96vw, 1500px);
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+}
+
 .formula-box {
   margin: 26px 0;
   padding: 22px;
@@ -448,6 +485,10 @@ a {
 
 .three-column-table div {
   grid-template-columns: 1fr 1.35fr 1fr;
+}
+
+.retentive-memory-table div {
+  grid-template-columns: 0.9fr 1.4fr 0.9fr 1fr 1.15fr;
 }
 
 .comparison-table div:first-child {
@@ -649,6 +690,10 @@ a {
     min-width: 760px;
   }
 
+  .retentive-memory-table div {
+    min-width: 920px;
+  }
+
   .memory-article-images .article-body figure:nth-of-type(1),
   .memory-article-images .article-body figure:nth-of-type(2),
   .memory-article-images .article-body figure:nth-of-type(3),
@@ -669,6 +714,10 @@ a {
   }
 
   .system-memory-article-images .article-body figure {
+    width: 100%;
+  }
+
+  .retentive-memory-article-images .article-body figure {
     width: 100%;
   }
 
