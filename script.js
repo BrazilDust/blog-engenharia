@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Simulador: controle ON/OFF com histerese",
+    excerpt:
+      "Ajuste set point, histerese, potência, perda térmica e temperatura ambiente para observar o chaveamento ON/OFF em malha fechada.",
+    date: "2026-05-04",
+    url: "simuladores/controle-on-off-histerese.html",
+    views: 780,
+    appeal: 92,
+  },
+  {
     title: "Retentive Memory: memória remanente da CPU S7",
     excerpt:
       "Entenda como a Memória Remanente preserva contadores, setpoints, merkers e dados críticos mesmo após falta de energia.",
