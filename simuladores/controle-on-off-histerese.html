@@ -104,7 +104,7 @@
 
       .card-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 8px;
         margin-bottom: 10px;
       }
@@ -405,6 +405,10 @@
           <div class="mcard-val" id="statv"><span class="badge off-b">OFF</span></div>
         </div>
         <div class="mcard">
+          <div class="mcard-label">Potência RMS</div>
+          <div class="mcard-val"><span id="prmsv">0.0</span><span class="mcard-unit"> °C/min</span></div>
+        </div>
+        <div class="mcard">
           <div class="mcard-label">Chaveamentos</div>
           <div class="mcard-val"><span id="swv">0</span></div>
         </div>
@@ -696,6 +700,8 @@
         document.getElementById("bandv").textContent = p.hist.toFixed(1);
         document.getElementById("tambv").textContent = p.tamb.toFixed(0);
         document.getElementById("swv").textContent = sw;
+        const dutyCycle = outArr.reduce((sum, value) => sum + value, 0) / outArr.length;
+        document.getElementById("prmsv").textContent = (p.pwr * Math.sqrt(dutyCycle)).toFixed(1);
         document.getElementById("statv").innerHTML = heater
           ? '<span class="badge on-b">ON</span>'
           : '<span class="badge off-b">OFF</span>';
@@ -803,8 +809,20 @@
         chartOut.update("none");
       }
 
+      const units = { sp: "°C", hist: "°C", power: "°C/min", loss: "u", tamb: "°C" };
+      const defaults = { sp: 30, hist: 10, power: 15, loss: 4, tamb: 20 };
+
+      function applyDefaultControls() {
+        Object.entries(defaults).forEach(([id, value]) => {
+          const control = document.getElementById(id);
+          control.value = value;
+          document.getElementById(`${id}-o`).textContent = `${value} ${units[id] || ""}`;
+        });
+      }
+
       function resetSim() {
-        T = parseFloat(document.getElementById("tamb").value);
+        applyDefaultControls();
+        T = defaults.tamb;
         heater = false;
         sw = 0;
         tArr = new Array(N).fill(T);
@@ -824,7 +842,6 @@
         }
       }
 
-      const units = { sp: "°C", hist: "°C", power: "°C/min", loss: "u", tamb: "°C" };
       ["sp", "hist", "power", "loss", "tamb"].forEach((id) => {
         document.getElementById(id).addEventListener("input", function () {
           document.getElementById(`${id}-o`).textContent = `${this.value} ${units[id] || ""}`;
