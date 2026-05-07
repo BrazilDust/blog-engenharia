@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portas de Comunicação da CPU do CLP S7: Redes e Protocolos Industriais | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Entenda as portas MPI, DP, PTP e PN das CPUs Siemens S7, seus protocolos, meios físicos, aplicações e uso em arquiteturas industriais."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Portas de Comunicação da CPU do CLP S7" />
+    <meta property="og:description" content="Veja como MPI, Profibus DP, PTP e Profinet integram CPUs S7 a IHMs, notebooks, I/O remoto, inversores e sistemas industriais." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/artigos/portas-comunicacao-cpu-plc.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/artigos/portas-comunicacao-cpu-plc/imagem-01.png" />
+    <meta property="og:image:alt" content="CPU Siemens S7 com portas MPI e DP visíveis." />
+    <meta property="article:published_time" content="2026-05-07" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Portas de Comunicação da CPU do CLP S7" />
+    <meta name="twitter:description" content="Veja como MPI, Profibus DP, PTP e Profinet integram CPUs S7 a IHMs, notebooks, I/O remoto, inversores e sistemas industriais." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/artigos/portas-comunicacao-cpu-plc/imagem-01.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page cpu-ports-article-images">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Automação industrial</p>
+          <h1>Portas de Comunicação da CPU do CLP S7: Redes e Protocolos Industriais</h1>
+          <p>
+            As portas de comunicação permitem integrar a CPU do CLP a notebooks,
+            IHMs, outros CLPs, redes industriais, I/O distribuído, inversores e
+            sistemas supervisórios.
+          </p>
+          <time datetime="2026-05-07">7 de maio de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>Texto Explicativo da Aula</h2>
+
+          <h2>Introdução às Portas de Comunicação</h2>
+          <p>
+            As CPUs da família Siemens S7 são equipadas com portas de comunicação que permitem integrar o CLP a outros equipamentos e sistemas presentes na planta industrial. Essa capacidade de comunicação é fundamental na automação moderna, pois raramente um CLP opera de forma completamente isolada. Na grande maioria das aplicações, ele precisa trocar dados com computadores de programação, interfaces homem-máquina (IHMs), outros CLPs, módulos de I/O distribuídos, inversores de frequência, sistemas supervisórios (SCADA) e outros dispositivos inteligentes.
+          </p>
+          <p>
+            Dependendo do modelo e da série da CPU, podem estar presentes até quatro tipos diferentes de portas de comunicação: MPI, DP (Profibus), PTP e PN (Profinet). Cada uma dessas portas corresponde a um protocolo de comunicação específico e é utilizada em contextos e aplicações distintos. O conhecimento sobre essas portas é essencial para o correto planejamento da arquitetura de comunicação de um sistema automatizado.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-01.png"
+              alt="CPU Siemens S7 com portas MPI e DP identificadas"
+            />
+            <figcaption>CPU Siemens S7 com portas de comunicação MPI e DP disponíveis no módulo.</figcaption>
+          </figure>
+
+          <h2>Porta MPI (Multipoint Interface)</h2>
+          <p>
+            A porta MPI (Multipoint Interface, ou Interface Multiponto) é a mais fundamental das portas de comunicação presentes nas CPUs S7, estando disponível em todos os modelos das séries S7-300 e S7-400. Sua presença universal nas CPUs dessa família faz dela a interface mais básica e indispensável para o trabalho com CLPs Siemens.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-02.png"
+              alt="Porta MPI destacada em uma CPU Siemens S7"
+            />
+            <figcaption>Identificação da porta MPI em uma CPU S7.</figcaption>
+          </figure>
+
+          <h2>Aplicação 1: Download e Upload de Programas</h2>
+          <p>
+            O uso mais imediato e frequente da porta MPI é a conexão entre o computador de programação e a CPU para transferência de programas. Para realizar essa conexão, utiliza-se um dispositivo chamado PC Adapter, que funciona como um conversor de interface bidirecional:
+          </p>
+          <ul>
+            <li>Em uma extremidade, o PC Adapter possui um conector USB, que se conecta ao computador (notebook ou desktop com o software STEP 7 ou TIA Portal instalado).</li>
+            <li>Na outra extremidade, possui um conector compatível com a porta MPI da CPU.</li>
+          </ul>
+          <p>
+            Por meio dessa conexão, é possível realizar o download (transferência do programa do computador para a CPU) e o upload (leitura do programa existente na CPU para o computador), além de monitorar variáveis em tempo real, realizar diagnósticos e alterar parâmetros de configuração.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-03.png"
+              alt="Conexão entre notebook, PC Adapter e porta MPI de uma CPU Siemens S7"
+            />
+            <figcaption>Uso do PC Adapter para programação e diagnóstico via porta MPI.</figcaption>
+          </figure>
+
+          <h2>Aplicação 2: Rede MPI</h2>
+          <p>
+            A porta MPI também pode ser utilizada para criar uma rede MPI, conectando a CPU a outros equipamentos de automação, como IHMs (Interfaces Homem-Máquina), outros CLPs S7 ou estações de programação. Por meio dessa rede, dados do processo controlado pelo CLP podem ser transmitidos à IHM instalada no painel de operação, onde operadores e técnicos podem visualizar em tempo real informações como temperatura, pressão, nível e outros parâmetros do processo.
+          </p>
+          <p>
+            Um aspecto técnico importante da rede MPI é que ela utiliza o cabo RS-485 como meio físico de transmissão. Esse tipo de cabo é amplamente conhecido por seu uso em redes Profibus DP, mas não é exclusivo dessa rede. O RS-485 também é o meio físico padrão para a rede MPI, permitindo comunicação confiável em ambientes industriais com distâncias de até algumas centenas de metros.
+          </p>
+          <p>
+            A rede MPI suporta a conexão de múltiplos dispositivos (configuração multiponto), com velocidades de comunicação de até 12 Mbit/s, sendo adequada para aplicações onde não é necessária a alta velocidade ou o grande volume de dados característicos do Profibus DP ou Profinet.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-04.png"
+              alt="CPU Siemens conectada a uma IHM por rede MPI"
+            />
+            <figcaption>Exemplo de comunicação entre CPU S7 e IHM por meio de rede MPI.</figcaption>
+          </figure>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-05.png"
+              alt="Rede MPI usando meio físico RS-485 entre CPU e IHM"
+            />
+            <figcaption>Rede MPI utilizando o meio físico RS-485.</figcaption>
+          </figure>
+
+          <h2>Porta DP (Profibus DP)</h2>
+          <p>
+            A porta DP está presente em determinados modelos de CPU S7, geralmente identificados pela designação "2 DP" ou similar no nome do modelo, como CPU 315-2 DP. Sua presença indica que a CPU é capaz de operar como mestre ou escravo em uma rede Profibus DP (Decentralized Peripherals, ou Periféricos Descentralizados).
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-06.png"
+              alt="Porta DP destacada em uma CPU Siemens S7"
+            />
+            <figcaption>Porta DP utilizada para comunicação Profibus DP.</figcaption>
+          </figure>
+
+          <h2>O que é o Profibus DP?</h2>
+          <p>
+            O Profibus DP é um dos protocolos de comunicação industrial mais utilizados no mundo, especialmente em aplicações com a plataforma Siemens. Trata-se de uma rede de campo (fieldbus) que permite conectar a CPU a uma ampla variedade de dispositivos de automação, como:
+          </p>
+          <ul>
+            <li>Módulos de I/O distribuídos (estações remotas de I/O).</li>
+            <li>Inversores de frequência e servo-acionamentos.</li>
+            <li>Outros CLPs operando como escravos.</li>
+            <li>Sensores e atuadores inteligentes com interface Profibus.</li>
+          </ul>
+          <p>
+            Assim como a rede MPI, o Profibus DP utiliza cabo RS-485 como meio físico, mas opera com características diferentes: taxas de comunicação de até 12 Mbit/s e topologia em barramento, com terminação em ambas as extremidades do cabo.
+          </p>
+
+          <h2>Aplicação Prática</h2>
+          <p>
+            Um exemplo típico de uso da porta DP é a conexão de uma CPU instalada no rack principal a um módulo de interface (IM) instalado em um rack de expansão remoto. Nessa configuração, a CPU atua como mestre da rede Profibus DP e o módulo de interface do rack remoto atua como escravo, permitindo que sinais de I/O fisicamente distantes da CPU sejam gerenciados de forma eficiente por meio do cabo Profibus.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-07.png"
+              alt="Rede Profibus DP conectando PLC a módulos de I/O remoto e sensores"
+            />
+            <figcaption>Uso da porta DP para integração com I/O remoto e sensores distribuídos.</figcaption>
+          </figure>
+
+          <h2>Porta PTP (Point-to-Point)</h2>
+          <p>
+            A porta PTP (Point-to-Point, ou Ponto a Ponto) está disponível em alguns modelos de CPU S7 e é utilizada para comunicação serial direta entre o CLP e dispositivos que utilizam o protocolo Modbus ou outros protocolos seriais ponto a ponto.
+          </p>
+          <p>
+            Diferentemente das redes MPI e Profibus, que são redes multiponto e podem conectar vários dispositivos simultaneamente, a porta PTP estabelece uma comunicação direta entre dois dispositivos, como:
+          </p>
+          <ul>
+            <li>Impressoras industriais: para impressão direta de etiquetas, relatórios de produção ou registros de processo.</li>
+            <li>Leitores de código de barras: para identificação de produtos, rastreabilidade e controle de estoque integrado ao processo.</li>
+            <li>Balanças e instrumentos de medição: equipamentos com interface serial que precisam enviar dados diretamente ao CLP.</li>
+            <li>Dispositivos legados: equipamentos mais antigos que utilizam protocolos seriais como RS-232 ou RS-485 com Modbus RTU.</li>
+          </ul>
+          <p>
+            A porta PTP é especialmente útil em situações onde a simplicidade da comunicação direta é suficiente e não há necessidade de uma rede multiponto mais complexa.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-08.png"
+              alt="Porta PTP destacada em uma CPU Siemens S7 para comunicação Modbus"
+            />
+            <figcaption>Porta PTP para comunicação serial ponto a ponto, incluindo aplicações Modbus.</figcaption>
+          </figure>
+
+          <h2>Porta PN (Profinet / Ethernet Industrial)</h2>
+          <p>
+            A porta PN (Profinet) representa a mais moderna das interfaces de comunicação disponíveis nas CPUs S7, baseada no padrão Ethernet Industrial (conector RJ-45, cabo UTP ou STP). A presença dessa porta na CPU indica compatibilidade com a rede Profinet, o protocolo industrial desenvolvido pela Siemens e pelo consórcio Profibus Internacional como sucessor natural do Profibus DP, aproveitando a infraestrutura e os padrões consolidados das redes Ethernet.
+          </p>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-09.png"
+              alt="Porta PN LAN em uma CPU Siemens S7"
+            />
+            <figcaption>Porta PN/LAN em CPU Siemens S7 com conector Ethernet RJ-45.</figcaption>
+          </figure>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-10.png"
+              alt="Cabo Ethernet conectado à porta Profinet de uma CPU Siemens"
+            />
+            <figcaption>Conexão física Ethernet na porta Profinet da CPU.</figcaption>
+          </figure>
+
+          <h2>Características e Vantagens do Profinet</h2>
+          <ul>
+            <li><strong>Alta velocidade:</strong> opera a 100 Mbit/s (Fast Ethernet) ou 1 Gbit/s (Gigabit Ethernet) em alguns modelos, muito superior ao Profibus DP.</li>
+            <li><strong>Infraestrutura padronizada:</strong> utiliza cabos, switches e conectores Ethernet padrão, amplamente disponíveis e com custo reduzido.</li>
+            <li><strong>Integração com redes corporativas:</strong> facilita a integração entre o nível de chão de fábrica e os sistemas de gestão empresarial (ERP, MES), pois utiliza a mesma base de protocolo TCP/IP.</li>
+            <li><strong>Topologia flexível:</strong> suporta topologias em estrela, linha e anel, adaptando-se a diferentes layouts de plantas industriais.</li>
+          </ul>
+
+          <h2>Versatilidade da Porta Profinet</h2>
+          <p>
+            A porta Profinet é uma das interfaces mais versáteis e presentes no ecossistema de automação moderno. Ela não é exclusiva dos CLPs. IHMs, inversores de frequência, câmeras de visão industrial, robôs e até computadores e notebooks convencionais possuem porta Ethernet compatível com o Profinet. Isso significa que a mesma porta pode ser utilizada para:
+          </p>
+          <ul>
+            <li>Programação: conectar o notebook com STEP 7 ou TIA Portal diretamente ao CLP via cabo Ethernet, sem necessidade de PC Adapter.</li>
+            <li>Comunicação com IHM: transferir dados entre a CPU e painéis de operação via rede Profinet.</li>
+            <li>Integração de dispositivos de campo: conectar módulos de I/O distribuídos, inversores e outros dispositivos Profinet.</li>
+            <li>Acesso remoto: integração com redes corporativas para monitoramento e diagnóstico remoto.</li>
+          </ul>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-11.png"
+              alt="Painel industrial com cabeamento de comunicação e automação"
+            />
+            <figcaption>Ambiente industrial com cabeamento de comunicação e dispositivos de automação.</figcaption>
+          </figure>
+
+          <figure>
+            <img
+              src="../assets/artigos/portas-comunicacao-cpu-plc/imagem-12.png"
+              alt="Cabo LAN conectado a equipamento industrial"
+            />
+            <figcaption>Exemplo de conexão LAN/Ethernet em equipamento de automação.</figcaption>
+          </figure>
+
+          <h2>Resumo das Portas de Comunicação da CPU S7</h2>
+          <div class="comparison-table cpu-ports-table" role="table" aria-label="Resumo das portas de comunicação da CPU S7">
+            <div role="row">
+              <strong role="columnheader">Porta</strong>
+              <strong role="columnheader">Protocolo</strong>
+              <strong role="columnheader">Meio físico</strong>
+              <strong role="columnheader">Disponibilidade</strong>
+              <strong role="columnheader">Aplicações principais</strong>
+            </div>
+            <div role="row">
+              <span>MPI</span>
+              <span>MPI</span>
+              <span>Cabo RS-485</span>
+              <span>Todas as CPUs S7-300/400</span>
+              <span>Programação via PC Adapter; rede com IHMs e outros CLPs</span>
+            </div>
+            <div role="row">
+              <span>DP</span>
+              <span>Profibus DP</span>
+              <span>Cabo RS-485</span>
+              <span>CPUs com designação DP</span>
+              <span>Redes de campo com I/O distribuído, inversores e escravos Profibus</span>
+            </div>
+            <div role="row">
+              <span>PTP</span>
+              <span>Modbus / Serial</span>
+              <span>RS-232 / RS-485</span>
+              <span>CPUs com porta PTP</span>
+              <span>Impressoras, leitores de código de barras e dispositivos seriais</span>
+            </div>
+            <div role="row">
+              <span>PN</span>
+              <span>Profinet / Ethernet</span>
+              <span>Cabo UTP/STP RJ-45</span>
+              <span>CPUs com designação PN</span>
+              <span>Programação, IHMs, I/O distribuído Profinet e integração corporativa</span>
+            </div>
+          </div>
+
+          <h2>Exemplo Prático Aplicado</h2>
+          <h3>Cenário: Arquitetura de Comunicação de uma Planta de Tratamento de Efluentes</h3>
+          <p>
+            Uma indústria química implanta um sistema de tratamento de efluentes com múltiplos equipamentos e necessidade de monitoramento centralizado. A arquitetura de comunicação é projetada utilizando as diferentes portas da CPU S7-300, modelo CPU 315-2 PN/DP.
+          </p>
+
+          <h3>Passo 1: Definição dos equipamentos e necessidades de comunicação</h3>
+          <p>O engenheiro de automação levanta os seguintes requisitos:</p>
+          <ul>
+            <li>Programação e manutenção via notebook com TIA Portal.</li>
+            <li>IHM no painel principal para monitoramento do operador.</li>
+            <li>Rack de I/O remoto para sinais na área de tanques, distante 80 metros.</li>
+            <li>Leitor de código de barras para identificação de lotes de produto químico.</li>
+            <li>Integração futura com sistema MES da fábrica.</li>
+          </ul>
+
+          <h3>Passo 2: Seleção e atribuição das portas</h3>
+          <p>Com base nos requisitos, o engenheiro define:</p>
+          <ul>
+            <li><strong>Porta PN (Profinet):</strong> utilizada para a conexão do notebook de programação e da IHM no painel, aproveitando a infraestrutura Ethernet já existente na planta. Também será a interface para integração futura com o MES.</li>
+            <li><strong>Porta DP (Profibus DP):</strong> utilizada para conectar a CPU ao módulo de interface (IM 153) instalado no rack remoto de I/O na área dos tanques, via cabo Profibus RS-485.</li>
+            <li><strong>Porta MPI:</strong> reservada como interface de backup para programação de emergência via PC Adapter, caso a rede Profinet não esteja disponível.</li>
+            <li><strong>Porta PTP:</strong> utilizada para conectar o leitor de código de barras diretamente à CPU via comunicação serial Modbus.</li>
+          </ul>
+
+          <h3>Passo 3: Instalação física das conexões</h3>
+          <p>O técnico realiza as conexões físicas:</p>
+          <ul>
+            <li>Cabo UTP Cat5e entre o switch Ethernet do painel e a porta PN da CPU.</li>
+            <li>O mesmo switch conecta o notebook e a IHM Siemens KTP700, que também possui porta Profinet.</li>
+            <li>Cabo Profibus (RS-485, par trançado blindado, cor violeta) entre a porta DP da CPU e o rack remoto, com conectores de barramento e terminação ativa nas extremidades.</li>
+            <li>Cabo serial RS-232 entre a porta PTP da CPU e o leitor de código de barras.</li>
+          </ul>
+
+          <h3>Passo 4: Configuração no TIA Portal</h3>
+          <p>O engenheiro configura no TIA Portal:</p>
+          <ul>
+            <li>Endereço IP da CPU na rede Profinet, por exemplo 192.168.0.1.</li>
+            <li>Endereço IP da IHM na mesma rede, por exemplo 192.168.0.2.</li>
+            <li>Configuração da rede Profibus DP: CPU como mestre, IM 153 como escravo no endereço 3.</li>
+            <li>Configuração da comunicação PTP para Modbus RTU com o leitor de código de barras.</li>
+          </ul>
+
+          <h3>Passo 5: Validação do sistema</h3>
+          <p>Após a configuração e download do programa via Profinet, o engenheiro valida:</p>
+          <ul>
+            <li>A IHM exibe corretamente as variáveis de nível, pH e vazão dos tanques.</li>
+            <li>Os sinais de I/O do rack remoto são lidos e controlados corretamente pela CPU via Profibus DP.</li>
+            <li>O leitor de código de barras transmite os dados do lote ao CLP via porta PTP, que os registra no programa.</li>
+            <li>O acesso via notebook permanece disponível tanto pela rede Profinet quanto pela porta MPI com PC Adapter (backup).</li>
+          </ul>
+          <p>
+            Conclusão: a utilização planejada das diferentes portas de comunicação da CPU S7 permite construir uma arquitetura de automação integrada, flexível e confiável, atendendo a todas as necessidades de comunicação do sistema com o protocolo mais adequado para cada aplicação.
+          </p>
+
+          <h2>Questões de Múltipla Escolha</h2>
+          <ol>
+            <li>
+              <p>Qual porta de comunicação está presente em todos os modelos de CPU das séries S7-300 e S7-400, independentemente do modelo específico?</p>
+              <p>A) Porta DP (Profibus)</p>
+              <p>B) Porta PN (Profinet)</p>
+              <p>C) Porta MPI</p>
+              <p>D) Porta PTP (Modbus)</p>
+            </li>
+            <li>
+              <p>Para conectar um notebook com software de programação à porta MPI de uma CPU S7, qual dispositivo intermediário é necessário?</p>
+              <p>A) Switch Ethernet industrial com suporte a Profinet</p>
+              <p>B) Módulo de interface (IM) para rack de expansão</p>
+              <p>C) PC Adapter, que converte a interface USB do computador para o conector MPI da CPU</p>
+              <p>D) Cabo Profibus com conector DB9 em ambas as extremidades</p>
+            </li>
+            <li>
+              <p>Um técnico precisa criar uma rede para conectar a CPU S7 a uma IHM instalada no painel de controle, transmitindo dados de temperatura e pressão do processo. Qual porta e protocolo são mais adequados para essa aplicação?</p>
+              <p>A) Porta PTP com protocolo Modbus RTU</p>
+              <p>B) Porta MPI com rede MPI, utilizando cabo RS-485</p>
+              <p>C) Porta DP com protocolo Profibus DP em modo escravo</p>
+              <p>D) Não é possível conectar uma IHM diretamente à CPU S7</p>
+            </li>
+            <li>
+              <p>Qual afirmação sobre o cabo RS-485 está correta no contexto das redes industriais do CLP S7?</p>
+              <p>A) O cabo RS-485 é utilizado exclusivamente na rede Profibus DP, não sendo compatível com outras redes</p>
+              <p>B) O cabo RS-485 pode ser utilizado tanto na rede MPI quanto na rede Profibus DP</p>
+              <p>C) O cabo RS-485 é o meio físico padrão da rede Profinet e não pode ser usado com Profibus</p>
+              <p>D) O cabo RS-485 é utilizado apenas na porta PTP para comunicação Modbus com impressoras</p>
+            </li>
+            <li>
+              <p>A porta DP presente em algumas CPUs S7 é utilizada para qual tipo de rede industrial?</p>
+              <p>A) Rede Profinet para comunicação com IHMs via Ethernet</p>
+              <p>B) Rede MPI para programação via PC Adapter</p>
+              <p>C) Rede Profibus DP para conexão com I/O distribuído, inversores e outros dispositivos de campo</p>
+              <p>D) Rede Modbus para comunicação ponto a ponto com leitores de código de barras</p>
+            </li>
+            <li>
+              <p>Qual é a principal característica que diferencia a porta PTP das demais portas de comunicação da CPU S7?</p>
+              <p>A) É a porta de maior velocidade de comunicação, utilizada em redes Profinet de alta performance</p>
+              <p>B) Estabelece comunicação direta ponto a ponto com um único dispositivo, sendo usada com protocolos como Modbus e para conexão com periféricos como impressoras e leitores de código de barras</p>
+              <p>C) É a única porta que permite download de programas sem necessidade de PC Adapter</p>
+              <p>D) Cria redes multiponto com até 127 dispositivos conectados simultaneamente via cabo RS-485</p>
+            </li>
+            <li>
+              <p>Um engenheiro projeta um sistema onde a CPU S7 precisa controlar módulos de I/O instalados em um rack remoto, localizado a 100 metros de distância. Qual porta e protocolo são mais indicados para essa aplicação?</p>
+              <p>A) Porta MPI com PC Adapter e cabo USB</p>
+              <p>B) Porta PTP com protocolo Modbus TCP via cabo Ethernet</p>
+              <p>C) Porta DP com rede Profibus DP e cabo RS-485</p>
+              <p>D) Porta PN com rede Profinet e cabo UTP, mas apenas se a distância for inferior a 50 metros</p>
+            </li>
+            <li>
+              <p>Qual das afirmações abaixo descreve corretamente a porta Profinet (PN) presente em algumas CPUs S7?</p>
+              <p>A) Utiliza cabo RS-485 e opera exclusivamente com o protocolo Modbus TCP</p>
+              <p>B) É baseada no padrão Ethernet industrial, opera com conector RJ-45 e permite programação, comunicação com IHMs e integração com redes corporativas</p>
+              <p>C) Está disponível em todos os modelos de CPU S7-300 e S7-400, substituindo completamente a porta MPI</p>
+              <p>D) Opera a uma velocidade máxima de 1,5 Mbit/s, inferior ao Profibus DP, sendo indicada apenas para redes de pequeno porte</p>
+            </li>
+            <li>
+              <p>Um operador relata que precisa transferir um programa do notebook para uma CPU S7 que possui apenas porta MPI disponível, mas o PC Adapter está danificado. Qual alternativa é tecnicamente viável se a CPU também possuir porta Profinet?</p>
+              <p>A) Conectar o notebook diretamente à porta MPI usando um cabo USB comum, sem necessidade de adaptador</p>
+              <p>B) Utilizar a porta Profinet da CPU e conectar o notebook via cabo Ethernet, realizando o download pelo TIA Portal sem necessidade do PC Adapter</p>
+              <p>C) Realizar o download via porta PTP utilizando um cabo serial RS-232 e o software STEP 7</p>
+              <p>D) Não é possível realizar o download sem o PC Adapter; o sistema fica inoperante até a substituição do adaptador</p>
+            </li>
+            <li>
+              <p>Considerando as quatro portas de comunicação da CPU S7, qual combinação de porta e aplicação está incorretamente associada?</p>
+              <p>A) Porta MPI: conexão com IHM via rede MPI usando cabo RS-485</p>
+              <p>B) Porta DP: conexão com rack de I/O remoto via rede Profibus DP</p>
+              <p>C) Porta PTP: conexão com leitor de código de barras via protocolo Modbus serial</p>
+              <p>D) Porta PN: conexão com módulos de I/O distribuídos via rede Profibus DP</p>
+            </li>
+          </ol>
+
+          <h2>Gabarito</h2>
+          <p>
+            1 - C | 2 - C | 3 - B | 4 - B | 5 - C | 6 - B | 7 - C | 8 - B | 9 - B | 10 - D
+          </p>
+
+          <section class="editorial-tags" aria-label="Tags editoriais">
+            <h2>Tags editoriais</h2>
+            <div>
+              <span>Portas de Comunicação</span>
+              <span>CPU S7</span>
+              <span>MPI</span>
+              <span>Profibus DP</span>
+              <span>Profinet</span>
+              <span>PTP</span>
+              <span>RS-485</span>
+              <span>Automação Industrial</span>
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+  </body>
+</html>

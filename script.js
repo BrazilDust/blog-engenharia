@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Portas de comunicação da CPU do CLP S7: redes e protocolos industriais",
+    excerpt:
+      "Entenda as portas MPI, DP, PTP e PN das CPUs Siemens S7, seus protocolos, meios físicos e aplicações em arquiteturas industriais.",
+    date: "2026-05-07",
+    url: "artigos/portas-comunicacao-cpu-plc.html",
+    views: 760,
+    appeal: 90,
+  },
+  {
     title: "Simulador: controle ON/OFF com histerese",
     excerpt:
       "Ajuste set point, histerese, potência, perda térmica e temperatura ambiente para observar o chaveamento ON/OFF em malha fechada.",
