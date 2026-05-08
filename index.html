@@ -92,7 +92,23 @@
         </section>
 
         <aside class="right-panel" id="destaques" aria-label="Artigos relevantes">
-          <div class="panel-heading">
+          <section class="tools-panel" aria-label="Ferramentas">
+            <div class="tools-tab">Ferramentas</div>
+            <div class="tools-subtabs" role="tablist" aria-label="Categorias de ferramentas">
+              <button class="tools-subtab active" type="button" data-tool-filter="simuladores">
+                Simuladores
+              </button>
+              <button class="tools-subtab" type="button" disabled>
+                Planilhas
+              </button>
+              <button class="tools-subtab" type="button" disabled>
+                Links úteis
+              </button>
+            </div>
+            <div class="tool-list" id="toolList"></div>
+          </section>
+
+          <div class="panel-heading featured-heading">
             <p class="eyebrow">Mais relevantes</p>
             <h2>Leituras em alta</h2>
           </div>

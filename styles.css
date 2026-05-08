@@ -270,6 +270,90 @@ a {
   line-height: 1.55;
 }
 
+.tools-panel {
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.featured-heading {
+  margin-top: 18px;
+}
+
+.tools-tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  color: #fff;
+  background: var(--steel);
+  border-radius: 6px 6px 0 0;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.tools-subtabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 10px 0 12px;
+}
+
+.tools-subtab {
+  min-height: 32px;
+  padding: 0 10px;
+  color: var(--muted);
+  background: #f7faf9;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.tools-subtab.active,
+.tools-subtab:hover:not(:disabled) {
+  color: #0f766e;
+  background: #eefaf8;
+  border-color: var(--teal);
+}
+
+.tools-subtab:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.tool-list {
+  display: grid;
+  gap: 10px;
+}
+
+.tool-card {
+  padding: 13px;
+  background: #fbfcfc;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.tool-card h3 {
+  margin: 0 0 7px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.tool-card h3 a:hover {
+  color: var(--teal);
+}
+
+.tool-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 .article-page {
   width: min(980px, calc(100% - 40px));
   margin: 42px auto 80px;

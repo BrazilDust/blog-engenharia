@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador PID: Controle de Processo em Malha Fechada | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Simulador PID em malha fechada com planta de segunda ordem, atraso de transporte, termos P, I e D, saturação, anti-windup e resposta ao impulso."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Simulador PID: Controle de Processo em Malha Fechada" />
+    <meta property="og:description" content="Ajuste Kp, Ki, Kd e parâmetros da planta para observar PV, SP, saída do controlador, overshoot e tempo de estabilização." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/simuladores/controle-pid-processo.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/engineering-blog-hero.png" />
+    <meta property="og:image:alt" content="Mesa técnica com laptop, desenhos de engenharia e componentes mecânicos." />
+    <meta property="article:published_time" content="2026-05-08" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Simulador PID: Controle de Processo em Malha Fechada" />
+    <meta name="twitter:description" content="Ajuste Kp, Ki, Kd e parâmetros da planta para observar PV, SP, saída do controlador, overshoot e tempo de estabilização." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/engineering-blog-hero.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap");
+
+      :root {
+        --bg: #0d0f12;
+        --bg2: #141720;
+        --bg3: #1c2030;
+        --border: rgba(255,255,255,0.07);
+        --border2: rgba(255,255,255,0.12);
+        --text: #e8eaf0;
+        --muted: #8b93a3;
+        --accent: #00d4aa;
+        --amber: #f59e0b;
+        --red: #ef4444;
+        --blue: #60a5fa;
+        --violet: #818cf8;
+        --mono: "IBM Plex Mono", monospace;
+        --sans: "IBM Plex Sans", system-ui, sans-serif;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        min-height: 100vh;
+        padding: 20px 16px 40px;
+        color: var(--text);
+        background: var(--bg);
+        font-family: var(--sans);
+        line-height: 1.5;
+      }
+
+      .topbar {
+        max-width: 1100px;
+        margin: 0 auto 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand,
+      .back-link {
+        color: var(--text);
+        text-decoration: none;
+        font-family: var(--mono);
+        font-size: 12px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        color: #07110f;
+        background: var(--accent);
+        border-radius: 8px;
+        font-size: 12px;
+      }
+
+      .back-link { color: var(--muted); }
+      .back-link:hover { color: var(--accent); }
+
+      .header {
+        max-width: 1100px;
+        margin: 0 auto 24px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 16px;
+      }
+
+      .header-left h1 {
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+
+      .header-left p {
+        margin-top: 2px;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 12px;
+      }
+
+      .status-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 8px var(--accent);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+
+      .status-text {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 11px;
+      }
+
+      .layout {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 820px) {
+        .layout { grid-template-columns: 1fr; }
+      }
+
+      .sidebar,
+      .charts-col {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .panel {
+        overflow: hidden;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg3);
+      }
+
+      .panel-tag {
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: var(--mono);
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .tag-plant { color: var(--violet); background: rgba(129,140,248,0.15); border: 1px solid rgba(129,140,248,0.25); }
+      .tag-pid { color: var(--accent); background: rgba(0,212,170,0.12); border: 1px solid rgba(0,212,170,0.2); }
+      .tag-chart { color: var(--blue); background: rgba(96,165,250,0.12); border: 1px solid rgba(96,165,250,0.2); }
+      .tag-impulse { color: var(--amber); background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.2); }
+
+      .panel-title {
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .panel-body { padding: 14px; }
+
+      .param-group { margin-bottom: 8px; }
+
+      .param-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+        gap: 10px;
+      }
+
+      .param-name {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 11px;
+      }
+
+      .param-val {
+        min-width: 56px;
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 600;
+        text-align: right;
+      }
+
+      input[type=range] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--bg3);
+        outline: none;
+        cursor: pointer;
+      }
+
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 6px rgba(0,212,170,0.5);
+        cursor: pointer;
+      }
+
+      input[type=range].plant-slider::-webkit-slider-thumb { background: var(--violet); box-shadow: 0 0 6px rgba(129,140,248,0.5); }
+      input[type=range].sp-slider::-webkit-slider-thumb { background: var(--amber); box-shadow: 0 0 6px rgba(245,158,11,0.5); }
+
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 12px 0;
+      }
+
+      .formula {
+        margin: 10px 0 0;
+        padding: 8px 10px;
+        color: var(--muted);
+        background: var(--bg3);
+        border-left: 2px solid var(--violet);
+        border-radius: 0 6px 6px 0;
+        font-family: var(--mono);
+        font-size: 10px;
+        line-height: 1.7;
+      }
+
+      .formula span { color: var(--text); }
+
+      .btn-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        padding: 6px 14px;
+        color: var(--text);
+        background: var(--bg3);
+        border: 1px solid var(--border2);
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.03em;
+      }
+
+      button:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: var(--bg);
+      }
+
+      button.btn-primary {
+        color: var(--accent);
+        background: rgba(0,212,170,0.12);
+        border-color: rgba(0,212,170,0.3);
+      }
+
+      .metrics-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      @media (max-width: 680px) {
+        .metrics-row { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      .metric {
+        padding: 8px 10px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .metric-label {
+        margin-bottom: 3px;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .metric-val {
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1;
+      }
+
+      .metric-unit {
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 400;
+      }
+
+      .metric.good .metric-val { color: var(--accent); }
+      .metric.warn .metric-val { color: var(--amber); }
+      .metric.bad .metric-val { color: var(--red); }
+
+      .chart-wrap { position: relative; }
+
+      .chart-legend {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        padding: 8px 14px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 10px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .legend-dot {
+        width: 20px;
+        height: 2px;
+        border-radius: 1px;
+        display: inline-block;
+      }
+
+      .article-note {
+        max-width: 1100px;
+        margin: 22px auto 0;
+        padding: 22px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+
+      .article-note h2,
+      .article-note h3 {
+        color: var(--text);
+        font-family: var(--mono);
+        font-weight: 600;
+      }
+
+      .article-note h2 {
+        margin-bottom: 12px;
+        font-size: 17px;
+      }
+
+      .article-note h3 {
+        margin: 18px 0 8px;
+        font-size: 14px;
+      }
+
+      .article-note p,
+      .article-note li {
+        color: #cbd1dc;
+        font-size: 0.96rem;
+      }
+
+      .article-note p { margin-bottom: 12px; }
+      .article-note ul { padding-left: 22px; }
+
+      .site-footer {
+        max-width: 1100px;
+        margin: 24px auto 0;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="topbar" aria-label="Navegação do simulador">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+      <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+    </nav>
+
+    <header class="header">
+      <div class="header-left">
+        <h1>// PID PROCESS CONTROLLER</h1>
+        <p>Simulador de malha fechada: planta de 2ª ordem com atraso de transporte</p>
+      </div>
+      <div class="status-row">
+        <div class="status-dot"></div>
+        <span class="status-text" id="sim-status">SIMULANDO</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-tag tag-pid">SP</span>
+            <span class="panel-title">Set Point</span>
+          </div>
+          <div class="panel-body">
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">Referência desejada</span>
+                <span class="param-val" id="sp-lbl" style="color:var(--amber)">50.0</span>
+              </div>
+              <input type="range" class="sp-slider" id="sp" min="10" max="100" value="50" step="0.5" />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-tag tag-plant">PLANTA</span>
+            <span class="panel-title">G(s) = K / (τ₁s+1)(τ₂s+1)</span>
+          </div>
+          <div class="panel-body">
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">K: ganho estático</span>
+                <span class="param-val" id="K-lbl">1.0</span>
+              </div>
+              <input type="range" class="plant-slider" id="K" min="0.2" max="5" value="1" step="0.1" />
+            </div>
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">τ₁: constante de tempo 1 (s)</span>
+                <span class="param-val" id="tau1-lbl">10.0</span>
+              </div>
+              <input type="range" class="plant-slider" id="tau1" min="1" max="60" value="10" step="0.5" />
+            </div>
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">τ₂: constante de tempo 2 (s)</span>
+                <span class="param-val" id="tau2-lbl">3.0</span>
+              </div>
+              <input type="range" class="plant-slider" id="tau2" min="0.5" max="30" value="3" step="0.5" />
+            </div>
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">Td: atraso de transporte (s)</span>
+                <span class="param-val" id="Td-lbl">2.0</span>
+              </div>
+              <input type="range" class="plant-slider" id="Td" min="0" max="20" value="2" step="0.5" />
+            </div>
+            <div class="formula">
+              G(s) = <span>K</span> / [(<span>τ₁</span>s + 1)(<span>τ₂</span>s + 1)] · e<sup>-<span>Td</span>s</sup>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-tag tag-pid">PID</span>
+            <span class="panel-title">Controlador PID</span>
+          </div>
+          <div class="panel-body">
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">Kp: ganho proporcional</span>
+                <span class="param-val" id="Kp-lbl" style="color:var(--blue)">2.0</span>
+              </div>
+              <input type="range" class="pid-slider" id="Kp" min="0" max="20" value="2" step="0.1" />
+            </div>
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">Ki: ganho integral</span>
+                <span class="param-val" id="Ki-lbl" style="color:var(--accent)">0.20</span>
+              </div>
+              <input type="range" class="pid-slider" id="Ki" min="0" max="2" value="0.2" step="0.01" />
+            </div>
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">Kd: ganho derivativo</span>
+                <span class="param-val" id="Kd-lbl" style="color:var(--violet)">1.0</span>
+              </div>
+              <input type="range" class="pid-slider" id="Kd" min="0" max="20" value="1" step="0.1" />
+            </div>
+            <div class="divider"></div>
+            <div class="param-group">
+              <div class="param-label">
+                <span class="param-name">Saturação saída</span>
+                <span class="param-val" id="sat-lbl">±100</span>
+              </div>
+              <input type="range" class="pid-slider" id="sat" min="10" max="200" value="100" step="5" />
+            </div>
+            <div class="formula">
+              u(t) = <span>Kp</span>e + <span>Ki</span>∫e dt + <span>Kd</span>de/dt<br />
+              Anti-windup ativo; saída saturada em ±<span id="sat-formula">100</span>
+            </div>
+            <div class="btn-row">
+              <button class="btn-primary" type="button" id="btn-pause">PAUSAR</button>
+              <button type="button" id="btn-reset">RESET</button>
+              <button type="button" id="btn-aggressive">Agressivo</button>
+              <button type="button" id="btn-conservative">Conservador</button>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="charts-col">
+        <div class="metrics-row">
+          <div class="metric" id="m-pv">
+            <div class="metric-label">PV atual</div>
+            <div class="metric-val"><span id="mv-pv">0.0</span><span class="metric-unit"> u</span></div>
+          </div>
+          <div class="metric" id="m-err">
+            <div class="metric-label">Erro (SP-PV)</div>
+            <div class="metric-val"><span id="mv-err">0.0</span><span class="metric-unit"> u</span></div>
+          </div>
+          <div class="metric" id="m-u">
+            <div class="metric-label">Saída PID (u)</div>
+            <div class="metric-val"><span id="mv-u">0.0</span><span class="metric-unit"> u</span></div>
+          </div>
+          <div class="metric" id="m-ise">
+            <div class="metric-label">ISE (∫e²dt)</div>
+            <div class="metric-val"><span id="mv-ise">0.0</span></div>
+          </div>
+          <div class="metric" id="m-os">
+            <div class="metric-label">Overshoot</div>
+            <div class="metric-val"><span id="mv-os">-</span><span class="metric-unit"> %</span></div>
+          </div>
+          <div class="metric" id="m-ts">
+            <div class="metric-label">Tempo estab.</div>
+            <div class="metric-val"><span id="mv-ts">-</span><span class="metric-unit"> s</span></div>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-tag tag-chart">RESPOSTA</span>
+            <span class="panel-title">Variável de Processo e Saída do Controlador</span>
+          </div>
+          <div class="chart-wrap" style="height:240px; padding:12px 12px 0;">
+            <canvas id="chartMain" role="img" aria-label="Resposta do sistema em malha fechada com controle PID"></canvas>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--amber);"></span>Set Point</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--accent);"></span>PV (saída da planta)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--blue);"></span>u(t) ação de controle</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-tag tag-pid">COMPONENTES</span>
+            <span class="panel-title">Contribuições P, I e D</span>
+          </div>
+          <div class="chart-wrap" style="height:150px; padding:12px 12px 0;">
+            <canvas id="chartPID" role="img" aria-label="Contribuições individuais dos termos P, I e D do controlador"></canvas>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--blue);"></span>Proporcional</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--accent);"></span>Integral</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--violet);"></span>Derivativo</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-tag tag-impulse">IMPULSO</span>
+            <span class="panel-title">Resposta ao Impulso da Planta em Malha Aberta</span>
+          </div>
+          <div class="chart-wrap" style="height:150px; padding:12px 12px 0;">
+            <canvas id="chartImpulse" role="img" aria-label="Resposta ao impulso da planta em malha aberta"></canvas>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--violet);"></span>h(t) resposta ao impulso</div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <article class="article-note">
+      <h2>Como interpretar o simulador PID</h2>
+      <p>
+        Este simulador representa uma malha fechada de controle. O setpoint é comparado com a variável de processo, gerando o erro. O controlador PID usa esse erro para calcular a saída de controle, que é aplicada à planta. A saída da planta retorna pela realimentação e fecha o ciclo.
+      </p>
+      <h3>O papel dos parâmetros</h3>
+      <ul>
+        <li><strong>Kp</strong> aumenta a reação imediata ao erro. Valores altos deixam a resposta mais rápida, mas podem gerar oscilação.</li>
+        <li><strong>Ki</strong> acumula o erro ao longo do tempo e ajuda a eliminar erro permanente.</li>
+        <li><strong>Kd</strong> reage à tendência de variação do erro e pode amortecer a resposta.</li>
+        <li><strong>Td</strong> representa atraso de transporte. Quanto maior o atraso, mais difícil tende a ser ajustar a malha.</li>
+      </ul>
+      <h3>O que observar</h3>
+      <p>
+        Uma sintonia adequada busca reduzir erro, overshoot e tempo de estabilização sem exigir uma saída de controle excessiva. Use os botões de preset para comparar uma sintonia agressiva com uma conservadora, depois ajuste manualmente Kp, Ki e Kd.
+      </p>
+    </article>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Simulador técnico para estudo de controle PID em processo industrial.</p>
+    </footer>
+
+    <script>
+      const N = 300;
+      const DT = 0.2;
+      const STEP_MS = 60;
+
+      let t = 0;
+      let pv = 0;
+      let x1 = 0;
+      let x2 = 0;
+      let intErr = 0;
+      let prevErr = 0;
+      let uOut = 0;
+      let pvPeak = 0;
+      let spAtStart = 0;
+      let tSettle = null;
+      let ise = 0;
+
+      let pvArr = new Array(N).fill(0);
+      let spArr = new Array(N).fill(0);
+      let uArr = new Array(N).fill(0);
+      let pArr = new Array(N).fill(0);
+      let iArr = new Array(N).fill(0);
+      let dArr = new Array(N).fill(0);
+
+      let paused = false;
+      let lastTs = null;
+      let accMs = 0;
+
+      const MAX_DELAY_STEPS = 200;
+      let delayBuffer = new Array(MAX_DELAY_STEPS).fill(0);
+      let delayHead = 0;
+
+      function getP() {
+        return {
+          sp: parseFloat(document.getElementById("sp").value),
+          K: parseFloat(document.getElementById("K").value),
+          tau1: parseFloat(document.getElementById("tau1").value),
+          tau2: parseFloat(document.getElementById("tau2").value),
+          Td: parseFloat(document.getElementById("Td").value),
+          Kp: parseFloat(document.getElementById("Kp").value),
+          Ki: parseFloat(document.getElementById("Ki").value),
+          Kd: parseFloat(document.getElementById("Kd").value),
+          sat: parseFloat(document.getElementById("sat").value),
+        };
+      }
+
+      function stepPlant(uIn, p) {
+        const delaySteps = Math.max(0, Math.round(p.Td / DT));
+        const readIdx = (delayHead - Math.min(delaySteps, MAX_DELAY_STEPS - 1) + MAX_DELAY_STEPS) % MAX_DELAY_STEPS;
+        const uDelayed = delaySteps > 0 ? delayBuffer[readIdx] : uIn;
+        delayBuffer[delayHead] = uIn;
+        delayHead = (delayHead + 1) % MAX_DELAY_STEPS;
+
+        const dx1 = (uDelayed - x1) / p.tau1;
+        const dx2 = (x1 - x2) / p.tau2;
+        x1 += dx1 * DT;
+        x2 += dx2 * DT;
+        pv = p.K * x2;
+      }
+
+      function stepPID(p) {
+        const err = p.sp - pv;
+        const termP = p.Kp * err;
+        const termI = p.Ki * intErr;
+        const termD = p.Kd * (err - prevErr) / DT;
+        const uRaw = termP + termI + termD;
+        const uSat = Math.max(-p.sat, Math.min(p.sat, uRaw));
+
+        if (Math.abs(uRaw) <= p.sat) intErr += err * DT;
+
+        prevErr = err;
+        uOut = uSat;
+        ise += err * err * DT;
+
+        if (pv > pvPeak) pvPeak = pv;
+
+        const band = 0.02 * Math.abs(p.sp - spAtStart || 1);
+        if (tSettle === null && t > 0 && Math.abs(err) < Math.max(band, 0.5)) tSettle = t;
+        if (Math.abs(err) > Math.max(band, 0.5)) tSettle = null;
+
+        return { termP, termI, termD };
+      }
+
+      function calcImpulse(p) {
+        const NI = 200;
+        const tMax = Math.max(5 * (p.tau1 + p.tau2 + p.Td), 10);
+        const dt = tMax / NI;
+        const xs = [];
+        const ys = [];
+
+        for (let i = 0; i <= NI; i++) {
+          const ti = i * dt;
+          xs.push(ti.toFixed(1));
+          const te = ti - p.Td;
+          if (te <= 0) {
+            ys.push(0);
+            continue;
+          }
+
+          const h = Math.abs(p.tau1 - p.tau2) < 0.01
+            ? p.K * te / (p.tau1 * p.tau1) * Math.exp(-te / p.tau1)
+            : (p.K / (p.tau1 - p.tau2)) * (Math.exp(-te / p.tau1) - Math.exp(-te / p.tau2));
+          ys.push(h);
+        }
+        return { xs, ys };
+      }
+
+      const timeLabels = Array.from({ length: N }, (_, i) => (i * DT).toFixed(0));
+      const gridColor = "rgba(255,255,255,0.04)";
+      const tickFont = { family: "'IBM Plex Mono', monospace", size: 9 };
+
+      const chartMain = new Chart(document.getElementById("chartMain"), {
+        type: "line",
+        data: {
+          labels: timeLabels,
+          datasets: [
+            { label: "SP", data: [...spArr], borderColor: "#f59e0b", borderWidth: 1.5, borderDash: [6,4], fill: false, pointRadius: 0, tension: 0 },
+            { label: "PV", data: [...pvArr], borderColor: "#00d4aa", borderWidth: 2, fill: false, pointRadius: 0, tension: 0.2 },
+            { label: "u(t)", data: [...uArr], borderColor: "#60a5fa", borderWidth: 1, fill: false, pointRadius: 0, tension: 0, yAxisID: "y2", borderDash: [2,2] },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { font: tickFont, color: "#8b93a3", maxTicksLimit: 10 }, grid: { color: gridColor }, title: { display: true, text: "Tempo (s)", font: tickFont, color: "#8b93a3" } },
+            y: { ticks: { font: tickFont, color: "#8b93a3" }, grid: { color: gridColor }, title: { display: true, text: "PV / SP", font: tickFont, color: "#8b93a3" } },
+            y2: { position: "right", ticks: { font: tickFont, color: "rgba(96,165,250,0.7)" }, grid: { display: false }, title: { display: true, text: "u(t)", font: tickFont, color: "rgba(96,165,250,0.7)" } },
+          },
+        },
+      });
+
+      const chartPID = new Chart(document.getElementById("chartPID"), {
+        type: "line",
+        data: {
+          labels: timeLabels,
+          datasets: [
+            { label: "P", data: [...pArr], borderColor: "#60a5fa", borderWidth: 1.5, fill: false, pointRadius: 0, tension: 0.2 },
+            { label: "I", data: [...iArr], borderColor: "#00d4aa", borderWidth: 1.5, fill: false, pointRadius: 0, tension: 0.2 },
+            { label: "D", data: [...dArr], borderColor: "#818cf8", borderWidth: 1.5, fill: false, pointRadius: 0, tension: 0.2 },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { display: false },
+            y: { ticks: { font: tickFont, color: "#8b93a3" }, grid: { color: gridColor } },
+          },
+        },
+      });
+
+      const impulseInit = calcImpulse({ K: 1, tau1: 10, tau2: 3, Td: 2 });
+      const chartImpulse = new Chart(document.getElementById("chartImpulse"), {
+        type: "line",
+        data: {
+          labels: impulseInit.xs,
+          datasets: [{
+            label: "h(t)",
+            data: impulseInit.ys,
+            borderColor: "#818cf8",
+            borderWidth: 2,
+            backgroundColor: "rgba(129,140,248,0.06)",
+            fill: true,
+            pointRadius: 0,
+            tension: 0.3,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 300 },
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { font: tickFont, color: "#8b93a3", maxTicksLimit: 8 }, grid: { color: gridColor }, title: { display: true, text: "Tempo (s)", font: tickFont, color: "#8b93a3" } },
+            y: { ticks: { font: tickFont, color: "#8b93a3" }, grid: { color: gridColor }, title: { display: true, text: "h(t)", font: tickFont, color: "#8b93a3" } },
+          },
+        },
+      });
+
+      function updateCharts() {
+        chartMain.data.datasets[0].data = [...spArr];
+        chartMain.data.datasets[1].data = [...pvArr];
+        chartMain.data.datasets[2].data = [...uArr];
+        chartMain.update("none");
+
+        chartPID.data.datasets[0].data = [...pArr];
+        chartPID.data.datasets[1].data = [...iArr];
+        chartPID.data.datasets[2].data = [...dArr];
+        chartPID.update("none");
+      }
+
+      function updateImpulse() {
+        const im = calcImpulse(getP());
+        chartImpulse.data.labels = im.xs;
+        chartImpulse.data.datasets[0].data = im.ys;
+        chartImpulse.update();
+      }
+
+      function updateMetrics(p) {
+        const err = p.sp - pv;
+        document.getElementById("mv-pv").textContent = pv.toFixed(2);
+        document.getElementById("mv-err").textContent = err.toFixed(2);
+        document.getElementById("mv-u").textContent = uOut.toFixed(2);
+        document.getElementById("mv-ise").textContent = ise.toFixed(1);
+
+        const errAbs = Math.abs(err);
+        document.getElementById("m-err").className = `metric${errAbs < 1 ? " good" : errAbs < 5 ? " warn" : " bad"}`;
+
+        const spRange = Math.abs(p.sp - spAtStart);
+        if (spRange > 0.5 && pvPeak > p.sp + 0.1) {
+          const os = ((pvPeak - p.sp) / spRange * 100).toFixed(1);
+          document.getElementById("mv-os").textContent = os;
+          document.getElementById("m-os").className = `metric${os < 5 ? " good" : os < 20 ? " warn" : " bad"}`;
+        }
+
+        if (tSettle !== null) document.getElementById("mv-ts").textContent = tSettle.toFixed(1);
+      }
+
+      function simStep() {
+        const p = getP();
+        const { termP, termI, termD } = stepPID(p);
+        stepPlant(uOut, p);
+        t += DT;
+
+        pvArr.push(pv); if (pvArr.length > N) pvArr.shift();
+        spArr.push(p.sp); if (spArr.length > N) spArr.shift();
+        uArr.push(uOut); if (uArr.length > N) uArr.shift();
+        pArr.push(termP); if (pArr.length > N) pArr.shift();
+        iArr.push(termI); if (iArr.length > N) iArr.shift();
+        dArr.push(termD); if (dArr.length > N) dArr.shift();
+
+        updateMetrics(p);
+      }
+
+      function loop(ts) {
+        if (paused) return;
+        if (lastTs !== null) {
+          accMs += ts - lastTs;
+          while (accMs >= STEP_MS) {
+            simStep();
+            accMs -= STEP_MS;
+          }
+          updateCharts();
+        }
+        lastTs = ts;
+        requestAnimationFrame(loop);
+      }
+
+      function resetSim() {
+        t = 0; pv = 0; x1 = 0; x2 = 0;
+        intErr = 0; prevErr = 0; uOut = 0;
+        pvPeak = 0; tSettle = null; ise = 0;
+        const p = getP();
+        spAtStart = p.sp;
+        pvArr = new Array(N).fill(0);
+        spArr = new Array(N).fill(p.sp);
+        uArr = new Array(N).fill(0);
+        pArr = new Array(N).fill(0);
+        iArr = new Array(N).fill(0);
+        dArr = new Array(N).fill(0);
+        delayBuffer = new Array(MAX_DELAY_STEPS).fill(0);
+        delayHead = 0;
+        document.getElementById("mv-os").textContent = "-";
+        document.getElementById("mv-ts").textContent = "-";
+        document.getElementById("m-os").className = "metric";
+        lastTs = null;
+        accMs = 0;
+        updateMetrics(p);
+        updateCharts();
+      }
+
+      function togglePause() {
+        paused = !paused;
+        document.getElementById("btn-pause").textContent = paused ? "CONTINUAR" : "PAUSAR";
+        document.getElementById("sim-status").textContent = paused ? "PAUSADO" : "SIMULANDO";
+        if (!paused) {
+          lastTs = null;
+          requestAnimationFrame(loop);
+        }
+      }
+
+      function applyPreset(type) {
+        if (type === "aggressive") {
+          document.getElementById("Kp").value = 8;
+          document.getElementById("Ki").value = 0.5;
+          document.getElementById("Kd").value = 2;
+        } else {
+          document.getElementById("Kp").value = 1;
+          document.getElementById("Ki").value = 0.05;
+          document.getElementById("Kd").value = 0.5;
+        }
+        updateAllLabels();
+        resetSim();
+      }
+
+      const sliderMap = {
+        sp: { id: "sp-lbl", fmt: (v) => parseFloat(v).toFixed(1) },
+        K: { id: "K-lbl", fmt: (v) => parseFloat(v).toFixed(1) },
+        tau1: { id: "tau1-lbl", fmt: (v) => parseFloat(v).toFixed(1) },
+        tau2: { id: "tau2-lbl", fmt: (v) => parseFloat(v).toFixed(1) },
+        Td: { id: "Td-lbl", fmt: (v) => parseFloat(v).toFixed(1) },
+        Kp: { id: "Kp-lbl", fmt: (v) => parseFloat(v).toFixed(1) },
+        Ki: { id: "Ki-lbl", fmt: (v) => parseFloat(v).toFixed(2) },
+        Kd: { id: "Kd-lbl", fmt: (v) => parseFloat(v).toFixed(1) },
+        sat: { id: "sat-lbl", fmt: (v) => `±${v}` },
+      };
+
+      const plantIds = ["K", "tau1", "tau2", "Td"];
+
+      function updateAllLabels() {
+        for (const [sid, cfg] of Object.entries(sliderMap)) {
+          const el = document.getElementById(sid);
+          if (el) document.getElementById(cfg.id).textContent = cfg.fmt(el.value);
+        }
+        document.getElementById("sat-formula").textContent = document.getElementById("sat").value;
+      }
+
+      for (const [sid, cfg] of Object.entries(sliderMap)) {
+        const el = document.getElementById(sid);
+        if (!el) continue;
+        el.addEventListener("input", function () {
+          document.getElementById(cfg.id).textContent = cfg.fmt(this.value);
+          if (sid === "sat") document.getElementById("sat-formula").textContent = this.value;
+          if (plantIds.includes(sid)) updateImpulse();
+          if (sid === "sp") {
+            spAtStart = pv;
+            pvPeak = pv;
+            tSettle = null;
+            ise = 0;
+            document.getElementById("mv-os").textContent = "-";
+            document.getElementById("mv-ts").textContent = "-";
+          }
+        });
+      }
+
+      document.getElementById("btn-pause").addEventListener("click", togglePause);
+      document.getElementById("btn-reset").addEventListener("click", resetSim);
+      document.getElementById("btn-aggressive").addEventListener("click", () => applyPreset("aggressive"));
+      document.getElementById("btn-conservative").addEventListener("click", () => applyPreset("conservative"));
+
+      updateAllLabels();
+      updateImpulse();
+      const p0 = getP();
+      spAtStart = p0.sp;
+      spArr = new Array(N).fill(p0.sp);
+      updateMetrics(p0);
+      requestAnimationFrame(loop);
+    </script>
+  </body>
+</html>

@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Simulador PID: controle de processo em malha fechada",
+    excerpt:
+      "Ajuste Kp, Ki, Kd e parâmetros da planta para observar PV, SP, saída do controlador, overshoot e tempo de estabilização.",
+    date: "2026-05-08",
+    url: "simuladores/controle-pid-processo.html",
+    views: 740,
+    appeal: 93,
+  },
+  {
     title: "Portas de comunicação da CPU do CLP S7: redes e protocolos industriais",
     excerpt:
       "Entenda as portas MPI, DP, PTP e PN das CPUs Siemens S7, seus protocolos, meios físicos e aplicações em arquiteturas industriais.",
@@ -138,10 +147,27 @@ const monthNames = [
 const articleList = document.querySelector("#articleList");
 const monthList = document.querySelector("#monthList");
 const featuredList = document.querySelector("#featuredList");
+const toolList = document.querySelector("#toolList");
 const feedTitle = document.querySelector("#feedTitle");
 const clearFilter = document.querySelector("#clearFilter");
 
 let activePeriod = null;
+let activeToolCategory = null;
+
+const toolLinks = [
+  {
+    category: "simuladores",
+    title: "Simulador PID: controle de processo",
+    excerpt: "Malha fechada com Kp, Ki, Kd, planta de segunda ordem e atraso de transporte.",
+    url: "simuladores/controle-pid-processo.html",
+  },
+  {
+    category: "simuladores",
+    title: "Simulador ON/OFF com histerese",
+    excerpt: "Controle Bang-Bang com banda morta, Schmitt Trigger e modelo térmico.",
+    url: "simuladores/controle-on-off-histerese.html",
+  },
+];
 
 function formatDate(dateString) {
   const date = new Date(`${dateString}T12:00:00`);
@@ -181,13 +207,17 @@ function renderMonths() {
 }
 
 function renderArticles() {
-  const visibleArticles = activePeriod
-    ? articles.filter((article) => getPeriod(article) === activePeriod)
-    : articles;
+  const visibleArticles = activeToolCategory
+    ? articles.filter((article) => article.url.startsWith(`${activeToolCategory}/`))
+    : activePeriod
+      ? articles.filter((article) => getPeriod(article) === activePeriod)
+      : articles;
 
-  feedTitle.textContent = activePeriod
-    ? `Artigos de ${getPeriodLabel(activePeriod)}`
-    : "Últimos artigos";
+  feedTitle.textContent = activeToolCategory
+    ? "Ferramentas: simuladores"
+    : activePeriod
+      ? `Artigos de ${getPeriodLabel(activePeriod)}`
+      : "Últimos artigos";
 
   articleList.innerHTML = visibleArticles
     .map((article) => {
@@ -211,7 +241,7 @@ function renderArticles() {
 function renderFeatured() {
   const featured = [...articles]
     .sort((a, b) => b.views + b.appeal * 12 - (a.views + a.appeal * 12))
-    .slice(0, 4);
+    .slice(0, 2);
 
   featuredList.innerHTML = featured
     .map(
@@ -225,16 +255,43 @@ function renderFeatured() {
     .join("");
 }
 
+function renderTools() {
+  const visibleTools = toolLinks.filter((tool) => tool.category === "simuladores");
+
+  toolList.innerHTML = visibleTools
+    .map(
+      (tool) => `
+        <article class="tool-card">
+          <h3><a href="${tool.url}">${tool.title}</a></h3>
+          <p>${tool.excerpt}</p>
+        </article>
+      `
+    )
+    .join("");
+}
+
 monthList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-period]");
   if (!button) return;
 
   activePeriod = button.dataset.period;
+  activeToolCategory = null;
   renderMonths();
   renderArticles();
 });
 
 clearFilter.addEventListener("click", () => {
+  activePeriod = null;
+  activeToolCategory = null;
+  renderMonths();
+  renderArticles();
+});
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-tool-filter]");
+  if (!button) return;
+
+  activeToolCategory = button.dataset.toolFilter;
   activePeriod = null;
   renderMonths();
   renderArticles();
@@ -243,3 +300,4 @@ clearFilter.addEventListener("click", () => {
 renderMonths();
 renderArticles();
 renderFeatured();
+renderTools();
