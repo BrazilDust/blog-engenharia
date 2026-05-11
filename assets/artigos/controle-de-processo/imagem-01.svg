@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 899" role="img" aria-labelledby="title desc">
+  <title id="title">Controle de Processos em Malha Fechada</title>
+  <desc id="desc">Diagrama de controle de processos em malha fechada mostrando setpoint, soma, controlador, elemento final, processo, medição e realimentação.</desc>
+  <defs>
+    <marker id="arrow-control" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#007a67"/>
+    </marker>
+    <marker id="arrow-feedback" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#a84500"/>
+    </marker>
+    <filter id="soft-shadow" x="-12%" y="-16%" width="124%" height="132%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f7faf9"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1792" height="899" fill="url(#bg)"/>
+
+  <text x="896" y="82" fill="#070b14" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800" text-anchor="middle">
+    Controle de Processos em Malha Fechada
+  </text>
+  <text x="896" y="144" fill="#4b5563" font-family="Arial, Helvetica, sans-serif" font-size="30" text-anchor="middle">
+    Medir, decidir e agir continuamente para manter a variável de processo no setpoint
+  </text>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="78" y="356" fill="#070b14" font-size="32" font-weight="800">SP</text>
+    <text x="22" y="398" fill="#4b5563" font-size="24">set point</text>
+
+    <line x1="130" y1="388" x2="184" y2="388" stroke="#007a67" stroke-width="6" marker-end="url(#arrow-control)"/>
+
+    <circle cx="264" cy="388" r="56" fill="#ffffff" stroke="#007a67" stroke-width="5"/>
+    <text x="264" y="402" fill="#070b14" font-size="38" font-weight="800" text-anchor="middle">Σ</text>
+    <text x="252" y="315" fill="#007a67" font-size="28" font-weight="800">+</text>
+    <text x="294" y="473" fill="#a84500" font-size="28" font-weight="800">-</text>
+
+    <line x1="320" y1="388" x2="450" y2="388" stroke="#007a67" stroke-width="6" marker-end="url(#arrow-control)"/>
+
+    <rect x="462" y="278" width="262" height="228" rx="18" fill="#ffffff" stroke="#d6e0de" stroke-width="3" filter="url(#soft-shadow)"/>
+    <text x="593" y="365" fill="#070b14" font-size="32" font-weight="800" text-anchor="middle">Controlador</text>
+    <text x="593" y="425" fill="#007a67" font-size="32" font-weight="800" text-anchor="middle">PID / CLP</text>
+
+    <line x1="724" y1="388" x2="842" y2="388" stroke="#007a67" stroke-width="6" marker-end="url(#arrow-control)"/>
+
+    <rect x="848" y="278" width="292" height="228" rx="18" fill="#ffffff" stroke="#d6e0de" stroke-width="3" filter="url(#soft-shadow)"/>
+    <text x="994" y="358" fill="#070b14" font-size="31" font-weight="800" text-anchor="middle">Elemento final</text>
+    <text x="994" y="412" fill="#4b5563" font-size="25" text-anchor="middle">válvula, bomba,</text>
+    <text x="994" y="448" fill="#4b5563" font-size="25" text-anchor="middle">motor ou aquecedor</text>
+
+    <line x1="1140" y1="388" x2="1250" y2="388" stroke="#007a67" stroke-width="6" marker-end="url(#arrow-control)"/>
+
+    <rect x="1262" y="278" width="292" height="228" rx="18" fill="#ffffff" stroke="#d6e0de" stroke-width="3" filter="url(#soft-shadow)"/>
+    <text x="1408" y="360" fill="#070b14" font-size="33" font-weight="800" text-anchor="middle">Processo</text>
+    <text x="1408" y="414" fill="#4b5563" font-size="25" text-anchor="middle">temperatura, nível,</text>
+    <text x="1408" y="450" fill="#4b5563" font-size="25" text-anchor="middle">pressão ou vazão</text>
+
+    <path d="M1554 388 H1640 V746 H1588" fill="none" stroke="#007a67" stroke-width="6" marker-end="url(#arrow-control)"/>
+    <text x="1666" y="530" fill="#4b5563" font-size="25">Variável</text>
+    <text x="1666" y="565" fill="#4b5563" font-size="25">medida</text>
+
+    <rect x="1284" y="680" width="272" height="150" rx="18" fill="#ffffff" stroke="#d6e0de" stroke-width="3" filter="url(#soft-shadow)"/>
+    <text x="1420" y="746" fill="#070b14" font-size="31" font-weight="800" text-anchor="middle">Medição</text>
+    <text x="1420" y="792" fill="#4b5563" font-size="25" text-anchor="middle">sensor / transmissor</text>
+
+    <path d="M1284 750 H263 V456" fill="none" stroke="#a84500" stroke-width="6" marker-end="url(#arrow-feedback)"/>
+
+    <rect x="516" y="592" width="588" height="128" rx="16" fill="#fffaf2" stroke="#ffcf9d" stroke-width="2"/>
+    <text x="810" y="632" fill="#9a3f00" font-size="29" font-weight="800" text-anchor="middle">Erro = SP - PV</text>
+    <text x="810" y="667" fill="#b74600" font-size="23" text-anchor="middle">o controlador decide a correção a partir da diferença</text>
+    <text x="810" y="696" fill="#b74600" font-size="23" text-anchor="middle">entre referência e medição</text>
+
+    <rect x="40" y="778" width="380" height="82" rx="12" fill="#ffffff" stroke="#d5dbe0" stroke-width="2"/>
+    <line x1="60" y1="802" x2="104" y2="802" stroke="#007a67" stroke-width="5" stroke-linecap="round"/>
+    <text x="122" y="810" fill="#1f2937" font-size="18">Sinal de controle</text>
+    <line x1="60" y1="832" x2="104" y2="832" stroke="#a84500" stroke-width="5" stroke-linecap="round"/>
+    <text x="122" y="840" fill="#1f2937" font-size="18">Sinal de realimentação (feedback)</text>
+  </g>
+</svg>

@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Controle de processos industriais: o que é controle de processos?",
+    excerpt:
+      "Introdução aos processos industriais, variáveis de processo, malha fechada, medição, decisão, ação, segurança e confiabilidade.",
+    date: "2026-05-10",
+    url: "artigos/controle-de-processo.html",
+    views: 720,
+    appeal: 91,
+  },
+  {
     title: "Simulador PID: controle de processo em malha fechada",
     excerpt:
       "Ajuste Kp, Ki, Kd e parâmetros da planta para observar PV, SP, saída do controlador, overshoot e tempo de estabilização.",

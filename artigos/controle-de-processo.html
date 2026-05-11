@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controle de Processos Industriais: O que é Controle de Processos? | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Introdução ao controle de processos industriais: conceito de processo, variáveis de processo, malha fechada, medição, decisão, ação, segurança e confiabilidade."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Controle de Processos Industriais: O que é Controle de Processos?" />
+    <meta property="og:description" content="Entenda os fundamentos de processos industriais, variáveis de processo e o ciclo de controle em malha fechada: medição, decisão e ação." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/artigos/controle-de-processo.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/artigos/controle-de-processo/imagem-01.svg" />
+    <meta property="og:image:alt" content="Diagrama de malha fechada de controle de processo." />
+    <meta property="article:published_time" content="2026-05-10" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Controle de Processos Industriais: O que é Controle de Processos?" />
+    <meta name="twitter:description" content="Entenda processos industriais, variáveis de processo e o ciclo de controle em malha fechada." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/artigos/controle-de-processo/imagem-01.svg" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page process-control-article-images">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Controle de processos</p>
+          <h1>Controle de Processos Industriais: O que é Controle de Processos?</h1>
+          <p>Capítulo 1 - baseado em Instrumentation and Process Control, seções 1.1 a 1.3.</p>
+          <time datetime="2026-05-10">10 de maio de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>Sumário</h2>
+          <ul>
+            <li>1.1 O que é um processo?</li>
+            <li>1.2 O que é controle?</li>
+            <li>1.3 Por que precisamos de controle de processos?</li>
+            <li>1.3.1 Segurança e confiabilidade do processo</li>
+          </ul>
+
+          <figure>
+            <img
+              class="zoomable-image"
+              src="../assets/artigos/controle-de-processo/imagem-01.svg"
+              alt="Diagrama de uma malha fechada de controle com setpoint, controlador, processo, medição e realimentação"
+            />
+            <figcaption>Representação de uma malha fechada de controle de processo: medir, decidir e agir continuamente.</figcaption>
+          </figure>
+
+          <h2>1.1 O que é um processo?</h2>
+          <div class="definition-box">
+            <strong>Definição</strong>
+            <p>Um processo é qualquer operação ou sequência de operações que envolve uma mudança em uma substância sendo tratada.</p>
+          </div>
+
+          <p>
+            Processos podem ser simples, como bombear água de um lugar para outro, ou altamente complexos, como derivar gasolina da mistura de substâncias químicas do petróleo bruto. Outros exemplos industriais incluem pasteurização de leite, produção de vacinas, britação de minérios e geração de energia a vapor.
+          </p>
+
+          <p>Exemplos de processos por tipo de mudança:</p>
+          <div class="comparison-table two-column-table" role="table" aria-label="Exemplos de processos por tipo de mudança">
+            <div role="row">
+              <strong role="columnheader">Tipo de mudança</strong>
+              <strong role="columnheader">Exemplo</strong>
+            </div>
+            <div role="row">
+              <span>Energia</span>
+              <span>Mudança de quente para frio</span>
+            </div>
+            <div role="row">
+              <span>Estado</span>
+              <span>De líquido para gás</span>
+            </div>
+            <div role="row">
+              <span>Composição</span>
+              <span>Reação química ou mistura de materiais</span>
+            </div>
+            <div role="row">
+              <span>Dimensão</span>
+              <span>Moagem de carvão mineral</span>
+            </div>
+          </div>
+
+          <div class="definition-box">
+            <strong>Indústrias de processo típicas</strong>
+            <p>Refino de petróleo, produção química, geração de energia, papel e celulose, alimentos e bebidas, farmacêutica, mineração e metalurgia.</p>
+          </div>
+
+          <p>
+            Cada processo possui propriedades que podem variar: pressão, temperatura, nível, vazão, acidez, cor, viscosidade, entre outras. Cada uma dessas propriedades é chamada de variável de processo. Os valores dessas variáveis podem ser medidos e enviados remotamente por meio de sinais, sendo exibidos, registrados, tendenciados ou analisados.
+          </p>
+
+          <h2>1.2 O que é controle?</h2>
+          <div class="definition-box">
+            <strong>Definição</strong>
+            <p>Controle significa determinar o comportamento ou supervisionar a operação de um processo. Todo controle envolve três etapas fundamentais: medição, decisão e ação.</p>
+          </div>
+
+          <p>As três etapas do controle (malha fechada):</p>
+          <div class="comparison-table three-column-table" role="table" aria-label="Três etapas do controle de processos">
+            <div role="row">
+              <strong role="columnheader">Etapa 1</strong>
+              <strong role="columnheader">Etapa 2</strong>
+              <strong role="columnheader">Etapa 3</strong>
+            </div>
+            <div role="row">
+              <span>Medição</span>
+              <span>Decisão</span>
+              <span>Ação</span>
+            </div>
+            <div role="row">
+              <span>Instrumentos e analisadores medem as variáveis do processo</span>
+              <span>O controlador compara o valor medido com o setpoint</span>
+              <span>O elemento final de controle executa a correção no processo</span>
+            </div>
+          </div>
+
+          <h3>Etapa 1: Medição</h3>
+          <p>
+            Realizada por instrumentos e analisadores. As medições mais comuns em plantas industriais são vazão, nível, pressão e temperatura. Outros instrumentos medem pH, composição química, umidade e cor. Analisadores são dispositivos mais complexos capazes de realizar análises multivariáveis do processo ou da qualidade do produto.
+          </p>
+
+          <h3>Etapa 2: Decisão</h3>
+          <p>
+            Realizada por alguma forma de controlador ou sistema de controle. Em plantas industriais de grande porte, centenas ou milhares de variáveis precisam ser controladas simultaneamente. Para isso são utilizados:
+          </p>
+          <ul>
+            <li>CLPs (Controladores Lógicos Programáveis) - lógica discreta e sequenciamento</li>
+            <li>SDCDs (Sistemas Digitais de Controle Distribuído) - controle contínuo e avançado</li>
+            <li>Controladores híbridos - combinação das duas arquiteturas</li>
+          </ul>
+
+          <h3>Etapa 3: Ação</h3>
+          <p>
+            Executada pelo elemento final de controle. Quando o controlador decide realizar uma correção no processo, é o elemento final que efetivamente a executa. Exemplos: válvulas de controle, aquecedores elétricos, motores com inversores de frequência e bombas de dosagem.
+          </p>
+          <p>
+            Quando o elemento final faz um ajuste, o processo muda. Uma nova medição é tomada, uma nova decisão é feita e o elemento final se move novamente. Esse loop se repete continuamente, às vezes muitas vezes por segundo.
+          </p>
+
+          <p>Exemplos práticos de malhas de controle:</p>
+          <div class="comparison-table three-column-table" role="table" aria-label="Exemplos práticos de malhas de controle">
+            <div role="row">
+              <strong role="columnheader">Etapa</strong>
+              <strong role="columnheader">Electric Room Heater (Aquecedor)</strong>
+              <strong role="columnheader">Cruise Control (Controle de Cruzeiro)</strong>
+            </div>
+            <div role="row">
+              <span>Medição</span>
+              <span>Temperatura do ambiente</span>
+              <span>Velocidade do veículo</span>
+            </div>
+            <div role="row">
+              <span>Decisão</span>
+              <span>Ligar / Desligar aquecedor?</span>
+              <span>Aumentar / Reduzir velocidade?</span>
+            </div>
+            <div role="row">
+              <span>Ação</span>
+              <span>Resistência elétrica On/Off</span>
+              <span>Borboleta do motor ou variador</span>
+            </div>
+            <div role="row">
+              <span>Resultado</span>
+              <span>Temperatura do ambiente muda</span>
+              <span>Velocidade do carro muda</span>
+            </div>
+          </div>
+
+          <h2>1.3 Por que precisamos de controle de processos?</h2>
+          <p>
+            Processos industriais podem ser grandes, complexos e frequentemente perigosos. Plantas com produtos químicos inflamáveis, corrosivos ou explosivos são operadas por um número reduzido de operadores. O controle automatizado de processos permite que o operador supervisione e gerencie eficazmente essa complexidade.
+          </p>
+
+          <p>Funções do sistema de controle para o operador:</p>
+          <div class="comparison-table two-column-table" role="table" aria-label="Funções do sistema de controle para o operador">
+            <div role="row">
+              <strong role="columnheader">Função</strong>
+              <strong role="columnheader">Descrição</strong>
+            </div>
+            <div role="row">
+              <span>Visibilidade</span>
+              <span>Exibir informações dos instrumentos em tempo real</span>
+            </div>
+            <div role="row">
+              <span>Estabilidade</span>
+              <span>Responder a perturbações e manter condições nominais do processo</span>
+            </div>
+            <div role="row">
+              <span>Correção</span>
+              <span>Ajustar o processo para variações de matéria-prima ou falhas de equipamento</span>
+            </div>
+            <div role="row">
+              <span>Gerenciamento</span>
+              <span>Partida, parada e troca de receitas de produção</span>
+            </div>
+          </div>
+
+          <p>
+            O controle automatizado reduz as demandas físicas e cognitivas dos operadores, além dos requisitos de pessoal. Garante que o processo opere de forma segura, eficaz e eficiente.
+          </p>
+
+          <h2>1.3.1 Segurança e confiabilidade do processo</h2>
+          <div class="definition-box">
+            <strong>Princípio fundamental</strong>
+            <p>Acima de tudo, o sistema de controle de processos deve garantir que o processo opere de forma segura e confiável.</p>
+          </div>
+
+          <p>
+            Quando um processo industrial falha em operar com segurança e confiabilidade, as consequências podem ser catastróficas. A planta e seu sistema de controle são projetados para reduzir riscos de ferimentos, fatalidades e danos a equipamentos, tanto a curto quanto a longo prazo. A instrumentação e o sistema de controle desempenham papel crítico na prevenção e gerenciamento de perturbações operacionais.
+          </p>
+
+          <h3>Confiabilidade</h3>
+          <p>
+            Em contexto industrial, confiabilidade refere-se à capacidade do processo de operar em sua taxa plena de produção sem perdas causadas por reduções de ritmo ou paradas. As paradas podem ser planejadas ou não planejadas, frequentemente causadas por danos ou falhas em equipamentos.
+          </p>
+
+          <h3>Exemplo: caldeira a vapor</h3>
+          <p>
+            Mesmo um processo simples como uma caldeira requer bom controle para manter a confiabilidade de longo prazo. A água de alimentação deve ter pureza muito elevada, próxima à água destilada, para:
+          </p>
+          <ul>
+            <li>Reduzir a corrosão dos tubos do gerador de vapor</li>
+            <li>Evitar a formação de incrustações (depósitos minerais internos nos tubos)</li>
+            <li>Prevenir vazamentos por adelgaçamento das paredes dos tubos</li>
+            <li>Manter a eficiência de transferência de calor e reduzir o consumo de combustível</li>
+          </ul>
+          <p>
+            Analisadores químicos contínuos são rotineiramente utilizados para manter a pureza adequada da água de alimentação e proteger o gerador.
+          </p>
+
+          <div class="definition-box">
+            <strong>Conexão com normas</strong>
+            <p>
+              A segurança funcional de sistemas de controle de processos é regulamentada pela IEC 61511 (indústria de processos) e IEC 61508 (base geral). Conceitos como SIL (Safety Integrity Level) e SIS (Safety Instrumented System) derivam diretamente desses princípios.
+            </p>
+          </div>
+
+          <section class="editorial-tags" aria-label="Tags editoriais">
+            <h2>Tags editoriais</h2>
+            <div>
+              <span>Controle de Processos</span>
+              <span>Malha Fechada</span>
+              <span>Instrumentação</span>
+              <span>CLP</span>
+              <span>SDCD</span>
+              <span>Variável de Processo</span>
+              <span>Segurança Funcional</span>
+              <span>Automação Industrial</span>
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <div class="image-zoom-overlay" aria-hidden="true">
+      <img alt="" />
+    </div>
+
+    <footer class="site-footer">
+      <p>Engenharia em Linha</p>
+      <p>Conteúdo técnico, calendário editorial e espaços prontos para mídia.</p>
+    </footer>
+
+    <script>
+      const zoomOverlay = document.querySelector(".image-zoom-overlay");
+      const zoomOverlayImage = zoomOverlay.querySelector("img");
+
+      document.querySelectorAll(".zoomable-image").forEach((image) => {
+        image.addEventListener("click", (event) => {
+          event.stopPropagation();
+          zoomOverlayImage.src = image.src;
+          zoomOverlayImage.alt = image.alt;
+          zoomOverlay.classList.add("active");
+          zoomOverlay.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      document.addEventListener("click", () => {
+        if (!zoomOverlay.classList.contains("active")) return;
+
+        zoomOverlay.classList.remove("active");
+        zoomOverlay.setAttribute("aria-hidden", "true");
+        zoomOverlayImage.removeAttribute("src");
+        zoomOverlayImage.alt = "";
+      });
+    </script>
+  </body>
+</html>

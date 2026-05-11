@@ -510,6 +510,34 @@ a {
   width: 76%;
 }
 
+.process-control-article-images .article-body figure {
+  width: 86%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.definition-box {
+  margin: 24px 0;
+  padding: 18px 20px;
+  border: 1px solid #b8e9df;
+  border-left: 4px solid var(--teal);
+  border-radius: 8px;
+  background: #eefaf8;
+}
+
+.definition-box strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #0f766e;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.definition-box p {
+  margin: 0;
+}
+
 .zoomable-image {
   cursor: zoom-in;
 }
@@ -833,6 +861,10 @@ a {
   .cpu-ports-article-images .article-body figure:nth-of-type(6),
   .cpu-ports-article-images .article-body figure:nth-of-type(9),
   .cpu-ports-article-images .article-body figure:nth-of-type(12) {
+    width: 100%;
+  }
+
+  .process-control-article-images .article-body figure {
     width: 100%;
   }
 
