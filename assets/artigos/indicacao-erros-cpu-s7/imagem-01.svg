@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">LEDs indicadores de status da CPU S7</title>
+  <desc id="desc">Painel frontal simplificado de uma CPU S7 com LEDs SF, BF, MAINT, DC5V, FORCE, RUN e STOP.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="20" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eef2f4"/>
+    </linearGradient>
+    <radialGradient id="red-led" cx="38%" cy="35%" r="65%">
+      <stop offset="0" stop-color="#fecaca"/>
+      <stop offset="0.45" stop-color="#ef4444"/>
+      <stop offset="1" stop-color="#991b1b"/>
+    </radialGradient>
+    <radialGradient id="yellow-led" cx="38%" cy="35%" r="65%">
+      <stop offset="0" stop-color="#fde68a"/>
+      <stop offset="0.45" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#92400e"/>
+    </radialGradient>
+    <radialGradient id="green-led" cx="38%" cy="35%" r="65%">
+      <stop offset="0" stop-color="#bbf7d0"/>
+      <stop offset="0.45" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#166534"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1280" height="720" fill="#f7faf9"/>
+  <text x="640" y="74" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" text-anchor="middle">LEDs Indicadores da CPU S7</text>
+  <text x="640" y="116" fill="#4b5563" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle">Diagnóstico visual rápido para identificar falhas, modo de operação e alimentação</text>
+
+  <g filter="url(#shadow)">
+    <rect x="130" y="170" width="420" height="450" rx="24" fill="url(#panel)" stroke="#cbd5d8" stroke-width="3"/>
+    <rect x="180" y="250" width="320" height="300" rx="12" fill="#f8fafc" stroke="#d7dee2" stroke-width="2"/>
+    <text x="340" y="218" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="800" text-anchor="middle">Painel frontal</text>
+
+    <g font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="800" fill="#111827">
+      <text x="220" y="304">SF</text>
+      <text x="220" y="344">BF</text>
+      <text x="220" y="384">MAINT</text>
+      <text x="220" y="424">DC5V</text>
+      <text x="220" y="464">FORCE</text>
+      <text x="220" y="504">RUN</text>
+      <text x="220" y="544">STOP</text>
+    </g>
+
+    <g stroke="#ffffff" stroke-width="3">
+      <circle cx="430" cy="296" r="15" fill="url(#red-led)"/>
+      <circle cx="430" cy="336" r="15" fill="url(#red-led)"/>
+      <circle cx="430" cy="376" r="15" fill="url(#yellow-led)"/>
+      <circle cx="430" cy="416" r="15" fill="url(#green-led)"/>
+      <circle cx="430" cy="456" r="15" fill="url(#yellow-led)"/>
+      <circle cx="430" cy="496" r="15" fill="url(#green-led)"/>
+      <circle cx="430" cy="536" r="15" fill="url(#red-led)"/>
+    </g>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="620" y="180" width="500" height="92" rx="14" fill="#fff1f2" stroke="#fecdd3" stroke-width="2"/>
+    <circle cx="654" cy="226" r="14" fill="url(#red-led)" stroke="#fff" stroke-width="3"/>
+    <text x="684" y="220" fill="#111827" font-size="22" font-weight="800">SF e BF</text>
+    <text x="684" y="248" fill="#4b5563" font-size="19">Falha de sistema ou falha de rede.</text>
+
+    <rect x="620" y="294" width="500" height="92" rx="14" fill="#fffbeb" stroke="#fde68a" stroke-width="2"/>
+    <circle cx="654" cy="340" r="14" fill="url(#yellow-led)" stroke="#fff" stroke-width="3"/>
+    <text x="684" y="334" fill="#111827" font-size="22" font-weight="800">MAINT e FORCE</text>
+    <text x="684" y="362" fill="#4b5563" font-size="19">Necessidade de diagnóstico ou ponto forçado.</text>
+
+    <rect x="620" y="408" width="500" height="92" rx="14" fill="#ecfdf5" stroke="#bbf7d0" stroke-width="2"/>
+    <circle cx="654" cy="454" r="14" fill="url(#green-led)" stroke="#fff" stroke-width="3"/>
+    <text x="684" y="448" fill="#111827" font-size="22" font-weight="800">DC5V e RUN</text>
+    <text x="684" y="476" fill="#4b5563" font-size="19">Alimentação presente e programa em execução.</text>
+
+    <rect x="620" y="522" width="500" height="92" rx="14" fill="#fff1f2" stroke="#fecdd3" stroke-width="2"/>
+    <circle cx="654" cy="568" r="14" fill="url(#red-led)" stroke="#fff" stroke-width="3"/>
+    <text x="684" y="562" fill="#111827" font-size="22" font-weight="800">STOP</text>
+    <text x="684" y="590" fill="#4b5563" font-size="19">CPU parada por comando manual ou falha crítica.</text>
+  </g>
+</svg>

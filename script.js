@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Indicação de erros na CPU S7: LEDs de status e diagnóstico visual",
+    excerpt:
+      "Entenda como interpretar SF, BF, MAINT, DC 5V, FORCE, RUN e STOP para diagnosticar falhas em CPUs Siemens S7.",
+    date: "2026-05-11",
+    url: "artigos/indicacao-erros-cpu-s7.html",
+    views: 700,
+    appeal: 90,
+  },
+  {
     title: "Controle de processos industriais: o que é controle de processos?",
     excerpt:
       "Introdução aos processos industriais, variáveis de processo, malha fechada, medição, decisão, ação, segurança e confiabilidade.",
