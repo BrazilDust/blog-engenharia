@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Introdução ao controle de processos e variáveis industriais",
+    excerpt:
+      "Entenda variáveis industriais, sensores, controladores, elementos finais, válvulas atuadas e controle de nível em tanque.",
+    date: "2026-05-13",
+    url: "artigos/introducao-controle-processos-variaveis.html",
+    views: 680,
+    appeal: 91,
+  },
+  {
     title: "Indicação de erros na CPU S7: LEDs de status e diagnóstico visual",
     excerpt:
       "Entenda como interpretar SF, BF, MAINT, DC 5V, FORCE, RUN e STOP para diagnosticar falhas em CPUs Siemens S7.",

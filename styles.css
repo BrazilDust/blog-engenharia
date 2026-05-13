@@ -522,6 +522,16 @@ a {
   margin-right: auto;
 }
 
+.intro-control-article-images .article-body figure {
+  width: 88%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.intro-control-article-images .article-body figure:nth-of-type(3) {
+  width: 100%;
+}
+
 .definition-box {
   margin: 24px 0;
   padding: 18px 20px;
@@ -875,6 +885,11 @@ a {
   }
 
   .indication-errors-article-images .article-body figure {
+    width: 100%;
+  }
+
+  .intro-control-article-images .article-body figure,
+  .intro-control-article-images .article-body figure:nth-of-type(3) {
     width: 100%;
   }
 
