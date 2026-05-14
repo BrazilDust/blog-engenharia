@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Simulador SCADA: sistema de bombeamento e distribuição de água",
+    excerpt:
+      "Interaja com um painel SCADA com bomba, VFD, PID, válvulas, alarmes e tendências de pressão em um sistema de distribuição de água.",
+    date: "2026-05-14",
+    url: "simuladores/sistema-bombeamento-agua.html",
+    views: 660,
+    appeal: 94,
+  },
+  {
     title: "Introdução ao controle de processos e variáveis industriais",
     excerpt:
       "Entenda variáveis industriais, sensores, controladores, elementos finais, válvulas atuadas e controle de nível em tanque.",
@@ -182,6 +191,12 @@ let activePeriod = null;
 let activeToolCategory = null;
 
 const toolLinks = [
+  {
+    category: "simuladores",
+    title: "Simulador SCADA: bombeamento de água",
+    excerpt: "Painel de distribuição com bomba, VFD, PID, válvulas, consumidores, alarmes e tendências.",
+    url: "simuladores/sistema-bombeamento-agua.html",
+  },
   {
     category: "simuladores",
     title: "Simulador PID: controle de processo",

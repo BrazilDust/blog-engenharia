@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador SCADA: Sistema de Bombeamento e Distribuição de Água | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Painel SCADA interativo para simular controle de pressão em sistema de bombeamento e distribuição de água com bomba, VFD, PID, válvulas e consumidores."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Simulador SCADA: Sistema de Bombeamento e Distribuição de Água" />
+    <meta property="og:description" content="Interaja com setpoint, válvulas, PID, bomba, VFD, alarmes e tendências em um painel SCADA de distribuição de água." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/simuladores/sistema-bombeamento-agua.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/engineering-blog-hero.png" />
+    <meta property="article:published_time" content="2026-05-14" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Simulador SCADA: Sistema de Bombeamento e Distribuição de Água" />
+    <meta name="twitter:description" content="Interaja com setpoint, válvulas, PID, bomba, VFD, alarmes e tendências em um painel SCADA de distribuição de água." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/engineering-blog-hero.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600;700&display=swap");
+
+      :root {
+        --bg: #0c0d0f;
+        --bg2: #131518;
+        --bg3: #191c22;
+        --bg4: #20242c;
+        --border: rgba(140,155,175,0.12);
+        --border2: rgba(140,155,175,0.22);
+        --text: #c3ced8;
+        --muted: #697383;
+        --green: #4ecb8d;
+        --blue: #6e9ab8;
+        --amber: #c8943a;
+        --red: #b84a5a;
+        --pipe: #2a3a4a;
+        --pipe-flow: #7fb6d0;
+        --mono: "Share Tech Mono", monospace;
+        --sans: "Barlow", system-ui, sans-serif;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        min-height: 100vh;
+        color: var(--text);
+        background: radial-gradient(circle at 30% 0%, #151a22 0, var(--bg) 42%);
+        font-family: var(--sans);
+        line-height: 1.45;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      }
+
+      .shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border2);
+        background: rgba(19,21,24,0.92);
+      }
+
+      .brand,
+      .back-link {
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        color: #08110e;
+        background: var(--green);
+        border-radius: 7px;
+        font-family: var(--sans);
+        font-size: 12px;
+      }
+
+      .back-link { color: var(--blue); }
+
+      .topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        gap: 18px;
+        align-items: center;
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border2);
+        background: var(--bg2);
+      }
+
+      .sys-title {
+        color: var(--blue);
+        font-family: var(--mono);
+        font-size: 13px;
+        letter-spacing: 0.06em;
+      }
+
+      .sys-sub {
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .alarm-bar {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .alarm-item {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 10px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+
+      .dot.ok { background: var(--green); box-shadow: 0 0 8px var(--green); }
+      .dot.warn { background: var(--amber); box-shadow: 0 0 8px var(--amber); animation: blink 1s infinite; }
+      .dot.alarm { background: var(--red); box-shadow: 0 0 8px var(--red); animation: blink 0.45s infinite; }
+
+      @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.24; } }
+      @keyframes flow { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+      @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+      .clock {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .schematic-wrap {
+        padding: 14px 18px 10px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, #12151b 0%, #0c0d0f 100%);
+      }
+
+      #schematic {
+        display: block;
+        width: 100%;
+        min-height: 280px;
+      }
+
+      .pipe-flow {
+        stroke-dasharray: 6 4;
+        animation: flow 0.65s linear infinite;
+      }
+
+      .impeller {
+        transform-origin: 185px 162px;
+        animation: spin 1.4s linear infinite;
+      }
+
+      .explain {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px 24px;
+        padding: 14px 20px;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: #101318;
+        font-family: var(--mono);
+        font-size: 10px;
+        line-height: 1.65;
+      }
+
+      .explain strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--blue);
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+        min-height: 390px;
+      }
+
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 15px;
+        overflow-y: auto;
+        border-right: 1px solid var(--border);
+        background: var(--bg2);
+      }
+
+      .ctrl-title {
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .ctrl-row { margin-bottom: 11px; }
+
+      .ctrl-label {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 5px;
+        color: var(--text);
+        font-size: 11px;
+      }
+
+      .ctrl-label span:last-child {
+        color: var(--amber);
+        font-family: var(--mono);
+      }
+
+      input[type=range] {
+        width: 100%;
+        height: 3px;
+        outline: none;
+        cursor: pointer;
+        accent-color: var(--green);
+        background: var(--bg4);
+      }
+
+      .pid-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+
+      .pid-item label {
+        display: block;
+        margin-bottom: 3px;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 9px;
+      }
+
+      .pid-item input {
+        width: 100%;
+        padding: 5px 6px;
+        color: var(--text);
+        border: 1px solid var(--border2);
+        border-radius: 4px;
+        outline: none;
+        background: var(--bg4);
+        font-family: var(--mono);
+        font-size: 11px;
+      }
+
+      .gauge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .gauge-chip {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        padding: 5px 8px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg3);
+        font-family: var(--mono);
+        font-size: 10px;
+      }
+
+      .chip-label { color: var(--muted); }
+      .chip-val { color: var(--blue); }
+
+      .alarm-log {
+        max-height: 92px;
+        overflow-y: auto;
+        padding: 7px 8px;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg3);
+        font-family: var(--mono);
+        font-size: 9px;
+      }
+
+      .entry { padding: 2px 0; border-bottom: 1px solid rgba(140,155,175,0.08); }
+      .entry.warn { color: var(--amber); }
+      .entry.alarm { color: var(--red); }
+      .entry.ok { color: var(--green); }
+
+      .btn-row { display: flex; flex-wrap: wrap; gap: 7px; }
+
+      button {
+        padding: 6px 12px;
+        color: var(--text);
+        border: 1px solid var(--border2);
+        border-radius: 4px;
+        background: var(--bg3);
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.04em;
+      }
+
+      button:hover { color: var(--blue); border-color: var(--blue); }
+      .btn-stop { color: var(--red); border-color: rgba(184,74,90,0.45); background: rgba(184,74,90,0.08); }
+      .btn-start { color: var(--green); border-color: rgba(78,203,141,0.45); background: rgba(78,203,141,0.08); }
+
+      .trends {
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+        min-width: 0;
+        background: var(--bg);
+      }
+
+      .trend-panel {
+        display: flex;
+        flex-direction: column;
+        min-height: 122px;
+        padding: 9px 12px 5px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .trend-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 5px;
+      }
+
+      .trend-title {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .trend-val {
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .green { color: var(--green); }
+      .blue { color: var(--blue); }
+      .amber { color: var(--amber); }
+
+      .chart-box {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .site-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 24px 20px;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        background: var(--bg2);
+        font-size: 13px;
+      }
+
+      .site-footer a { color: var(--blue); text-decoration: none; }
+
+      @media (max-width: 900px) {
+        .topbar { grid-template-columns: 1fr; }
+        .workspace { grid-template-columns: 1fr; }
+        .controls { border-right: 0; border-bottom: 1px solid var(--border); }
+      }
+
+      @media (max-width: 560px) {
+        .site-nav,
+        .topbar,
+        .site-footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .schematic-wrap { overflow-x: auto; }
+        #schematic { min-width: 860px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="site-nav" aria-label="Navegação do simulador">
+        <a class="brand" href="../index.html">
+          <span class="brand-mark">EL</span>
+          <span>Engenharia em Linha</span>
+        </a>
+        <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+      </nav>
+
+      <header class="topbar">
+        <div>
+          <div class="sys-title">SCADA · SISTEMA DE BOMBEAMENTO E DISTRIBUIÇÃO DE ÁGUA · P-101 15HP / VFD</div>
+          <div class="sys-sub">Controle de pressão a jusante · PIC-101 envia comando ao VFD · consumidores HX-101 e B-101</div>
+        </div>
+        <div class="alarm-bar" aria-label="Status do sistema">
+          <div class="alarm-item"><span class="dot ok" id="dot-sys"></span><span id="lbl-sys">SISTEMA OK</span></div>
+          <div class="alarm-item"><span class="dot ok" id="dot-p"></span><span id="lbl-p">PRESSÃO OK</span></div>
+          <div class="alarm-item"><span class="dot ok" id="dot-v"></span><span id="lbl-v">VFD OK</span></div>
+        </div>
+        <div class="clock" id="clock">--:--:--</div>
+      </header>
+
+      <section class="schematic-wrap" aria-label="Esquemático do sistema">
+        <svg id="schematic" viewBox="0 0 900 285" role="img" aria-label="Sistema de bombeamento com reservatório, bomba, controlador, VFD, válvulas e consumidores">
+          <defs>
+            <linearGradient id="pipeGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2a3a4a"/>
+              <stop offset="100%" stop-color="#1a2a38"/>
+            </linearGradient>
+            <linearGradient id="tankGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a2232"/>
+              <stop offset="100%" stop-color="#0e1520"/>
+            </linearGradient>
+            <radialGradient id="pumpRad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#243040"/>
+              <stop offset="100%" stop-color="#0e1828"/>
+            </radialGradient>
+          </defs>
+
+          <rect x="0" y="0" width="900" height="78" fill="#0f1218" opacity="0.65"/>
+          <line x1="0" y1="78" x2="900" y2="78" stroke="rgba(140,155,175,0.08)"/>
+          <text x="8" y="16" font-family="Share Tech Mono" font-size="8" fill="#3a4450">ZONA DE INSTRUMENTAÇÃO / SINAL</text>
+          <text x="8" y="96" font-family="Share Tech Mono" font-size="8" fill="#3a4450">ZONA DE PROCESSO</text>
+
+          <rect x="18" y="92" width="72" height="106" rx="5" fill="url(#tankGrad)" stroke="#2a3a4a" stroke-width="1.5"/>
+          <rect x="23" y="97" width="62" height="64" rx="2" fill="#0a1218" opacity="0.9"/>
+          <rect x="23" y="123" width="62" height="38" rx="2" fill="#1f4058" opacity="0.72">
+            <animate attributeName="height" values="36;39;36" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="125;122;125" dur="3s" repeatCount="indefinite"/>
+          </rect>
+          <text x="54" y="177" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#5a6472">TQ-101</text>
+          <text x="54" y="188" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#3a4450">RESERVATÓRIO</text>
+
+          <rect x="92" y="157" width="58" height="10" rx="2" fill="url(#pipeGrad)" stroke="#2a3a4a"/>
+          <line id="flow-suc" x1="95" y1="162" x2="147" y2="162" stroke="#7fb6d0" stroke-width="1.5" opacity="0.62" class="pipe-flow"/>
+
+          <circle cx="185" cy="162" r="31" fill="url(#pumpRad)" stroke="#3a5060" stroke-width="1.8"/>
+          <g id="impeller" class="impeller">
+            <line x1="185" y1="142" x2="185" y2="153" stroke="#7fb6d0" stroke-width="2.6" stroke-linecap="round"/>
+            <line x1="185" y1="171" x2="185" y2="182" stroke="#7fb6d0" stroke-width="2.6" stroke-linecap="round"/>
+            <line x1="165" y1="162" x2="176" y2="162" stroke="#7fb6d0" stroke-width="2.6" stroke-linecap="round"/>
+            <line x1="194" y1="162" x2="205" y2="162" stroke="#7fb6d0" stroke-width="2.6" stroke-linecap="round"/>
+            <circle cx="185" cy="162" r="4.5" fill="#7fb6d0"/>
+          </g>
+          <text x="185" y="207" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#6e9ab8">P-101</text>
+          <text x="185" y="219" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a6472">15HP · CENTRIF.</text>
+          <text x="185" y="231" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#4ecb8d" id="lbl-rpm">-- RPM</text>
+
+          <rect x="151" y="88" width="70" height="38" rx="4" fill="#111520" stroke="#243040"/>
+          <rect x="155" y="92" width="29" height="31" rx="2" fill="#141c28" stroke="#1e3040"/>
+          <text x="170" y="103" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#5a6472">MOTOR</text>
+          <text x="170" y="113" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#6e9ab8">11kW</text>
+          <rect x="188" y="92" width="29" height="31" rx="2" fill="#0e1c2c" stroke="#1e3a50"/>
+          <text x="203" y="103" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#4ecb8d">VFD</text>
+          <text x="203" y="113" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#6e9ab8" id="lbl-hz">-- Hz</text>
+          <text x="203" y="121" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#3a4450" id="lbl-pct">-- %</text>
+
+          <rect x="148" y="13" width="74" height="50" rx="4" fill="#0e1c18" stroke="#4ecb8d"/>
+          <text x="185" y="27" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#4ecb8d">PIC-101</text>
+          <text x="185" y="39" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a6472">PID CTRL</text>
+          <text x="185" y="51" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#6e9ab8" id="lbl-sp-sch">SP:4.0bar</text>
+          <line x1="185" y1="63" x2="185" y2="92" stroke="#4ecb8d" stroke-width="0.9" stroke-dasharray="4 2"/>
+          <text x="192" y="79" font-family="Share Tech Mono" font-size="6" fill="#3a5840">OP→VFD</text>
+
+          <rect x="215" y="157" width="116" height="10" rx="2" fill="url(#pipeGrad)" stroke="#2a3a4a"/>
+          <line id="flow-dis" x1="218" y1="162" x2="328" y2="162" stroke="#7fb6d0" stroke-width="1.5" opacity="0.62" class="pipe-flow"/>
+          <circle cx="334" cy="162" r="14" fill="#111828" stroke="#6e9ab8" stroke-width="1.3"/>
+          <text x="334" y="158" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#6e9ab8">PIT</text>
+          <text x="334" y="168" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#6e9ab8">101</text>
+          <text x="334" y="146" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#4ecb8d" id="lbl-pit">-- bar</text>
+          <line x1="334" y1="148" x2="334" y2="34" stroke="#4ecb8d" stroke-width="0.9" stroke-dasharray="4 2" opacity="0.65"/>
+          <line x1="334" y1="34" x2="222" y2="34" stroke="#4ecb8d" stroke-width="0.9" stroke-dasharray="4 2" opacity="0.65"/>
+          <text x="278" y="29" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#3a5840">PV · 4-20mA</text>
+
+          <rect x="348" y="157" width="212" height="10" rx="2" fill="url(#pipeGrad)" stroke="#2a3a4a"/>
+          <line id="flow-main" x1="351" y1="162" x2="556" y2="162" stroke="#7fb6d0" stroke-width="1.5" opacity="0.62" class="pipe-flow"/>
+          <text id="lbl-pline" x="431" y="181" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#6e9ab8">P_LINE: -- bar</text>
+
+          <rect x="496" y="88" width="10" height="70" rx="2" fill="url(#pipeGrad)" stroke="#2a3a4a"/>
+          <line id="flow-hx" x1="501" y1="156" x2="501" y2="91" stroke="#7fb6d0" stroke-width="1.5" opacity="0.62" class="pipe-flow"/>
+          <g transform="translate(501,80)">
+            <circle r="9" fill="#0e1620" stroke="#2a3a4a"/>
+            <ellipse id="disc-hx" rx="7" ry="3" fill="#4ecb8d"/>
+            <text x="0" y="-18" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#5a6472">FCV-101</text>
+            <text id="lbl-vhx" x="0" y="-28" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#4ecb8d">80%</text>
+          </g>
+          <rect x="462" y="18" width="78" height="50" rx="5" fill="#111828" stroke="#2a3a4a" stroke-width="1.3"/>
+          <path d="M470,31 Q478,27 488,31 Q498,35 508,31 Q518,27 528,31 Q534,34 534,40" fill="none" stroke="#b85030" stroke-width="2" stroke-linecap="round"/>
+          <path d="M470,43 Q478,39 488,43 Q498,47 508,43 Q518,39 528,43 Q534,46 534,52" fill="none" stroke="#6e9ab8" stroke-width="2" stroke-linecap="round"/>
+          <text x="501" y="15" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#6e9ab8">HX-101</text>
+          <text id="lbl-phx" x="501" y="75" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#c8943a">-- bar</text>
+
+          <rect x="560" y="157" width="62" height="10" rx="2" fill="url(#pipeGrad)" stroke="#2a3a4a"/>
+          <line id="flow-mid" x1="563" y1="162" x2="619" y2="162" stroke="#7fb6d0" stroke-width="1.5" opacity="0.62" class="pipe-flow"/>
+          <rect x="618" y="162" width="10" height="72" rx="2" fill="url(#pipeGrad)" stroke="#2a3a4a"/>
+          <line id="flow-bl" x1="623" y1="165" x2="623" y2="231" stroke="#7fb6d0" stroke-width="1.5" opacity="0.62" class="pipe-flow"/>
+          <g transform="translate(623,242)">
+            <circle r="9" fill="#0e1620" stroke="#2a3a4a"/>
+            <ellipse id="disc-bl" rx="7" ry="3" fill="#4ecb8d"/>
+            <text x="0" y="28" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#5a6472">FCV-102</text>
+            <text id="lbl-vbl" x="0" y="38" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#4ecb8d">60%</text>
+          </g>
+          <ellipse cx="730" cy="215" rx="54" ry="36" fill="#141018" stroke="#3a2818" stroke-width="1.5"/>
+          <path d="M710,228 Q715,214 712,203 Q719,217 715,207 Q721,218 719,228 Z" fill="#b85030">
+            <animate attributeName="opacity" values="0.75;0.35;0.75" dur="0.5s" repeatCount="indefinite"/>
+          </path>
+          <path d="M728,228 Q733,214 730,202 Q738,218 733,207 Q740,218 737,228 Z" fill="#c8781a">
+            <animate attributeName="opacity" values="0.85;0.42;0.85" dur="0.65s" repeatCount="indefinite"/>
+          </path>
+          <text x="730" y="217" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#c8943a" stroke="#0a0c10" stroke-width="3">B-101</text>
+          <text x="730" y="217" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#c8943a">B-101</text>
+          <text id="lbl-pbl" x="730" y="262" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#c8943a">-- bar</text>
+
+          <rect x="790" y="84" width="104" height="58" rx="3" fill="#0e1218" stroke="rgba(140,155,175,0.1)"/>
+          <line x1="798" y1="96" x2="818" y2="96" stroke="#7fb6d0" stroke-width="1.8" stroke-dasharray="6 4"/>
+          <text x="823" y="99" font-family="Share Tech Mono" font-size="7" fill="#5a6472">Fluxo processo</text>
+          <line x1="798" y1="110" x2="818" y2="110" stroke="#4ecb8d" stroke-width="1" stroke-dasharray="4 2"/>
+          <text x="823" y="113" font-family="Share Tech Mono" font-size="7" fill="#5a6472">Sinal 4-20mA</text>
+          <rect x="798" y="121" width="20" height="10" rx="2" fill="#0e1c18" stroke="#4ecb8d"/>
+          <text x="823" y="129" font-family="Share Tech Mono" font-size="7" fill="#5a6472">Controlador PID</text>
+        </svg>
+      </section>
+
+      <section class="explain" aria-label="Descrição técnica do simulador">
+        <p><strong>Planta hidráulica</strong>A bomba centrífuga segue uma aproximação da lei de afinidade: a pressão gerada varia com o quadrado da velocidade. As válvulas alteram a condutância hidráulica da rede.</p>
+        <p><strong>Controlador PID</strong>O PIC-101 compara a pressão medida pelo PIT-101 com o setpoint e ajusta o comando do VFD. O anti-windup evita acumular integral quando a saída satura.</p>
+        <p><strong>VFD e motor</strong>O inversor varia a velocidade da bomba entre 30% e 100% da rotação nominal. Esse limite representa proteção operacional contra cavitação e sobrecarga.</p>
+        <p><strong>Alarmes</strong>Pressão alta, pressão baixa, limite de VFD e pressão inadequada na caldeira geram avisos no topo do painel e no log de alarmes.</p>
+      </section>
+
+      <main class="workspace">
+        <aside class="controls" aria-label="Controles do sistema">
+          <section>
+            <div class="ctrl-title">Setpoint de pressão</div>
+            <div class="ctrl-row">
+              <label class="ctrl-label" for="sp"><span>SP Pressão</span><span id="sp-val">4.0 bar</span></label>
+              <input type="range" id="sp" min="3.0" max="5.0" value="4.0" step="0.1" />
+            </div>
+          </section>
+
+          <section>
+            <div class="ctrl-title">Abertura de válvulas</div>
+            <div class="ctrl-row">
+              <label class="ctrl-label" for="vhx"><span>FCV-101 Permutador</span><span id="vhx-val">80%</span></label>
+              <input type="range" id="vhx" min="0" max="100" value="80" step="1" />
+            </div>
+            <div class="ctrl-row">
+              <label class="ctrl-label" for="vbl"><span>FCV-102 Caldeira</span><span id="vbl-val">60%</span></label>
+              <input type="range" id="vbl" min="0" max="100" value="60" step="1" />
+            </div>
+          </section>
+
+          <section>
+            <div class="ctrl-title">Ganhos PID</div>
+            <div class="pid-row">
+              <div class="pid-item"><label for="Kp">Kp</label><input type="number" id="Kp" value="2.5" step="0.1" min="0" max="20" /></div>
+              <div class="pid-item"><label for="Ki">Ki</label><input type="number" id="Ki" value="0.30" step="0.01" min="0" max="5" /></div>
+              <div class="pid-item"><label for="Kd">Kd</label><input type="number" id="Kd" value="0.5" step="0.1" min="0" max="10" /></div>
+            </div>
+          </section>
+
+          <section>
+            <div class="ctrl-title">Limites VFD / bomba</div>
+            <div class="gauge-row">
+              <div class="gauge-chip"><span class="chip-label">VFD MIN</span><span class="chip-val">30%</span></div>
+              <div class="gauge-chip"><span class="chip-label">VFD MAX</span><span class="chip-val">100%</span></div>
+              <div class="gauge-chip"><span class="chip-label">Potência</span><span class="chip-val">15HP</span></div>
+              <div class="gauge-chip"><span class="chip-label">RPM nom.</span><span class="chip-val">1750</span></div>
+            </div>
+          </section>
+
+          <section>
+            <div class="ctrl-title">Log de alarmes</div>
+            <div class="alarm-log" id="alarm-log">
+              <div class="entry ok">Sistema inicializado</div>
+            </div>
+          </section>
+
+          <div class="btn-row">
+            <button class="btn-stop" id="btn-main" type="button">Pausar</button>
+            <button class="btn-start" id="btn-reset" type="button">Reset</button>
+          </div>
+        </aside>
+
+        <section class="trends" aria-label="Tendências do processo">
+          <div class="trend-panel">
+            <div class="trend-header">
+              <span class="trend-title">PIT-101 · Pressão linha descarga</span>
+              <span class="trend-val green" id="tv-p">-- bar</span>
+            </div>
+            <div class="chart-box"><canvas id="chartP"></canvas></div>
+          </div>
+
+          <div class="trend-panel">
+            <div class="trend-header">
+              <span class="trend-title">VFD · Velocidade bomba P-101</span>
+              <span class="trend-val blue" id="tv-spd">-- %</span>
+            </div>
+            <div class="chart-box"><canvas id="chartSpd"></canvas></div>
+          </div>
+
+          <div class="trend-panel">
+            <div class="trend-header">
+              <span class="trend-title">Consumidores · HX-101 e B-101</span>
+              <span><span class="trend-val blue" id="tv-phx">HX:--</span> <span class="trend-val amber" id="tv-pbl">B:--</span></span>
+            </div>
+            <div class="chart-box"><canvas id="chartCons"></canvas></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>Engenharia em Linha · simulador SCADA educacional</span>
+        <a href="../index.html#artigos">Voltar para artigos</a>
+      </footer>
+    </div>
+
+    <script>
+      const N = 200;
+      const DT = 0.15;
+      const STEP_MS = 80;
+      const VFD_MIN = 0.30;
+      const VFD_MAX = 1.00;
+      const RPM_NOM = 1750;
+      const FREQ_NOM = 60;
+      const P_NOM = 6.25;
+      const TAU_SYS = 3.5;
+      const TAU_VFD = 1.2;
+      const R_HX = 0.18;
+      const R_BL = 0.22;
+      const PMIN_BL = 2.5;
+      const PMAX_BL = 8.0;
+
+      let pLine = 0;
+      let vfdSpd = Math.sqrt(4 * 1.25 / P_NOM);
+      let intErr = 0;
+      let prevErr = 0;
+      let paused = false;
+      let lastTs = null;
+      let accMs = 0;
+      let tSim = 0;
+      let alarmTs = {};
+
+      let pArr = new Array(N).fill(0);
+      let spArr = new Array(N).fill(4);
+      let spdArr = new Array(N).fill(vfdSpd);
+      let phxArr = new Array(N).fill(0);
+      let pblArr = new Array(N).fill(0);
+
+      function getParams() {
+        return {
+          sp: parseFloat(document.getElementById("sp").value),
+          vhx: parseFloat(document.getElementById("vhx").value) / 100,
+          vbl: parseFloat(document.getElementById("vbl").value) / 100,
+          Kp: parseFloat(document.getElementById("Kp").value) || 2.5,
+          Ki: parseFloat(document.getElementById("Ki").value) || 0.3,
+          Kd: parseFloat(document.getElementById("Kd").value) || 0.5,
+        };
+      }
+
+      function stepSim(p) {
+        const err = p.sp - pLine;
+        const termP = p.Kp * err;
+        const termI = p.Ki * intErr;
+        const termD = p.Kd * (err - prevErr) / DT;
+        const uPID = termP + termI + termD;
+        const condNom = 0.8 + 0.6;
+        const kr = 0.25;
+        const vfdNom = Math.sqrt(Math.max(0, p.sp) * (1 + kr) / P_NOM);
+        const raw = vfdNom + uPID * 0.04;
+        const cmd = Math.max(VFD_MIN, Math.min(VFD_MAX, raw));
+
+        if (Math.abs(raw - cmd) < 0.001) intErr += err * DT;
+        prevErr = err;
+
+        vfdSpd += ((cmd - vfdSpd) / TAU_VFD) * DT;
+        vfdSpd = Math.max(VFD_MIN, Math.min(VFD_MAX, vfdSpd));
+
+        const condHX = Math.max(p.vhx, 0.01);
+        const condBL = Math.max(p.vbl, 0.01);
+        const condTotal = condHX + condBL;
+        const pShutoff = P_NOM * vfdSpd * vfdSpd;
+        const ratio = condTotal / condNom;
+        const pTarget = pShutoff / (1 + ratio * ratio * kr);
+
+        pLine += ((pTarget - pLine) / TAU_SYS) * DT;
+        pLine = Math.max(0, pLine);
+        tSim += DT;
+
+        return {
+          pHX: pLine * (1 - R_HX * (1 - condHX)),
+          pBL: pLine * (1 - R_BL * (1 - condBL)),
+        };
+      }
+
+      function addAlarm(key, message, type) {
+        if (alarmTs[key] && tSim - alarmTs[key] < 5) return;
+        alarmTs[key] = tSim;
+        const log = document.getElementById("alarm-log");
+        const entry = document.createElement("div");
+        entry.className = `entry ${type}`;
+        entry.textContent = `[${tSim.toFixed(0)}s] ${message}`;
+        log.prepend(entry);
+        if (log.children.length > 18) log.removeChild(log.lastChild);
+      }
+
+      function setDot(dotId, labelId, status, text) {
+        document.getElementById(dotId).className = `dot ${status}`;
+        document.getElementById(labelId).textContent = text;
+      }
+
+      function checkAlarms(p, pHX, pBL) {
+        const high = pLine > p.sp * 1.15;
+        const low = pLine < p.sp * 0.8 && tSim > 5;
+        const boilerHigh = pBL > PMAX_BL;
+        const boilerLow = pBL < PMIN_BL && tSim > 5;
+        const vfdLimit = vfdSpd <= VFD_MIN + 0.01 || vfdSpd >= VFD_MAX - 0.01;
+
+        if (high) addAlarm("pHigh", `PRESSÃO ALTA LINHA: ${pLine.toFixed(2)} bar`, "alarm");
+        if (low) addAlarm("pLow", `PRESSÃO BAIXA LINHA: ${pLine.toFixed(2)} bar`, "warn");
+        if (boilerHigh) addAlarm("bHigh", `PRESSÃO ALTA B-101: ${pBL.toFixed(2)} bar`, "alarm");
+        if (boilerLow) addAlarm("bLow", `PRESSÃO BAIXA B-101: ${pBL.toFixed(2)} bar`, "warn");
+        if (vfdLimit) addAlarm("vfd", "VFD em limite operacional", "warn");
+
+        setDot("dot-p", "lbl-p", high ? "alarm" : low ? "warn" : "ok", high ? "PRESSÃO ALTA" : low ? "PRESSÃO BAIXA" : "PRESSÃO OK");
+        setDot("dot-v", "lbl-v", vfdLimit ? "warn" : "ok", vfdLimit ? "VFD LIMITE" : "VFD OK");
+        setDot("dot-sys", "lbl-sys", boilerHigh || high ? "alarm" : low || boilerLow || vfdLimit ? "warn" : "ok", boilerHigh || high ? "ALARME" : low || boilerLow || vfdLimit ? "ATENÇÃO" : "SISTEMA OK");
+      }
+
+      function valveColor(open) {
+        if (open > 0.6) return "#4ecb8d";
+        if (open > 0.2) return "#c8943a";
+        return "#b84a5a";
+      }
+
+      function updateSchematic(p, pHX, pBL) {
+        const pct = vfdSpd * 100;
+        document.getElementById("lbl-rpm").textContent = `${(vfdSpd * RPM_NOM).toFixed(0)} RPM`;
+        document.getElementById("lbl-hz").textContent = `${(vfdSpd * FREQ_NOM).toFixed(1)} Hz`;
+        document.getElementById("lbl-pct").textContent = `${pct.toFixed(0)}%`;
+        document.getElementById("lbl-pit").textContent = `${pLine.toFixed(2)} bar`;
+        document.getElementById("lbl-pline").textContent = `P_LINE: ${pLine.toFixed(2)} bar`;
+        document.getElementById("lbl-sp-sch").textContent = `SP:${p.sp.toFixed(1)}bar`;
+        document.getElementById("lbl-phx").textContent = `${pHX.toFixed(2)} bar`;
+        document.getElementById("lbl-pbl").textContent = `${pBL.toFixed(2)} bar`;
+        document.getElementById("lbl-vhx").textContent = `${(p.vhx * 100).toFixed(0)}%`;
+        document.getElementById("lbl-vbl").textContent = `${(p.vbl * 100).toFixed(0)}%`;
+
+        document.getElementById("impeller").style.animationDuration = `${(1.2 / Math.max(vfdSpd, 0.15)).toFixed(2)}s`;
+        ["flow-suc", "flow-dis", "flow-main", "flow-mid"].forEach((id) => {
+          document.getElementById(id).style.animationDuration = `${(0.65 / Math.max(vfdSpd, 0.15)).toFixed(2)}s`;
+        });
+
+        ["hx", "bl"].forEach((id) => {
+          const open = id === "hx" ? p.vhx : p.vbl;
+          document.getElementById(`disc-${id}`).setAttribute("fill", valveColor(open));
+          document.getElementById(`lbl-v${id}`).setAttribute("fill", valveColor(open));
+        });
+      }
+
+      const labels = Array.from({ length: N }, (_, i) => (i * DT).toFixed(0));
+      const gridColor = "rgba(120,160,210,0.06)";
+      const tickFont = { family: "'Share Tech Mono', monospace", size: 9 };
+
+      function makeChart(id, datasets, title) {
+        return new Chart(document.getElementById(id), {
+          type: "line",
+          data: { labels, datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { display: false },
+              y: {
+                ticks: { color: "#697383", font: tickFont },
+                grid: { color: gridColor },
+                title: { display: true, text: title, color: "#697383", font: tickFont },
+              },
+            },
+            elements: { point: { radius: 0 } },
+          },
+        });
+      }
+
+      const chartP = makeChart("chartP", [
+        { label: "SP", data: [...spArr], borderColor: "#c8943a", borderWidth: 1, borderDash: [5, 3], pointRadius: 0 },
+        { label: "P", data: [...pArr], borderColor: "#4ecb8d", borderWidth: 2, tension: 0.25, pointRadius: 0 },
+      ], "bar");
+
+      const chartSpd = makeChart("chartSpd", [
+        { label: "VFD", data: spdArr.map((v) => v * 100), borderColor: "#6e9ab8", borderWidth: 2, tension: 0.25, pointRadius: 0 },
+      ], "%");
+
+      const chartCons = makeChart("chartCons", [
+        { label: "HX", data: [...phxArr], borderColor: "#6e9ab8", borderWidth: 1.6, tension: 0.25, pointRadius: 0 },
+        { label: "B-101", data: [...pblArr], borderColor: "#c8943a", borderWidth: 1.6, tension: 0.25, pointRadius: 0 },
+      ], "bar");
+
+      function updateCharts() {
+        chartP.data.datasets[0].data = [...spArr];
+        chartP.data.datasets[1].data = [...pArr];
+        chartP.update("none");
+        chartSpd.data.datasets[0].data = spdArr.map((v) => v * 100);
+        chartSpd.update("none");
+        chartCons.data.datasets[0].data = [...phxArr];
+        chartCons.data.datasets[1].data = [...pblArr];
+        chartCons.update("none");
+      }
+
+      function simStep() {
+        const p = getParams();
+        const { pHX, pBL } = stepSim(p);
+
+        pArr.push(pLine); if (pArr.length > N) pArr.shift();
+        spArr.push(p.sp); if (spArr.length > N) spArr.shift();
+        spdArr.push(vfdSpd); if (spdArr.length > N) spdArr.shift();
+        phxArr.push(pHX); if (phxArr.length > N) phxArr.shift();
+        pblArr.push(pBL); if (pblArr.length > N) pblArr.shift();
+
+        document.getElementById("tv-p").textContent = `${pLine.toFixed(2)} bar`;
+        document.getElementById("tv-spd").textContent = `${(vfdSpd * 100).toFixed(1)}% · ${(vfdSpd * RPM_NOM).toFixed(0)} rpm`;
+        document.getElementById("tv-phx").textContent = `HX:${pHX.toFixed(2)}`;
+        document.getElementById("tv-pbl").textContent = `B:${pBL.toFixed(2)}`;
+
+        updateSchematic(p, pHX, pBL);
+        checkAlarms(p, pHX, pBL);
+      }
+
+      function loop(ts) {
+        if (paused) return;
+        if (lastTs !== null) {
+          accMs += ts - lastTs;
+          while (accMs >= STEP_MS) {
+            simStep();
+            accMs -= STEP_MS;
+          }
+          updateCharts();
+        }
+        lastTs = ts;
+        requestAnimationFrame(loop);
+      }
+
+      function resetSim() {
+        pLine = 0;
+        vfdSpd = Math.sqrt(4 * 1.25 / P_NOM);
+        intErr = 0;
+        prevErr = 0;
+        tSim = 0;
+        lastTs = null;
+        accMs = 0;
+        alarmTs = {};
+        pArr = new Array(N).fill(0);
+        spArr = new Array(N).fill(parseFloat(document.getElementById("sp").value));
+        spdArr = new Array(N).fill(vfdSpd);
+        phxArr = new Array(N).fill(0);
+        pblArr = new Array(N).fill(0);
+        document.getElementById("alarm-log").innerHTML = '<div class="entry ok">Sistema reiniciado</div>';
+        updateCharts();
+      }
+
+      document.getElementById("btn-main").addEventListener("click", () => {
+        paused = !paused;
+        document.getElementById("btn-main").textContent = paused ? "Continuar" : "Pausar";
+        if (!paused) {
+          lastTs = null;
+          requestAnimationFrame(loop);
+        }
+      });
+
+      document.getElementById("btn-reset").addEventListener("click", resetSim);
+
+      ["sp", "vhx", "vbl"].forEach((id) => {
+        document.getElementById(id).addEventListener("input", (event) => {
+          const value = event.target.value;
+          if (id === "sp") document.getElementById("sp-val").textContent = `${parseFloat(value).toFixed(1)} bar`;
+          if (id === "vhx") document.getElementById("vhx-val").textContent = `${value}%`;
+          if (id === "vbl") document.getElementById("vbl-val").textContent = `${value}%`;
+        });
+      });
+
+      function updateClock() {
+        document.getElementById("clock").textContent = new Date().toLocaleTimeString("pt-BR");
+      }
+
+      setInterval(updateClock, 1000);
+      updateClock();
+      requestAnimationFrame(loop);
+    </script>
+  </body>
+</html>
