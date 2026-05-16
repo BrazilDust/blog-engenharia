@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modos de Operação da CPU Siemens S7: RUN, RUN-P, STOP e MRES | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Entenda os modos de operação da CPU Siemens S7, a função da chave seletora, diferenças entre CPUs antigas e novas, RUN, RUN-P, STOP e MRES."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Modos de Operação da CPU Siemens S7" />
+    <meta property="og:description" content="Veja como RUN, RUN-P, STOP e MRES afetam execução, download, upload, manutenção e reset de memória em CPUs Siemens S7." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/artigos/modos-operacao-cpu-s7.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/artigos/modos-operacao-cpu-s7/imagem-01.png" />
+    <meta property="og:image:alt" content="Chave seletora de modo de uma CPU Siemens S7 antiga com posições RUN-P, RUN, STOP e MRES." />
+    <meta property="article:published_time" content="2026-05-16" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Modos de Operação da CPU Siemens S7" />
+    <meta name="twitter:description" content="Veja como RUN, RUN-P, STOP e MRES afetam execução, download, upload, manutenção e reset de memória em CPUs Siemens S7." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/artigos/modos-operacao-cpu-s7/imagem-01.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page cpu-mode-article-images">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Automação industrial</p>
+          <h1>Modos de Operação da CPU Siemens S7: RUN, RUN-P, STOP e MRES</h1>
+          <p>
+            A chave seletora de modo define o estado operacional da CPU, as permissões de programação e os procedimentos corretos de manutenção, diagnóstico e reset de memória.
+          </p>
+          <time datetime="2026-05-16">16 de maio de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>A chave seletora de modo</h2>
+          <p>
+            As CPUs da família Siemens S7 possuem um elemento físico fundamental para a operação do sistema: a chave seletora de modo. Esse componente permite ao operador definir manualmente em qual estado operacional a CPU se encontrará, determinando diretamente o comportamento do controlador e sua relação com o programa em execução.
+          </p>
+          <p>
+            A chave seletora é um recurso essencial tanto para a operação cotidiana quanto para atividades de manutenção, programação e diagnóstico. Por meio dela, é possível iniciar ou interromper a execução do programa, controlar permissões de comunicação com o computador de programação e realizar o apagamento da memória do controlador quando necessário.
+          </p>
+
+          <figure>
+            <img
+              class="zoomable-image"
+              src="../assets/artigos/modos-operacao-cpu-s7/imagem-01.png"
+              alt="Chave seletora antiga de CPU Siemens S7 com posições RUN-P, RUN, STOP e MRES"
+            />
+            <figcaption>CPU Siemens S7 de geração antiga com chave seletora contendo a posição RUN-P.</figcaption>
+          </figure>
+
+          <h2>Modos de operação disponíveis</h2>
+          <p>
+            Dependendo da geração da CPU utilizada, podem estar disponíveis até quatro modos de operação selecionáveis diretamente pela chave: RUN-P, RUN, STOP e MRES. A presença ou ausência do modo RUN-P é uma das principais diferenças entre CPUs antigas e novas da família S7.
+          </p>
+
+          <h2>Modo RUN-P</h2>
+          <p>
+            O modo RUN-P, ou Run-Program, é exclusivo das CPUs de geração mais antiga da família S7. Nesse modo, a CPU executa continuamente o programa de controle armazenado em sua memória, monitora as entradas do processo e atua sobre as saídas conforme a lógica programada.
+          </p>
+          <p>
+            A principal característica que diferencia o RUN-P dos demais modos de execução é a permissão bidirecional de comunicação com o computador de programação. O técnico pode realizar download, transferindo um novo programa ou alterações do computador para a CPU, mesmo com o sistema em operação. Também pode realizar upload, copiando o programa armazenado na CPU para o computador a qualquer momento.
+          </p>
+          <p>
+            Essa flexibilidade torna o RUN-P especialmente útil durante comissionamento, colocação em operação e ajustes finos realizados enquanto o processo continua funcionando. Porém, é necessário cuidado: alterações no programa durante a execução podem impactar diretamente o processo em andamento. Por isso, o técnico precisa ter pleno conhecimento das modificações realizadas e dos riscos associados à intervenção.
+          </p>
+
+          <h2>Modo RUN</h2>
+          <p>
+            O modo RUN também coloca a CPU em execução contínua do programa, com comportamento operacional equivalente ao RUN-P no que diz respeito ao processamento da lógica de controle. A diferença fundamental, nas CPUs antigas, está na restrição de comunicação com o computador de programação.
+          </p>
+          <p>
+            Em CPUs antigas, com a chave em RUN, o upload é permitido: o programa existente na CPU pode ser copiado para o computador. No entanto, o download não é permitido: não é possível enviar um novo programa ou alterações para a CPU enquanto ela permanece nesse modo. Para realizar download, seria necessário alterar a chave para RUN-P ou STOP, conforme o procedimento adotado.
+          </p>
+          <p>
+            Nas CPUs de geração antiga, o RUN oferece uma camada adicional de proteção contra alterações acidentais no programa durante a operação. Já nas CPUs de nova geração da família S7, o modo RUN-P foi eliminado. O modo RUN dessas CPUs incorpora as permissões de download e upload, funcionando na prática como o antigo RUN-P. Essa mudança simplifica a operação e reduz a possibilidade de erro causada pela seleção incorreta do modo.
+          </p>
+
+          <figure>
+            <img
+              class="zoomable-image"
+              src="../assets/artigos/modos-operacao-cpu-s7/imagem-02.png"
+              alt="Chave seletora nova de CPU Siemens S7 com posições RUN, STOP e MRES"
+            />
+            <figcaption>CPU Siemens S7 de geração nova com chave seletora sem a posição RUN-P.</figcaption>
+          </figure>
+
+          <h2>Modo STOP</h2>
+          <p>
+            No modo STOP, a CPU interrompe completamente a execução do programa de controle. As saídas são desativadas ou mantidas no estado seguro definido na configuração do sistema, e nenhuma lógica de controle é processada. Esse modo é utilizado quando o processo deve ser impedido de executar comandos automáticos.
+          </p>
+          <p>
+            O STOP é aplicado antes de realizar o download de um novo programa em CPUs antigas que não permitem download em RUN, durante manutenção em dispositivos de campo conectados ao CLP, em situações de diagnóstico de falhas e na configuração inicial do sistema antes da primeira carga de programa. O comportamento do STOP é equivalente em CPUs antigas e novas.
+          </p>
+
+          <h2>Modo MRES</h2>
+          <p>
+            O modo MRES, ou Memory Reset, é uma posição especial da chave seletora utilizada para realizar o apagamento completo da memória da CPU. Ao executar o procedimento de reset de memória, o programa armazenado é removido e a CPU retorna a uma condição semelhante ao estado inicial, como se ainda não tivesse recebido o projeto de controle.
+          </p>
+          <p>
+            O MRES não é um modo de operação contínuo, mas sim uma função ativada por um procedimento específico. No Siemens S7-300, por exemplo, o procedimento típico envolve posicionar a chave em STOP, manter a chave em MRES por alguns segundos até o LED STOP piscar, soltar a chave para que ela retorne a STOP e, em seguida, acionar novamente MRES dentro do tempo indicado pelo procedimento. O término do reset é indicado pelo comportamento do LED STOP.
+          </p>
+          <p>
+            O MRES é utilizado na preparação da CPU para receber um novo projeto do zero, na resolução de erros críticos de memória que impedem a operação normal e na reutilização do hardware em outra aplicação. Assim como o STOP, o MRES opera de forma equivalente em CPUs antigas e novas da família S7.
+          </p>
+
+          <h2>Diferenças entre CPUs antigas e novas</h2>
+          <p>
+            Em CPUs antigas, o modo RUN-P está disponível e permite execução do programa com download e upload. O modo RUN executa o programa, mas permite apenas upload. O modo STOP interrompe a execução, e o modo MRES realiza o reset de memória. Em CPUs novas, o RUN-P não está mais disponível. O modo RUN passa a concentrar as permissões de download e upload, enquanto STOP e MRES mantêm funções equivalentes.
+          </p>
+          <p>
+            A principal mudança de filosofia entre as gerações é a unificação das permissões de comunicação no modo RUN das CPUs novas. Isso torna o processo de programação e atualização mais simples e menos suscetível a erro operacional, pois elimina a necessidade de escolher entre RUN e RUN-P.
+          </p>
+
+          <h2>Identificação visual da chave seletora</h2>
+          <p>
+            Além das diferenças funcionais, as chaves seletoras de CPUs antigas e novas também se distinguem visualmente. Nas CPUs antigas, a chave geralmente possui formato rotativo com encaixe para chave de fenda ou dispositivo similar, e apresenta as posições RUN-P, RUN, STOP e MRES marcadas no painel. A presença da posição RUN-P é o indicador visual mais imediato de que se trata de uma CPU de geração anterior.
+          </p>
+          <p>
+            Nas CPUs novas, a chave possui formato mais compacto, geralmente do tipo alavanca ou botão rotativo menor, e exibe apenas RUN, STOP e MRES. A ausência da marcação RUN-P confirma que se trata de uma CPU de nova geração, na qual o modo RUN já incorpora as permissões de comunicação antes associadas ao RUN-P. Saber identificar o tipo de chave presente na CPU é uma habilidade prática importante, pois define os procedimentos corretos de operação e programação.
+          </p>
+
+          <h2>Exemplo prático: atualização de programa durante a operação</h2>
+          <p>
+            Considere uma planta química que opera continuamente durante 24 horas por dia. O engenheiro de automação precisa atualizar a lógica de controle de um CLP Siemens S7-300 sem interromper o processo produtivo. O CLP utiliza uma CPU 315-2 DP de geração antiga, com chave seletora RUN-P, RUN, STOP e MRES.
+          </p>
+          <p>
+            Nessa situação, o modo STOP interromperia o processo e, portanto, seria inaceitável. O modo RUN permitiria apenas upload, impedindo o envio das modificações para a CPU. O modo RUN-P permite download e upload com o processo em execução, sendo a opção correta para esse cenário. O técnico verifica que a chave está em RUN, altera para RUN-P, conecta o notebook ao CLP via MPI ou Profibus, abre o projeto no STEP 7 e realiza o download das modificações.
+          </p>
+          <p>
+            Após o download, o processo deve ser monitorado por alguns minutos para confirmar que as alterações foram aplicadas corretamente e que o sistema permanece estável. Como medida de segurança operacional, a chave pode ser retornada para RUN, bloqueando novos downloads acidentais em CPUs antigas. Em uma CPU de nova geração, o mesmo resultado seria obtido mantendo a chave no modo RUN, pois as novas CPUs unificaram as permissões de comunicação nesse modo.
+          </p>
+
+          <h2>Conclusão</h2>
+          <p>
+            Compreender os modos RUN-P, RUN, STOP e MRES é essencial para operar, programar e diagnosticar CPUs Siemens S7 com segurança. A chave seletora não é apenas um detalhe físico do painel: ela define se a CPU executa o programa, se aceita download, se permite upload, se interrompe o controle ou se realiza reset completo de memória. A diferença entre CPUs antigas e novas deve ser reconhecida em campo para evitar paradas indevidas, downloads bloqueados ou alterações acidentais durante a operação.
+          </p>
+
+          <section class="article-tags" aria-label="Tags editoriais">
+            <span>CLP Siemens S7</span>
+            <span>Modos de Operação</span>
+            <span>RUN-P</span>
+            <span>RUN</span>
+            <span>STOP</span>
+            <span>MRES</span>
+            <span>STEP 7</span>
+            <span>Automação Industrial</span>
+            <span>Manutenção de CLP</span>
+            <span>Comissionamento</span>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <div class="image-zoom-overlay" aria-hidden="true">
+      <img src="" alt="" />
+    </div>
+
+    <script>
+      const zoomOverlay = document.querySelector(".image-zoom-overlay");
+      const zoomOverlayImage = zoomOverlay.querySelector("img");
+
+      document.querySelectorAll(".zoomable-image").forEach((image) => {
+        image.addEventListener("click", () => {
+          zoomOverlayImage.src = image.src;
+          zoomOverlayImage.alt = image.alt;
+          zoomOverlay.classList.add("active");
+          zoomOverlay.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      zoomOverlay.addEventListener("click", () => {
+        zoomOverlay.classList.remove("active");
+        zoomOverlay.setAttribute("aria-hidden", "true");
+        zoomOverlayImage.src = "";
+        zoomOverlayImage.alt = "";
+      });
+    </script>
+  </body>
+</html>

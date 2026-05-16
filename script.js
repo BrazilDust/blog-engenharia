@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Modos de operação da CPU Siemens S7: RUN, RUN-P, STOP e MRES",
+    excerpt:
+      "Entenda a chave seletora da CPU S7, permissões de download e upload, diferenças entre gerações e uso correto de STOP e MRES.",
+    date: "2026-05-16",
+    url: "artigos/modos-operacao-cpu-s7.html",
+    views: 640,
+    appeal: 91,
+  },
+  {
     title: "Simulador SCADA: sistema de bombeamento e distribuição de água",
     excerpt:
       "Interaja com um painel SCADA com bomba, VFD, PID, válvulas, alarmes e tendências de pressão em um sistema de distribuição de água.",
