@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Terminologia fundamental em controle de processos",
+    excerpt:
+      "Entenda variável controlada, variável manipulada, dispositivo de controle, setpoint, valor atual, desvio e offset em um exemplo de tanque.",
+    date: "2026-05-17",
+    url: "artigos/terminologia-controle-processos.html",
+    views: 620,
+    appeal: 91,
+  },
+  {
     title: "Modos de operação da CPU Siemens S7: RUN, RUN-P, STOP e MRES",
     excerpt:
       "Entenda a chave seletora da CPU S7, permissões de download e upload, diferenças entre gerações e uso correto de STOP e MRES.",

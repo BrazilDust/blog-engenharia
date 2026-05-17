@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terminologia Fundamental em Controle de Processos | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Entenda os principais termos usados em controle de processos: variável controlada, variável manipulada, dispositivo de controle, setpoint, valor atual, desvio e offset."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Terminologia Fundamental em Controle de Processos" />
+    <meta property="og:description" content="Guia introdutório sobre terminologia de controle usando um exemplo manual de nível em tanque." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/artigos/terminologia-controle-processos.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/artigos/terminologia-controle-processos/imagem-01.png" />
+    <meta property="og:image:alt" content="Diagrama de terminologia de controle aplicado a um tanque de nível." />
+    <meta property="article:published_time" content="2026-05-17" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Terminologia Fundamental em Controle de Processos" />
+    <meta name="twitter:description" content="Guia introdutório sobre terminologia de controle usando um exemplo manual de nível em tanque." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/artigos/terminologia-controle-processos/imagem-01.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Engenharia em Linha">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+    </header>
+
+    <main>
+      <article class="article-page control-terminology-article-images">
+        <header class="article-hero">
+          <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+          <p class="eyebrow">Controle de processos</p>
+          <h1>Terminologia Fundamental em Controle de Processos</h1>
+          <p>
+            A terminologia padronizada é a base para compreender, projetar e discutir sistemas de controle sem ambiguidades entre operação, manutenção, instrumentação e engenharia.
+          </p>
+          <time datetime="2026-05-17">17 de maio de 2026</time>
+        </header>
+
+        <section class="ad-slot ad-slot-article" aria-label="Espaço para anúncio">
+          <span>Google AdSense - artigo</span>
+        </section>
+
+        <div class="article-body">
+          <h2>Introdução</h2>
+          <p>
+            No campo da engenharia de controle de processos, a utilização de uma terminologia padronizada é essencial para garantir clareza e evitar ambiguidades. Esses termos são empregados de forma ampla na indústria, permitindo que profissionais de diferentes áreas compreendam com precisão o funcionamento, os objetivos e os limites de um sistema de controle.
+          </p>
+          <p>
+            Para introduzir esses conceitos, considere um sistema simples de controle manual de nível em um tanque de água. Esse exemplo permite visualizar como os principais termos de controle se relacionam entre si antes de avançar para sistemas automáticos, malhas PID, instrumentação digital e supervisórios industriais.
+          </p>
+
+          <figure>
+            <img
+              class="zoomable-image"
+              src="../assets/artigos/terminologia-controle-processos/imagem-01.png"
+              alt="Diagrama de terminologia de controle em um tanque de nível com válvula de entrada, descarga, setpoint, desvio e valor atual"
+            />
+            <figcaption>Exemplo de controle manual de nível usado para apresentar a terminologia fundamental de controle.</figcaption>
+          </figure>
+
+          <h2>Sistema básico de controle de nível</h2>
+          <p>
+            Imagine um tanque que recebe água por uma tubulação de entrada equipada com uma válvula. A água também sai do tanque por uma linha de descarga, cuja válvula está fixa em determinada abertura. O objetivo do operador é manter o nível de água dentro de uma faixa adequada, evitando tanto falta de líquido quanto risco de transbordamento.
+          </p>
+          <p>
+            Para isso, o operador observa o nível de água e atua manualmente na válvula de entrada. Se o nível estiver baixo, ele abre mais a válvula para aumentar a vazão de entrada. Se o nível estiver alto, ele fecha parcialmente a válvula para reduzir a entrada de água. Mesmo sendo manual, esse exemplo contém os mesmos elementos conceituais presentes em uma malha de controle automática.
+          </p>
+
+          <h2>Faixas de operação</h2>
+          <p>
+            O tanque possui três níveis de referência marcados: nível mínimo, nível máximo e nível ideal. O nível mínimo garante que o fundo do tanque permaneça coberto e que o processo a jusante continue recebendo água. O nível máximo evita transbordamento e operação fora de condição segura. O nível ideal representa o ponto preferencial de operação, também chamado de setpoint quando definido como valor de referência.
+          </p>
+          <p>
+            O objetivo do controle é manter o nível entre os limites mínimo e máximo, preferencialmente próximo ao valor ideal. Essa faixa aceitável é chamada de intervalo operacional permitido. Dentro dessa faixa, o processo pode operar sem interrupção, sem desperdício e sem violar os limites de segurança.
+          </p>
+
+          <h2>Principais termos de controle</h2>
+          <p>
+            A seguir estão os principais termos usados na análise de sistemas de controle. No exemplo do tanque, cada termo pode ser associado a uma parte física ou a uma condição observável do processo:
+          </p>
+          <ul>
+            <li><strong>Variável controlada:</strong> é a grandeza que se deseja manter dentro de determinados limites. No exemplo, é o nível de água no tanque.</li>
+            <li><strong>Variável manipulada:</strong> é a variável que pode ser ajustada para controlar o processo. No exemplo, é a vazão de entrada de água.</li>
+            <li><strong>Dispositivo de controle:</strong> é o elemento que atua diretamente na variável manipulada. No exemplo, é a válvula de entrada.</li>
+            <li><strong>Agente de controle:</strong> é o meio físico utilizado para influenciar o sistema. No exemplo, é a própria água.</li>
+            <li><strong>Variável controlada dinâmica:</strong> é a alteração observada na variável controlada ao longo do tempo. No exemplo, é a variação do nível de água.</li>
+            <li><strong>Meio controlado:</strong> é o sistema ou material cujo comportamento está sendo controlado. No exemplo, é o líquido dentro do tanque.</li>
+          </ul>
+
+          <h2>Setpoint, valor desejado e valor atual</h2>
+          <p>
+            O setpoint é o valor de referência que o sistema deve atingir ou manter. No exemplo do tanque, o setpoint corresponde ao nível ideal indicado na régua de nível. Esse valor orienta a ação do operador ou do controlador automático, servindo como referência para avaliar se o processo está abaixo, acima ou próximo da condição desejada.
+          </p>
+          <p>
+            O valor desejado é qualquer valor dentro da faixa aceitável de operação. No exemplo, qualquer nível entre o limite mínimo e o limite máximo pode ser considerado operacionalmente aceitável, ainda que o nível ideal continue sendo o ponto preferencial. O valor atual é o valor real medido da variável controlada em determinado momento. No tanque, é o nível observado da água no instante da medição.
+          </p>
+
+          <h2>Desvio e offset</h2>
+          <p>
+            O desvio é a diferença entre o valor desejado, ou setpoint, e o valor atual medido. Se o nível ideal é 3 e o nível atual é 2, o desvio é igual a 1 unidade. Esse desvio indica que o processo está distante do ponto desejado e que alguma ação de correção deve ser realizada.
+          </p>
+          <p>
+            O offset, ou erro permanente, é um desvio que permanece ao longo do tempo mesmo após o sistema atingir regime permanente. Em outras palavras, o processo se estabiliza, mas não exatamente no valor desejado. A presença de offset indica que o sistema não está corrigindo totalmente o erro, algo comum em certos tipos de controle quando não há ação integral ou quando a estratégia de controle é limitada.
+          </p>
+
+          <h2>Importância da terminologia</h2>
+          <p>
+            A compreensão desses termos é fundamental porque permite uma análise estruturada de sistemas de controle, facilita a comunicação entre engenheiros e técnicos, ajuda no projeto, ajuste e otimização de sistemas e forma a base para compreender estratégias automáticas como controle PID.
+          </p>
+          <p>
+            Esses conceitos são aplicáveis desde sistemas simples, como o controle manual de nível, até sistemas automatizados industriais complexos. Em uma planta real, a terminologia correta evita interpretações diferentes sobre o que está sendo medido, o que está sendo controlado, qual variável pode ser manipulada e qual erro precisa ser corrigido.
+          </p>
+
+          <h2>Exemplo prático: operação manual de nível</h2>
+          <p>
+            Considere um operador responsável por garantir que um tanque forneça água continuamente para um processo industrial, sem interrupções e sem desperdício. O operador observa a régua de nível, compara o nível atual com o nível ideal e identifica se existe desvio. Se o nível estiver abaixo do desejado, há falta de água no tanque. Se estiver acima, existe risco de transbordamento.
+          </p>
+          <p>
+            A ação corretiva ocorre na variável manipulada. O operador abre a válvula de entrada para aumentar a vazão e fazer o nível subir, ou fecha a válvula para reduzir a vazão e fazer o nível descer. Esse ajuste continua até que o nível permaneça dentro da faixa entre mínimo e máximo.
+          </p>
+          <p>
+            Se, mesmo com ajustes constantes, o nível nunca atinge o ponto ideal, existe um erro permanente, ou offset. O resultado esperado de uma operação bem conduzida é que o processo receba fluxo adequado, o tanque não transborde e a operação permaneça dentro de limites seguros.
+          </p>
+
+          <h2>Conclusão</h2>
+          <p>
+            A terminologia de controle de processos organiza a forma como analisamos uma malha de controle. Termos como variável controlada, variável manipulada, dispositivo de controle, setpoint, valor atual, desvio e offset não são apenas definições acadêmicas: eles descrevem elementos reais do processo e ajudam a transformar observações de campo em decisões técnicas mais claras.
+          </p>
+
+          <section class="article-tags" aria-label="Tags editoriais">
+            <span>Controle de Processos</span>
+            <span>Terminologia de Controle</span>
+            <span>Setpoint</span>
+            <span>Variável Controlada</span>
+            <span>Variável Manipulada</span>
+            <span>Desvio</span>
+            <span>Offset</span>
+            <span>Controle de Nível</span>
+            <span>Instrumentação Industrial</span>
+            <span>Engenharia de Controle</span>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <div class="image-zoom-overlay" aria-hidden="true">
+      <img src="" alt="" />
+    </div>
+
+    <script>
+      const zoomOverlay = document.querySelector(".image-zoom-overlay");
+      const zoomOverlayImage = zoomOverlay.querySelector("img");
+
+      document.querySelectorAll(".zoomable-image").forEach((image) => {
+        image.addEventListener("click", () => {
+          zoomOverlayImage.src = image.src;
+          zoomOverlayImage.alt = image.alt;
+          zoomOverlay.classList.add("active");
+          zoomOverlay.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      zoomOverlay.addEventListener("click", () => {
+        zoomOverlay.classList.remove("active");
+        zoomOverlay.setAttribute("aria-hidden", "true");
+        zoomOverlayImage.src = "";
+        zoomOverlayImage.alt = "";
+      });
+    </script>
+  </body>
+</html>
