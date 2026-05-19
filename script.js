@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Habilidades empresariais essenciais para engenheiros autônomos",
+    excerpt:
+      "Veja como resiliência, disciplina, inovação e atenção aos detalhes ajudam engenheiros autônomos a construir negócios sustentáveis.",
+    date: "2026-05-19",
+    url: "artigos/habilidades-engenheiro-autonomo.html",
+    views: 600,
+    appeal: 90,
+  },
+  {
     title: "Terminologia fundamental em controle de processos",
     excerpt:
       "Entenda variável controlada, variável manipulada, dispositivo de controle, setpoint, valor atual, desvio e offset em um exemplo de tanque.",
