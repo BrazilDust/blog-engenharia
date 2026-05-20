@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Simulador SCADA: banco de capacitores em subestação",
+    excerpt:
+      "Compare banco de capacitores em 13,8 kV, 4,6 kV e 480 V, observando P, Q, S, fator de potência e queda de tensão estimada.",
+    date: "2026-05-20",
+    url: "simuladores/banco-capacitores-scada.html",
+    views: 580,
+    appeal: 94,
+  },
+  {
     title: "Habilidades empresariais essenciais para engenheiros autônomos",
     excerpt:
       "Veja como resiliência, disciplina, inovação e atenção aos detalhes ajudam engenheiros autônomos a construir negócios sustentáveis.",
@@ -218,6 +227,12 @@ let activePeriod = null;
 let activeToolCategory = null;
 
 const toolLinks = [
+  {
+    category: "simuladores",
+    title: "Simulador SCADA: banco de capacitores",
+    excerpt: "Compare alocação de banco em 13,8 kV, 4,6 kV e 480 V com P, Q, S e fator de potência.",
+    url: "simuladores/banco-capacitores-scada.html",
+  },
   {
     category: "simuladores",
     title: "Simulador SCADA: bombeamento de água",

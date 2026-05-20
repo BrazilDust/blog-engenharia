@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador SCADA: Banco de Capacitores em Subestação | Engenharia em Linha</title>
+    <meta
+      name="description"
+      content="Simulador SCADA didático para estudar banco de capacitores em subestação 13,8 kV, 4,6 kV e 480 V, fator de potência, potência reativa e queda de tensão."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Engenharia em Linha" />
+    <meta property="og:title" content="Simulador SCADA: Banco de Capacitores em Subestação" />
+    <meta property="og:description" content="Compare compensação reativa em 13,8 kV, 4,6 kV e 480 V com cálculo de P, Q, S e fator de potência." />
+    <meta property="og:url" content="https://blog-engenharia.netlify.app/simuladores/banco-capacitores-scada.html" />
+    <meta property="og:image" content="https://blog-engenharia.netlify.app/assets/engineering-blog-hero.png" />
+    <meta property="article:published_time" content="2026-05-20" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Simulador SCADA: Banco de Capacitores em Subestação" />
+    <meta name="twitter:description" content="Compare compensação reativa em 13,8 kV, 4,6 kV e 480 V com cálculo de P, Q, S e fator de potência." />
+    <meta name="twitter:image" content="https://blog-engenharia.netlify.app/assets/engineering-blog-hero.png" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7732527626655148"
+      crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ242FGRF6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "G-YJ242FGRF6");
+    </script>
+    <style>
+      :root {
+        --bg: #eef7fb;
+        --panel: #ffffff;
+        --panel-2: #e8f4f8;
+        --line: #0077b6;
+        --line-dim: #8bbfd1;
+        --energized: #00a86b;
+        --warning: #f4a261;
+        --alarm: #d62828;
+        --text: #12313f;
+        --muted: #5e7d8a;
+        --accent: #0096c7;
+        --cap: #f2b705;
+        --motor: #168aad;
+        --off: #b6c8d0;
+        --button: #e0f2f7;
+        --button-hover: #c8eaf3;
+        --shadow: 0 8px 22px rgba(0, 90, 130, 0.12);
+        --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        color: var(--text);
+        background: linear-gradient(135deg, #f7fcff 0%, #eef7fb 48%, #dceff6 100%);
+        font-family: var(--font);
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 24px;
+        border-bottom: 1px solid rgba(0, 119, 182, 0.18);
+        background: #ffffff;
+      }
+
+      .brand,
+      .back-link {
+        color: #0b3142;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        color: #ffffff;
+        background: var(--accent);
+        border-radius: 8px;
+        font-size: 12px;
+      }
+
+      .back-link { color: var(--accent); }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        padding: 18px 24px;
+        border-bottom: 1px solid rgba(0, 119, 182, 0.18);
+        background: linear-gradient(90deg, #ffffff, #e2f4fa);
+        box-shadow: var(--shadow);
+      }
+
+      header h1 {
+        margin: 0;
+        color: #0b3142;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+
+      header p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 310px minmax(900px, 1fr) 360px;
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .card {
+        padding: 14px;
+        border: 1px solid rgba(0, 119, 182, 0.18);
+        border-radius: 14px;
+        background: linear-gradient(180deg, #ffffff, #f4fbfe);
+        box-shadow: var(--shadow);
+      }
+
+      .card h2 {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin: 0 0 12px;
+        color: #12313f;
+        font-size: 16px;
+      }
+
+      .tag {
+        padding: 2px 8px;
+        color: var(--accent);
+        border: 1px solid rgba(0, 150, 199, 0.25);
+        border-radius: 999px;
+        background: rgba(0, 150, 199, 0.12);
+        font-size: 11px;
+      }
+
+      .control-group {
+        margin-bottom: 16px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(94,125,138,0.18);
+      }
+
+      .control-group:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      select,
+      input[type="number"] {
+        width: 100%;
+        padding: 9px 10px;
+        color: var(--text);
+        border: 1px solid rgba(0, 119, 182, 0.28);
+        border-radius: 9px;
+        outline: none;
+        background: #ffffff;
+      }
+
+      .btn-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      button {
+        padding: 9px 10px;
+        color: var(--text);
+        border: 1px solid rgba(0, 119, 182, 0.25);
+        border-radius: 10px;
+        background: var(--button);
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.2s ease;
+      }
+
+      button:hover {
+        background: var(--button-hover);
+        box-shadow: 0 0 12px rgba(0, 119, 182, 0.20);
+      }
+
+      button.active {
+        color: #ffffff;
+        border-color: var(--energized);
+        background: var(--energized);
+        box-shadow: 0 0 12px rgba(0,168,107,0.28);
+      }
+
+      .scada-area {
+        position: relative;
+        min-height: 720px;
+        overflow: hidden;
+      }
+
+      .scada-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .status-line {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .led {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--energized);
+        box-shadow: 0 0 10px var(--energized);
+      }
+
+      svg {
+        width: 100%;
+        height: 660px;
+        border: 1px solid rgba(0,119,182,0.14);
+        border-radius: 12px;
+        background:
+          linear-gradient(rgba(0,119,182,0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,119,182,0.07) 1px, transparent 1px),
+          #fbfdff;
+        background-size: 24px 24px;
+      }
+
+      .bus {
+        stroke: var(--line);
+        stroke-width: 7;
+        stroke-linecap: round;
+        filter: drop-shadow(0 0 3px rgba(0,119,182,0.34));
+      }
+
+      .feeder {
+        fill: none;
+        stroke: var(--line);
+        stroke-width: 4;
+        filter: drop-shadow(0 0 2px rgba(0,119,182,0.25));
+      }
+
+      .feeder.off,
+      .bus.off {
+        stroke: var(--off);
+        filter: none;
+      }
+
+      .breaker {
+        fill: #ffffff;
+        stroke: var(--accent);
+        stroke-width: 2;
+        rx: 5;
+        filter: drop-shadow(0 0 3px rgba(0,150,199,0.25));
+      }
+
+      .breaker.open {
+        fill: #f1f6f8;
+        stroke: var(--off);
+        filter: none;
+      }
+
+      .svg-label,
+      .meter-text {
+        fill: var(--text);
+        font-family: var(--font);
+      }
+
+      .svg-label {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .meter-text {
+        fill: #164457;
+        font-size: 11px;
+      }
+
+      .small-label {
+        fill: var(--muted);
+        font-family: var(--font);
+        font-size: 10px;
+      }
+
+      .transformer {
+        fill: none;
+        stroke: var(--line);
+        stroke-width: 3;
+        filter: drop-shadow(0 0 3px rgba(0,119,182,0.25));
+      }
+
+      .motor {
+        fill: #ffffff;
+        stroke: var(--motor);
+        stroke-width: 3;
+        filter: drop-shadow(0 0 4px rgba(22,138,173,0.24));
+      }
+
+      .motor.off {
+        stroke: var(--off);
+        filter: none;
+      }
+
+      .cap-symbol {
+        stroke: var(--cap);
+        stroke-width: 4;
+        filter: drop-shadow(0 0 4px rgba(242,183,5,0.35));
+      }
+
+      .cap-symbol.off {
+        stroke: var(--off);
+        filter: none;
+      }
+
+      .load-box {
+        fill: #ffffff;
+        stroke: #168aad;
+        stroke-width: 2;
+        rx: 8;
+        filter: drop-shadow(0 0 4px rgba(22,138,173,0.18));
+      }
+
+      .metric-card {
+        padding: 12px;
+        border: 1px solid rgba(0,119,182,0.16);
+        border-radius: 12px;
+        background: #ffffff;
+      }
+
+      .metrics {
+        display: grid;
+        gap: 10px;
+      }
+
+      .metric-card h3 {
+        margin: 0 0 8px;
+        color: #12313f;
+        font-size: 14px;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .metric {
+        padding: 8px;
+        border: 1px solid rgba(0,119,182,0.12);
+        border-radius: 9px;
+        background: #eef8fc;
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 2px;
+        font-size: 16px;
+        letter-spacing: 0.3px;
+      }
+
+      .pf-good strong { color: var(--energized); }
+      .pf-mid strong { color: #b76e00; }
+      .pf-bad strong { color: var(--alarm); }
+
+      .scenario-box {
+        margin-bottom: 12px;
+        padding: 10px;
+        color: #5c4500;
+        border: 1px solid rgba(242,183,5,0.35);
+        border-radius: 12px;
+        background: rgba(242,183,5,0.12);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .equations {
+        padding: 10px;
+        color: #164457;
+        border: 1px solid rgba(0,119,182,0.14);
+        border-radius: 10px;
+        background: #f2f9fc;
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 10px;
+        font-size: 12px;
+      }
+
+      .table th,
+      .table td {
+        padding: 7px 6px;
+        border-bottom: 1px solid rgba(94,125,138,0.14);
+        text-align: right;
+      }
+
+      .table th:first-child,
+      .table td:first-child {
+        text-align: left;
+      }
+
+      .table th {
+        color: #005f86;
+        background: rgba(0,150,199,0.10);
+        font-weight: 700;
+      }
+
+      .note {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .alarm-banner {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .alarm-banner.show { display: block; }
+      .alarm-banner.good { color: #ffffff; background: var(--energized); }
+      .alarm-banner.warn { color: #4b2f00; background: #ffd166; }
+      .alarm-banner.bad { color: #ffffff; background: var(--alarm); }
+
+      .site-footer {
+        padding: 24px;
+        color: var(--muted);
+        border-top: 1px solid rgba(0, 119, 182, 0.18);
+        background: #ffffff;
+        font-size: 13px;
+      }
+
+      .site-footer a {
+        color: var(--accent);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      @media (max-width: 1320px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .scada-area {
+          overflow-x: auto;
+        }
+
+        svg {
+          min-width: 980px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Navegação do simulador">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark">EL</span>
+        <span>Engenharia em Linha</span>
+      </a>
+      <a class="back-link" href="../index.html#artigos">Voltar para artigos</a>
+    </nav>
+
+    <header>
+      <h1>SCADA Didático - Alocação de Banco de Capacitores Fixo</h1>
+      <p>Diagrama unifilar simplificado para comparar banco no barramento 13,8 kV, 4,6 kV ou 480 V, com cálculo de P, Q, S e fator de potência.</p>
+    </header>
+
+    <main class="layout">
+      <aside class="card">
+        <h2>Comandos <span class="tag">Operação</span></h2>
+
+        <div class="control-group">
+          <label for="scenarioSelect">Cenário de compensação reativa</label>
+          <select id="scenarioSelect">
+            <option value="none">Estado zero - capacitores desconectados</option>
+            <option value="cap13">Cenário A - banco fixo no barramento 13,8 kV</option>
+            <option value="cap46">Cenário B - banco fixo no barramento 4,6 kV / CCM</option>
+            <option value="cap480">Cenário C - banco fixo no barramento 480 V</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>Bombas de processo - 4,6 kV</label>
+          <div class="btn-row">
+            <button id="pump1Btn" class="active" type="button">Bomba 01 ON</button>
+            <button id="pump2Btn" class="active" type="button">Bomba 02 ON</button>
+            <button id="pump3Btn" class="active" type="button">Bomba 03 ON</button>
+            <button id="allPumpsBtn" type="button">Alternar todas</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="capKvar">Banco fixo de capacitores (kvar)</label>
+          <input id="capKvar" type="number" min="0" step="50" value="900" />
+          <p class="note">Valor usado no ponto selecionado. A lógica considera apenas um banco conectado por vez para comparar a melhor localização.</p>
+        </div>
+
+        <div class="control-group">
+          <label for="dropCoeff">Queda de tensão estimada por Q</label>
+          <input id="dropCoeff" type="number" min="0" step="0.1" value="1.2" />
+          <p class="note">Coeficiente didático: queda percentual aproximada = coeficiente x Q líquido total / 10000.</p>
+        </div>
+
+        <div class="control-group">
+          <h2 style="margin-bottom: 8px;">Cargas estimadas</h2>
+          <table class="table">
+            <thead>
+              <tr><th>Carga</th><th>P kW</th><th>fp</th></tr>
+            </thead>
+            <tbody id="loadTable"></tbody>
+          </table>
+        </div>
+      </aside>
+
+      <section class="card scada-area">
+        <div class="scada-title">
+          <h2>Diagrama Unifilar <span class="tag">SCADA</span></h2>
+          <div class="status-line"><span class="led"></span><span id="statusText">Sistema energizado pela concessionária</span></div>
+        </div>
+
+        <svg viewBox="0 0 1120 660" aria-label="Diagrama unifilar SCADA">
+          <text x="32" y="36" class="svg-label">CONCESSIONÁRIA 13,8 kV</text>
+          <path class="feeder" d="M120 58 V118" />
+          <rect class="breaker" x="92" y="118" width="56" height="28" />
+          <text x="104" y="137" class="small-label">DJ-13</text>
+          <path class="feeder" d="M120 146 V190" />
+
+          <line id="bus13Line" class="bus" x1="80" y1="190" x2="1030" y2="190" />
+          <text x="82" y="178" class="svg-label">BARRAMENTO PRINCIPAL 13,8 kV</text>
+          <text id="bus13Meter" x="790" y="174" class="meter-text">P/Q/S/fp</text>
+
+          <path id="cap13Feeder" class="feeder off" d="M930 190 V260" />
+          <rect id="cap13Breaker" class="breaker open" x="902" y="222" width="56" height="28" />
+          <g id="cap13Symbol" class="cap-symbol off">
+            <line x1="910" y1="278" x2="950" y2="278" />
+            <line x1="910" y1="292" x2="950" y2="292" />
+            <line x1="930" y1="250" x2="930" y2="278" />
+            <line x1="930" y1="292" x2="930" y2="322" />
+          </g>
+          <text x="864" y="344" class="svg-label">BC 13,8 kV</text>
+          <text id="cap13Label" x="866" y="362" class="meter-text">900 kvar</text>
+
+          <path class="feeder" d="M300 190 V250" />
+          <circle class="transformer" cx="285" cy="270" r="22" />
+          <circle class="transformer" cx="315" cy="270" r="22" />
+          <text x="230" y="314" class="svg-label">TR-01</text>
+          <text x="220" y="332" class="small-label">13,8 kV / 4,6 kV</text>
+          <path class="feeder" d="M300 292 V365" />
+
+          <path class="feeder" d="M620 190 V250" />
+          <circle class="transformer" cx="605" cy="270" r="22" />
+          <circle class="transformer" cx="635" cy="270" r="22" />
+          <text x="550" y="314" class="svg-label">TR-02</text>
+          <text x="540" y="332" class="small-label">13,8 kV / 480 V</text>
+          <path class="feeder" d="M620 292 V365" />
+
+          <line id="bus46Line" class="bus" x1="80" y1="365" x2="520" y2="365" />
+          <text x="82" y="352" class="svg-label">BARRAMENTO CCM 4,6 kV</text>
+          <text id="bus46Meter" x="305" y="352" class="meter-text">P/Q/S/fp</text>
+
+          <path id="cap46Feeder" class="feeder off" d="M480 365 V435" />
+          <rect id="cap46Breaker" class="breaker open" x="452" y="394" width="56" height="28" />
+          <g id="cap46Symbol" class="cap-symbol off">
+            <line x1="460" y1="454" x2="500" y2="454" />
+            <line x1="460" y1="468" x2="500" y2="468" />
+            <line x1="480" y1="422" x2="480" y2="454" />
+            <line x1="480" y1="468" x2="480" y2="498" />
+          </g>
+          <text x="420" y="520" class="svg-label">BC 4,6 kV</text>
+          <text id="cap46Label" x="424" y="538" class="meter-text">900 kvar</text>
+
+          <g id="pump1Group">
+            <path id="pump1Feed" class="feeder" d="M130 365 V450" />
+            <rect id="pump1Breaker" class="breaker" x="102" y="395" width="56" height="28" />
+            <circle id="pump1Motor" class="motor" cx="130" cy="485" r="30" />
+            <text x="119" y="491" class="svg-label">M</text>
+            <text x="92" y="535" class="svg-label">BOMBA 01</text>
+            <text id="pump1Meter" x="80" y="555" class="meter-text">850 kW | fp 0,84</text>
+          </g>
+
+          <g id="pump2Group">
+            <path id="pump2Feed" class="feeder" d="M250 365 V450" />
+            <rect id="pump2Breaker" class="breaker" x="222" y="395" width="56" height="28" />
+            <circle id="pump2Motor" class="motor" cx="250" cy="485" r="30" />
+            <text x="239" y="491" class="svg-label">M</text>
+            <text x="212" y="535" class="svg-label">BOMBA 02</text>
+            <text id="pump2Meter" x="200" y="555" class="meter-text">780 kW | fp 0,86</text>
+          </g>
+
+          <g id="pump3Group">
+            <path id="pump3Feed" class="feeder" d="M370 365 V450" />
+            <rect id="pump3Breaker" class="breaker" x="342" y="395" width="56" height="28" />
+            <circle id="pump3Motor" class="motor" cx="370" cy="485" r="30" />
+            <text x="359" y="491" class="svg-label">M</text>
+            <text x="332" y="535" class="svg-label">BOMBA 03</text>
+            <text id="pump3Meter" x="320" y="555" class="meter-text">920 kW | fp 0,83</text>
+          </g>
+
+          <line id="bus480Line" class="bus" x1="610" y1="365" x2="1030" y2="365" />
+          <text x="612" y="348" class="svg-label">BARRAMENTO 480 V</text>
+          <text id="bus480Meter" x="770" y="348" class="meter-text">P/Q/S/fp</text>
+
+          <path id="cap480Feeder" class="feeder off" d="M1010 365 V425" />
+          <rect id="cap480Breaker" class="breaker open" x="982" y="390" width="56" height="28" />
+          <g id="cap480Symbol" class="cap-symbol off">
+            <line x1="990" y1="444" x2="1030" y2="444" />
+            <line x1="990" y1="458" x2="1030" y2="458" />
+            <line x1="1010" y1="418" x2="1010" y2="444" />
+            <line x1="1010" y1="458" x2="1010" y2="488" />
+          </g>
+          <text x="960" y="515" class="svg-label">BC 480 V</text>
+          <text id="cap480Label" x="965" y="535" class="meter-text">900 kvar</text>
+
+          <path class="feeder" d="M650 365 V430" />
+          <rect class="load-box" x="610" y="430" width="90" height="58" />
+          <text x="628" y="454" class="svg-label">ILUM.</text>
+          <text id="lightMeter" x="608" y="510" class="meter-text">120 kW | fp 0,92</text>
+
+          <path class="feeder" d="M780 365 V430" />
+          <rect class="load-box" x="735" y="430" width="95" height="58" />
+          <text x="750" y="454" class="svg-label">BOMBAS</text>
+          <text x="756" y="472" class="small-label">menores</text>
+          <text id="smallPumpMeter" x="728" y="530" class="meter-text">260 kW | fp 0,80</text>
+
+          <path class="feeder" d="M905 365 V430" />
+          <rect class="load-box" x="865" y="430" width="80" height="58" />
+          <text x="891" y="454" class="svg-label">UPS</text>
+          <text id="upsMeter" x="862" y="510" class="meter-text">80 kW | fp 0,95</text>
+
+          <polygon points="190,184 206,190 190,196" fill="#39ff88" />
+          <polygon points="300,338 294,322 306,322" fill="#39ff88" />
+          <polygon points="620,338 614,322 626,322" fill="#39ff88" />
+        </svg>
+      </section>
+
+      <aside class="card">
+        <h2>Medições Calculadas <span class="tag">Fluxo P/Q</span></h2>
+        <div id="scenarioBox" class="scenario-box"></div>
+        <div class="metrics" id="metrics"></div>
+
+        <div id="alarmBanner" class="alarm-banner"></div>
+
+        <div class="control-group" style="margin-top: 16px;">
+          <h2>Equações usadas</h2>
+          <div class="equations">
+            Q carga = P x tan(arccos(fp))<br />
+            S = raiz(P² + Q²)<br />
+            fp = P / S<br />
+            Q líquido = Q carga - Q capacitor<br />
+            Queda V% aproximada = k x Q líquido total / 10000<br /><br />
+            Observação: o modelo é didático. Um estudo real deve usar impedâncias de cabos, transformadores, curto-circuito, regulação, partidas de motores, harmônicos e coordenação de proteção.
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      Engenharia em Linha · simulador didático de banco de capacitores · <a href="../index.html#artigos">Voltar para artigos</a>
+    </footer>
+
+    <script>
+      const state = {
+        pumps: [true, true, true],
+        scenario: "none",
+        capKvar: 900,
+        dropCoeff: 1.2,
+      };
+
+      const loads = {
+        pump1: { name: "Bomba 01 - 4,6 kV", bus: "bus46", p: 850, pf: 0.84, enabled: () => state.pumps[0] },
+        pump2: { name: "Bomba 02 - 4,6 kV", bus: "bus46", p: 780, pf: 0.86, enabled: () => state.pumps[1] },
+        pump3: { name: "Bomba 03 - 4,6 kV", bus: "bus46", p: 920, pf: 0.83, enabled: () => state.pumps[2] },
+        light: { name: "Iluminação - 480 V", bus: "bus480", p: 120, pf: 0.92, enabled: () => true },
+        smallPumps: { name: "Bombas menores - 480 V", bus: "bus480", p: 260, pf: 0.80, enabled: () => true },
+        ups: { name: "UPS - 480 V", bus: "bus480", p: 80, pf: 0.95, enabled: () => true },
+      };
+
+      const scenarioDescriptions = {
+        none: "Estado zero: todos os capacitores desconectados. O sistema opera com potência reativa natural das cargas indutivas.",
+        cap13: "Cenário A: banco fixo conectado no barramento de 13,8 kV. Corrige o fator de potência visto pela concessionária, mas não reduz a circulação de Q nos transformadores e barramentos a jusante.",
+        cap46: "Cenário B: banco fixo conectado no barramento CCM de 4,6 kV. Compensa reativo próximo às maiores cargas, reduzindo Q no TR-01 e no barramento principal.",
+        cap480: "Cenário C: banco fixo conectado no barramento de 480 V. Compensa cargas auxiliares de baixa tensão, mas tem pouco efeito sobre as grandes bombas de 4,6 kV.",
+      };
+
+      function qFromPAndPf(p, pf) {
+        return p * Math.tan(Math.acos(pf));
+      }
+
+      function calcBusRaw(busName) {
+        let p = 0;
+        let q = 0;
+        Object.values(loads).forEach((load) => {
+          if (load.bus === busName && load.enabled()) {
+            p += load.p;
+            q += qFromPAndPf(load.p, load.pf);
+          }
+        });
+        return { p, q };
+      }
+
+      function applyCapacitor(bus46, bus480, bus13) {
+        const cap = Number(state.capKvar) || 0;
+        const result = {
+          bus46: { ...bus46, cap: 0 },
+          bus480: { ...bus480, cap: 0 },
+          bus13: { ...bus13, cap: 0 },
+        };
+
+        if (state.scenario === "cap46") result.bus46.cap = cap;
+        if (state.scenario === "cap480") result.bus480.cap = cap;
+        if (state.scenario === "cap13") result.bus13.cap = cap;
+
+        result.bus46.qNet = result.bus46.q - result.bus46.cap;
+        result.bus480.qNet = result.bus480.q - result.bus480.cap;
+        result.bus13.p = result.bus46.p + result.bus480.p;
+        result.bus13.q = result.bus46.qNet + result.bus480.qNet;
+        result.bus13.qNet = result.bus13.q - result.bus13.cap;
+        return result;
+      }
+
+      function finalizeElectrical(values) {
+        Object.keys(values).forEach((key) => {
+          const item = values[key];
+          item.s = Math.sqrt(item.p ** 2 + item.qNet ** 2);
+          item.pf = item.s > 0 ? item.p / item.s : 1;
+          item.sign = item.qNet >= 0 ? "indutivo" : "capacitivo";
+        });
+        const totalQ = values.bus13.qNet;
+        values.voltageDropPct = Math.max(-3, state.dropCoeff * totalQ / 10000);
+        values.estimatedVoltage13 = 13.8 * (1 - values.voltageDropPct / 100);
+        values.estimatedVoltage46 = 4.6 * (1 - values.voltageDropPct / 100);
+        values.estimatedVoltage480 = 480 * (1 - values.voltageDropPct / 100);
+        return values;
+      }
+
+      function calculate() {
+        const raw46 = calcBusRaw("bus46");
+        const raw480 = calcBusRaw("bus480");
+        return finalizeElectrical(applyCapacitor(raw46, raw480, { p: 0, q: 0 }));
+      }
+
+      function fmt(value, decimals = 0) {
+        return Number(value).toLocaleString("pt-BR", {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+        });
+      }
+
+      function pfClass(pf) {
+        if (pf >= 0.95) return "pf-good";
+        if (pf >= 0.90) return "pf-mid";
+        return "pf-bad";
+      }
+
+      function makeMetricCard(title, data, voltageText) {
+        return `
+          <div class="metric-card">
+            <h3>${title}</h3>
+            <div class="metric-grid">
+              <div class="metric"><span>Potência ativa</span><strong>${fmt(data.p)} kW</strong></div>
+              <div class="metric"><span>Potência reativa líquida</span><strong>${fmt(data.qNet)} kvar</strong></div>
+              <div class="metric"><span>Potência aparente</span><strong>${fmt(data.s)} kVA</strong></div>
+              <div class="metric ${pfClass(data.pf)}"><span>Fator de potência</span><strong>${data.pf.toFixed(3)} ${data.sign}</strong></div>
+              <div class="metric"><span>Banco conectado</span><strong>${fmt(data.cap || 0)} kvar</strong></div>
+              <div class="metric"><span>Tensão estimada</span><strong>${voltageText}</strong></div>
+            </div>
+          </div>
+        `;
+      }
+
+      function updateSvg(values) {
+        document.getElementById("bus13Meter").textContent = `${fmt(values.bus13.p)} kW | ${fmt(values.bus13.qNet)} kvar | fp ${values.bus13.pf.toFixed(3)}`;
+        document.getElementById("bus46Meter").textContent = `${fmt(values.bus46.p)} kW | ${fmt(values.bus46.qNet)} kvar | fp ${values.bus46.pf.toFixed(3)}`;
+        document.getElementById("bus480Meter").textContent = `${fmt(values.bus480.p)} kW | ${fmt(values.bus480.qNet)} kvar | fp ${values.bus480.pf.toFixed(3)}`;
+
+        ["cap13", "cap46", "cap480"].forEach((capId) => {
+          const active = state.scenario === capId;
+          document.getElementById(`${capId}Feeder`).classList.toggle("off", !active);
+          document.getElementById(`${capId}Breaker`).classList.toggle("open", !active);
+          document.getElementById(`${capId}Symbol`).classList.toggle("off", !active);
+          document.getElementById(`${capId}Label`).textContent = `${fmt(state.capKvar)} kvar`;
+        });
+
+        state.pumps.forEach((isOn, idx) => {
+          const n = idx + 1;
+          document.getElementById(`pump${n}Feed`).classList.toggle("off", !isOn);
+          document.getElementById(`pump${n}Breaker`).classList.toggle("open", !isOn);
+          document.getElementById(`pump${n}Motor`).classList.toggle("off", !isOn);
+          document.getElementById(`pump${n}Btn`).classList.toggle("active", isOn);
+          document.getElementById(`pump${n}Btn`).textContent = `Bomba 0${n} ${isOn ? "ON" : "OFF"}`;
+        });
+      }
+
+      function updateAlarm(values) {
+        const banner = document.getElementById("alarmBanner");
+        banner.className = "alarm-banner show";
+        if (values.bus13.pf >= 0.95 && values.voltageDropPct < 2.5) {
+          banner.classList.add("good");
+          banner.textContent = `Condição recomendada: fp no ponto de acoplamento = ${values.bus13.pf.toFixed(3)} e queda estimada = ${values.voltageDropPct.toFixed(2)}%.`;
+        } else if (values.bus13.pf >= 0.90) {
+          banner.classList.add("warn");
+          banner.textContent = `Atenção: fp aceitável, porém ainda pode haver reativo circulando. fp 13,8 kV = ${values.bus13.pf.toFixed(3)}.`;
+        } else {
+          banner.classList.add("bad");
+          banner.textContent = `Alarme didático: baixo fator de potência no 13,8 kV. fp = ${values.bus13.pf.toFixed(3)}.`;
+        }
+      }
+
+      function updateMetrics(values) {
+        document.getElementById("metrics").innerHTML =
+          makeMetricCard("Barramento 13,8 kV - Concessionária", values.bus13, `${values.estimatedVoltage13.toFixed(2)} kV`) +
+          makeMetricCard("Barramento CCM 4,6 kV - Bombas de Processo", values.bus46, `${values.estimatedVoltage46.toFixed(2)} kV`) +
+          makeMetricCard("Barramento 480 V - Cargas Auxiliares", values.bus480, `${fmt(values.estimatedVoltage480, 0)} V`);
+        document.getElementById("scenarioBox").textContent = scenarioDescriptions[state.scenario];
+        updateAlarm(values);
+      }
+
+      function updateLoadTable() {
+        document.getElementById("loadTable").innerHTML = Object.values(loads).map((load) => `
+          <tr>
+            <td>${load.name}</td>
+            <td>${fmt(load.p)}</td>
+            <td>${load.pf.toFixed(2)}</td>
+          </tr>
+        `).join("");
+      }
+
+      function render() {
+        state.capKvar = Number(document.getElementById("capKvar").value) || 0;
+        state.dropCoeff = Number(document.getElementById("dropCoeff").value) || 0;
+        state.scenario = document.getElementById("scenarioSelect").value;
+        const values = calculate();
+        updateSvg(values);
+        updateMetrics(values);
+      }
+
+      document.getElementById("scenarioSelect").addEventListener("change", render);
+      document.getElementById("capKvar").addEventListener("input", render);
+      document.getElementById("dropCoeff").addEventListener("input", render);
+      document.getElementById("pump1Btn").addEventListener("click", () => { state.pumps[0] = !state.pumps[0]; render(); });
+      document.getElementById("pump2Btn").addEventListener("click", () => { state.pumps[1] = !state.pumps[1]; render(); });
+      document.getElementById("pump3Btn").addEventListener("click", () => { state.pumps[2] = !state.pumps[2]; render(); });
+      document.getElementById("allPumpsBtn").addEventListener("click", () => {
+        const turnOn = state.pumps.some((pump) => !pump);
+        state.pumps = [turnOn, turnOn, turnOn];
+        render();
+      });
+
+      updateLoadTable();
+      render();
+    </script>
+  </body>
+</html>
