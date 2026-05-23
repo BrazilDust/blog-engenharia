@@ -1,5 +1,14 @@
 const articles = [
   {
+    title: "Racks de Expansão e Módulos de Interface no S7-300",
+    excerpt:
+      "Entenda como racks de expansão, bus connector e módulos IM permitem ampliar a quantidade de módulos de I/O em sistemas Siemens S7-300.",
+    date: "2026-05-23",
+    url: "artigos/racks-expansao-modulos-interface-s7-300.html",
+    views: 560,
+    appeal: 91,
+  },
+  {
     title: "Simulador SCADA: banco de capacitores em subestação",
     excerpt:
       "Compare banco de capacitores em 13,8 kV, 4,6 kV e 480 V, observando P, Q, S, fator de potência e queda de tensão estimada.",
